@@ -1,0 +1,61 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+}
+
+dt-workarea {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: #eee;
+}
+
+dt-node-noop,
+dt-node-seed {
+  display: inline-block;
+
+  width: 200px;
+  height: 240px;
+
+  background-color: #ddd;
+  border: 1px solid #111;
+}
+
+dt-node-noop title,
+dt-node-seed title {
+  display: block;
+
+  border: 1px solid blue;
+
+  font-family: monospace;
+}
+
+dt-input {
+  display: block;
+
+  height: 16px;
+
+  background-color: #ccc;
+  border: 1px solid purple;
+}
+dt-input:hover {
+  background-color: #000;
+}
+
+dt-output {
+  display: block;
+
+  height: 16px;
+
+  background-color: #ccc;
+  border: 1px solid red;
+}
+dt-output:hover {
+  background-color: #000;
+}
