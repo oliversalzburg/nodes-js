@@ -8,4 +8,5 @@
 }
 .input:hover {
   background-color: #bbb;
+  outline: 2px dashed red;
 }
