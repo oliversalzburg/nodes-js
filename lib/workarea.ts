@@ -1,12 +1,13 @@
 import "leader-line";
-import styles from "./workarea.module.css";
 import PlainDraggable from "plain-draggable";
 import { Connection } from "./connection";
 import { Input } from "./input";
+import { mustExist } from "./Maybe";
 import { Node } from "./node";
 import { NodeNoop } from "./node-noop";
 import { NodeSeed } from "./node-seed";
 import { Output } from "./output";
+import styles from "./workarea.module.css";
 
 export type NodeTypes = "noop" | "seed";
 
@@ -225,7 +226,7 @@ export class Workarea extends HTMLElement {
         new PlainDraggable(node, {
           handle: node.getElementsByTagName("title")[0],
           left: initParameters?.x,
-          onMove: newPosition => node!.updatePosition(newPosition),
+          onMove: newPosition => mustExist(node).updatePosition(newPosition),
           top: initParameters?.y,
         });
         break;
@@ -239,7 +240,7 @@ export class Workarea extends HTMLElement {
         new PlainDraggable(node, {
           handle: node.getElementsByTagName("title")[0],
           left: initParameters?.x,
-          onMove: newPosition => node!.updatePosition(newPosition),
+          onMove: newPosition => mustExist(node).updatePosition(newPosition),
           top: initParameters?.y,
         });
         break;
@@ -260,19 +261,22 @@ export class Workarea extends HTMLElement {
     const outputs = new Map<string, Output>();
     for (const node of workarea.nodes) {
       const createdNode = this.createNode(node.type, node);
-      nodes.set(createdNode.nodeId!, createdNode);
+      nodes.set(mustExist(createdNode.nodeId), createdNode);
       for (const input of createdNode.inputs) {
-        inputs.set(input.columnId!, input);
+        inputs.set(mustExist(input.columnId), input);
       }
       for (const output of createdNode.outputs) {
-        outputs.set(output.columnId!, output);
+        outputs.set(mustExist(output.columnId), output);
       }
     }
 
     for (const node of workarea.nodes) {
       for (const output of node.outputs) {
         for (const connection of output.connections) {
-          this.connect(outputs.get(connection.source)!, inputs.get(connection.target)!);
+          this.connect(
+            mustExist(outputs.get(connection.source)),
+            mustExist(inputs.get(connection.target))
+          );
         }
       }
     }

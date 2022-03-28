@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { Input } from "./input";
+import { mustExist } from "./Maybe";
 import styles from "./node.module.css";
 import { Output } from "./output";
 import { SerializedNode, Workarea } from "./workarea";
@@ -37,7 +38,7 @@ export abstract class Node extends HTMLElement {
     const deleteButton = document.createElement("button");
     deleteButton.classList.add(styles.delete);
     deleteButton.textContent = "✖";
-    deleteButton.addEventListener("click", () => this.workarea!.deleteNode(this));
+    deleteButton.addEventListener("click", () => mustExist(this.workarea).deleteNode(this));
     this.appendChild(deleteButton);
   }
 

@@ -7,12 +7,16 @@
   "private": true,
   "packageManager": "yarn@3.2.0",
   "dependencies": {
+    "eslint": "^8.12.0",
     "leader-line": "^1.0.7",
     "plain-draggable": "^2.5.14"
   },
   "devDependencies": {
+    "@types/eslint": "^8",
     "@types/nanoid": "^3.0.0",
     "@types/web": "^0.0.60",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
     "anim-event": "^1.0.17",
     "cssprefix": "^2.0.17",
     "lint-staged": "^12.3.7",

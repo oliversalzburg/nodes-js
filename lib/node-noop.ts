@@ -1,4 +1,5 @@
 import { Input } from "./input";
+import { mustExist } from "./Maybe";
 import { Node } from "./node";
 import { SerializedNode, Workarea } from "./workarea";
 
@@ -31,22 +32,22 @@ export class NodeNoop extends Node {
     this.getClientRects();
     return {
       type: "noop",
-      id: this.nodeId!,
+      id: mustExist(this.nodeId),
       name: this.name,
       x: this.x,
       y: this.y,
       inputs: this.inputs.map(input => ({
-        id: input.columnId!,
+        id: mustExist(input.columnId),
         connections: input.connections.map(connection => ({
-          source: connection.source.columnId!,
-          target: connection.target.columnId!,
+          source: mustExist(connection.source.columnId),
+          target: mustExist(connection.target.columnId),
         })),
       })),
       outputs: this.outputs.map(output => ({
-        id: output.columnId!,
+        id: mustExist(output.columnId),
         connections: output.connections.map(connection => ({
-          source: connection.source.columnId!,
-          target: connection.target.columnId!,
+          source: mustExist(connection.source.columnId),
+          target: mustExist(connection.target.columnId),
         })),
       })),
     };
