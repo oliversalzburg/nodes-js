@@ -7,7 +7,7 @@ export class Column extends HTMLElement {
   parent: Node | null = null;
   connections = new Array<Connection>();
 
-  init(parent: Node, initParameters?:SerializedConnection) {
+  init(parent: Node, initParameters?: SerializedConnection) {
     this.parent = parent;
 
     this.columnId = initParameters?.id ?? this.columnId;
@@ -15,6 +15,9 @@ export class Column extends HTMLElement {
 
   connect(connection: Connection) {
     this.connections.push(connection);
+  }
+  disconnect(connections: Connection) {
+    this.connections.splice(this.connections.indexOf(connections), 1);
   }
 
   updateConnections() {

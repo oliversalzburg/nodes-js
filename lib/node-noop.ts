@@ -17,6 +17,12 @@ export class NodeNoop extends Node {
     title.textContent = this.name;
     this.appendChild(title);
 
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete");
+    deleteButton.textContent = "✖";
+    deleteButton.addEventListener("click",()=>this.workarea!.deleteNode(this));
+    this.appendChild(deleteButton);
+
     const connectorIn = document.createElement("dt-input") as Input;
     connectorIn.init(this, initParameters?.inputs[0]);
     this.appendChild(connectorIn);

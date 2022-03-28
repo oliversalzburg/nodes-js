@@ -53,10 +53,25 @@ export class Workarea extends HTMLElement {
     this.#currentConnectionSource.connect(connection);
     columnTarget.connect(connection);
   }
+
   connect(columnSource: Output, columnTarget: Input) {
     const connection = new Connection(columnSource, columnTarget);
     columnSource.connect(connection);
     columnTarget.connect(connection);
+  }
+  disconnect(node: Node) {
+    for (const input of node.inputs) {
+      for (const connection of input.connections) {
+        connection.line.remove();
+        connection.source.disconnect(connection);
+      }
+    }
+    for (const output of node.outputs) {
+      for (const connection of output.connections) {
+        connection.line.remove();
+        connection.target.disconnect(connection);
+      }
+    }
   }
 
   onClick(event: MouseEvent) {
@@ -91,37 +106,91 @@ export class Workarea extends HTMLElement {
         this.deserialize({
           nodes: [
             {
-              id: "seed-bDsFrl",
-              name: "Seed seed-bDsFrl",
               type: "seed",
-              x: 172,
-              y: 287.3333282470703,
+              id: "seed-3vbS7d",
+              name: "Seed seed-3vbS7d",
+              x: 129,
+              y: 158,
               inputs: [],
               outputs: [
                 {
-                  id: "output-CA88XV",
+                  id: "output-zH80OT",
                   connections: [
                     {
-                      source: "output-CA88XV",
-                      target: "input-tKChVd",
+                      source: "output-zH80OT",
+                      target: "input-DXvtsb",
+                    },
+                    {
+                      source: "output-zH80OT",
+                      target: "input-JD0Vgi",
                     },
                   ],
                 },
               ],
             },
             {
-              id: "noop-ssAe4t",
-              name: "Noop noop-ssAe4t",
-              type: "noop",
-              x: 725.3333282470703,
-              y: 362.3333282470703,
-              inputs: [
+              type: "seed",
+              id: "seed-81lYBT",
+              name: "Seed seed-81lYBT",
+              x: 150,
+              y: 793,
+              inputs: [],
+              outputs: [
                 {
-                  id: "input-tKChVd",
+                  id: "output-Riaeer",
                   connections: [
                     {
-                      source: "output-CA88XV",
-                      target: "input-tKChVd",
+                      source: "output-Riaeer",
+                      target: "input-JD0Vgi",
+                    },
+                    {
+                      source: "output-Riaeer",
+                      target: "input-DXvtsb",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "noop",
+              id: "noop-ijbNh9",
+              name: "Noop noop-ijbNh9",
+              x: 680,
+              y: 270,
+              inputs: [
+                {
+                  id: "input-DXvtsb",
+                  connections: [
+                    {
+                      source: "output-zH80OT",
+                      target: "input-DXvtsb",
+                    },
+                    {
+                      source: "output-Riaeer",
+                      target: "input-DXvtsb",
+                    },
+                  ],
+                },
+              ],
+              outputs: [],
+            },
+            {
+              type: "noop",
+              id: "noop-D97Zz9",
+              name: "Noop noop-D97Zz9",
+              x: 680,
+              y: 655,
+              inputs: [
+                {
+                  id: "input-JD0Vgi",
+                  connections: [
+                    {
+                      source: "output-Riaeer",
+                      target: "input-JD0Vgi",
+                    },
+                    {
+                      source: "output-zH80OT",
+                      target: "input-JD0Vgi",
                     },
                   ],
                 },
@@ -173,6 +242,12 @@ export class Workarea extends HTMLElement {
       }
     }
     return node;
+  }
+
+  deleteNode(node: Node) {
+    this.disconnect(node);
+    this.nodes.splice(this.nodes.indexOf(node), 1);
+    this.removeChild(node);
   }
 
   deserialize(workarea: SerializedWorkarea) {

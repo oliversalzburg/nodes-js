@@ -19,6 +19,7 @@ dt-workarea {
 dt-node-noop,
 dt-node-seed {
   display: inline-block;
+  position: absolute;
 
   width: 200px;
   height: 240px;
@@ -30,6 +31,23 @@ dt-node-seed {
 dt-node-noop title,
 dt-node-seed title {
   display: block;
+  height: 20px;
+  padding: 0 2px;
+
+  border: 1px solid #111;
+
+  font-family: monospace;
+  line-height: 20px;
+}
+
+dt-node-noop button.delete,
+dt-node-seed button.delete {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
 
   border: 1px solid blue;
 
@@ -42,10 +60,10 @@ dt-input {
   height: 16px;
 
   background-color: #ccc;
-  border: 1px solid purple;
+  border-left: 4px solid #111;
 }
 dt-input:hover {
-  background-color: #000;
+  background-color: #bbb;
 }
 
 dt-output {
@@ -54,8 +72,8 @@ dt-output {
   height: 16px;
 
   background-color: #ccc;
-  border: 1px solid red;
+  border-right: 4px solid #111;
 }
 dt-output:hover {
-  background-color: #000;
+  background-color: #bbb;
 }

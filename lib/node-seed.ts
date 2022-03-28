@@ -17,6 +17,12 @@ export class NodeSeed extends Node {
     title.textContent = this.name;
     this.appendChild(title);
 
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete");
+    deleteButton.textContent = "✖";
+    deleteButton.addEventListener("click",()=>this.workarea!.deleteNode(this));
+    this.appendChild(deleteButton);
+
     const connectorOut = document.createElement("dt-output") as Output;
     connectorOut.init(this, initParameters?.outputs[0]);
     this.appendChild(connectorOut);
