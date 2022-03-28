@@ -1,12 +1,23 @@
-import { mustExist } from "./Maybe";
+import { isNil, mustExist } from "./Maybe";
 import styles from "./Toolbar.module.css";
 import { Workarea } from "./Workarea";
 
 export class Toolbar extends HTMLElement {
   workarea: Workarea | null = null;
-  
+
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    setTimeout(() => {
+      const forWorkarea = this.getAttribute("for");
+      if (isNil(forWorkarea)) {
+        throw new Error("Missing `for` attribute on dt-toolbar. Requires an ID of a dt-workarea.");
+      }
+      const workarea = mustExist(document.getElementById(forWorkarea)) as Workarea;
+      workarea.registerToolbar(this);
+    });
   }
 
   init(workarea: Workarea, initParameters?: unknown): void {

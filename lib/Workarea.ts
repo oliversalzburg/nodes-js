@@ -1,8 +1,10 @@
 import "leader-line";
+import type LeaderLine from "leader-line";
 import PlainDraggable from "plain-draggable";
 import { Connection } from "./Connection";
+import { Decoy } from "./Decoy";
 import { Input } from "./Input";
-import { mustExist } from "./Maybe";
+import { isNil, mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { NodeNoop } from "./NodeNoop";
 import { NodeSeed } from "./NodeSeed";
@@ -35,6 +37,8 @@ export class Workarea extends HTMLElement {
   nodes = new Array<Node>();
 
   #currentConnectionSource: Output | null = null;
+  #currentDecoy: Decoy | null = null;
+  #currentDecoyLine: LeaderLine | null = null;
 
   constructor() {
     super();
@@ -42,23 +46,33 @@ export class Workarea extends HTMLElement {
     this.classList.add(styles.workarea);
 
     this.addEventListener("click", event => this.onClick(event));
+    this.addEventListener("mousemove", event => this.onMouseMove(event));
+    this.addEventListener("mouseup", event => this.onMouseUp(event));
 
     document.addEventListener("keyup", event => this.onKeyUp(event));
   }
 
-  init() {
-    const toolbar = document.createElement("dt-toolbar") as Toolbar;
+  registerToolbar(toolbar:Toolbar) {
     toolbar.init(this);
-    this.appendChild(toolbar);
   }
 
   initConnectionFrom(columnSource: Output) {
     this.#currentConnectionSource = columnSource;
+
+    const decoy = document.createElement("dt-decoy") as Decoy;
+    decoy.init(this);
+    this.appendChild(decoy);
+    this.#currentDecoy = decoy;
+
+    // @ts-expect-error LeaderLine is imported globally.
+    this.#currentDecoyLine = new LeaderLine(this.#currentConnectionSource, this.#currentDecoy);
   }
   finalizeConnection(columnTarget: Input) {
     if (!this.#currentConnectionSource) {
       return;
     }
+
+    this.#clearDecoy();
 
     const connection = new Connection(this.#currentConnectionSource, columnTarget);
     this.#currentConnectionSource.connect(connection);
@@ -85,17 +99,40 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  #clearDecoy() {
+    if (!isNil(this.#currentDecoy)) {
+      this.removeChild(this.#currentDecoy);
+      this.#currentDecoy = null;
+    }
+    if (!isNil(this.#currentDecoyLine)) {
+      this.#currentDecoyLine.remove();
+      this.#currentDecoyLine = null;
+    }
+  }
+
   onClick(event: MouseEvent) {
     if (event.target !== this) {
       return;
     }
+  }
 
-    /*
-    const node = document.createElement("dt-node-seed");
-    node.init();
-    this.appendChild(node);
-    new PlainDraggable(node, { handle: node.getElementsByTagName("title")[0] });
-    */
+  onMouseMove(event: MouseEvent) {
+    if (!this.#currentDecoy || !this.#currentDecoyLine) {
+      return;
+    }
+
+    const bounds = this.getBoundingClientRect();
+
+    this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${event.pageY - bounds.top}px)`;
+
+    this.#currentDecoyLine.position();
+  }
+  onMouseUp(event: MouseEvent) {
+    if (event.target !== this && event.target !== this.#currentDecoy) {
+      return;
+    }
+
+    this.#clearDecoy();
   }
 
   onKeyUp(event: KeyboardEvent) {
