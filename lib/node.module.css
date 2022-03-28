@@ -29,7 +29,8 @@
   width: 20px;
   height: 20px;
 
-  border: 1px solid blue;
+  border: 1px solid #111;
 
   font-family: monospace;
+  line-height: 20px;
 }

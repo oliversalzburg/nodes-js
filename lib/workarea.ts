@@ -1,4 +1,5 @@
 import "leader-line";
+import styles from "./workarea.module.css";
 import PlainDraggable from "plain-draggable";
 import { Connection } from "./connection";
 import { Input } from "./input";
@@ -35,6 +36,8 @@ export class Workarea extends HTMLElement {
 
   constructor() {
     super();
+
+    this.classList.add(styles.workarea);
 
     this.addEventListener("click", event => this.onClick(event));
 

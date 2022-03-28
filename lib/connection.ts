@@ -1,6 +1,5 @@
+import LeaderLine from "leader-line";
 import { Column } from "./column";
-import { Input } from "./input";
-import { Output } from "./output";
 
 export class Connection {
   source: Column;

@@ -25,5 +25,5 @@
     "skipLibCheck": true,
     "types": ["@types/web"]
   },
-  "include": ["./lib"]
+  "include": ["./@types", "./lib"]
 }
