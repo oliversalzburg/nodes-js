@@ -16,44 +16,6 @@ dt-workarea {
   background-color: #eee;
 }
 
-dt-node-noop,
-dt-node-seed {
-  display: inline-block;
-  position: absolute;
-
-  width: 200px;
-  height: 240px;
-
-  background-color: #ddd;
-  border: 1px solid #111;
-}
-
-dt-node-noop title,
-dt-node-seed title {
-  display: block;
-  height: 20px;
-  padding: 0 2px;
-
-  border: 1px solid #111;
-
-  font-family: monospace;
-  line-height: 20px;
-}
-
-dt-node-noop button.delete,
-dt-node-seed button.delete {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 20px;
-  height: 20px;
-
-  border: 1px solid blue;
-
-  font-family: monospace;
-}
-
 dt-input {
   display: block;
 

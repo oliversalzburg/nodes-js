@@ -199,6 +199,7 @@ export class Workarea extends HTMLElement {
             },
           ],
         });
+        break;
 
       case 88:
         // x

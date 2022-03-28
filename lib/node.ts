@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { Input } from "./input";
+import styles from "./node.module.css";
 import { Output } from "./output";
 import { SerializedNode, Workarea } from "./workarea";
 
@@ -25,6 +26,19 @@ export abstract class Node extends HTMLElement {
     this.name = initParameters?.name ?? this.name;
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
+
+    this.classList.add(styles.node);
+
+    const title = document.createElement("title");
+    title.classList.add(styles.title);
+    title.textContent = this.name;
+    this.appendChild(title);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add(styles.delete);
+    deleteButton.textContent = "✖";
+    deleteButton.addEventListener("click", () => this.workarea!.deleteNode(this));
+    this.appendChild(deleteButton);
   }
 
   initConnectionFrom(columnSource: Output) {
