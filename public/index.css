@@ -6,27 +6,3 @@ body {
   padding: 0;
   margin: 0;
 }
-
-dt-input {
-  display: block;
-
-  height: 16px;
-
-  background-color: #ccc;
-  border-left: 4px solid #111;
-}
-dt-input:hover {
-  background-color: #bbb;
-}
-
-dt-output {
-  display: block;
-
-  height: 16px;
-
-  background-color: #ccc;
-  border-right: 4px solid #111;
-}
-dt-output:hover {
-  background-color: #bbb;
-}

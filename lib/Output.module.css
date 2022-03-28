@@ -1,0 +1,11 @@
+.output {
+  display: block;
+
+  height: 16px;
+
+  background-color: #ccc;
+  border-right: 4px solid #111;
+}
+.output:hover {
+  background-color: #bbb;
+}

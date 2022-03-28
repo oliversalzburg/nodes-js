@@ -7,6 +7,7 @@ import { Node } from "./Node";
 import { NodeNoop } from "./NodeNoop";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
+import { Toolbar } from "./Toolbar";
 import styles from "./Workarea.module.css";
 
 export type NodeTypes = "noop" | "seed";
@@ -43,6 +44,12 @@ export class Workarea extends HTMLElement {
     this.addEventListener("click", event => this.onClick(event));
 
     document.addEventListener("keyup", event => this.onKeyUp(event));
+  }
+
+  init() {
+    const toolbar = document.createElement("dt-toolbar") as Toolbar;
+    toolbar.init(this);
+    this.appendChild(toolbar);
   }
 
   initConnectionFrom(columnSource: Output) {
