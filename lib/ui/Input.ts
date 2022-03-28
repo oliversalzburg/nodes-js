@@ -4,10 +4,13 @@ import { Node } from "./Node";
 import { SerializedConnection } from "./Workarea";
 
 export class Input extends Column {
+  label: string;
+
   constructor() {
     super();
 
     this.columnId = Node.makeId("input");
+    this.label = "<unlabled input>";
 
     this.addEventListener("mouseup", event => this.onMouseUp(event));
   }
@@ -16,6 +19,10 @@ export class Input extends Column {
     super.init(parent, initParameters);
 
     this.classList.add(styles.input);
+
+    const label = document.createElement("span");
+    label.textContent = this.label;
+    this.appendChild(label);
   }
 
   onMouseUp(event: MouseEvent) {

@@ -1,13 +1,16 @@
 import { Column } from "./Column";
 import { Node } from "./Node";
-import { SerializedConnection } from "./Workarea";
 import styles from "./Output.module.css";
+import { SerializedConnection } from "./Workarea";
 
 export class Output extends Column {
+  label: string;
+
   constructor() {
     super();
 
     this.columnId = Node.makeId("output");
+    this.label = "<unlabled output>";
 
     this.addEventListener("mousedown", event => this.onMouseDown(event));
   }
@@ -16,6 +19,10 @@ export class Output extends Column {
     super.init(parent, initParameters);
 
     this.classList.add(styles.output);
+
+    const label = document.createElement("span");
+    label.textContent = this.label;
+    this.appendChild(label);
   }
 
   onMouseDown(event: MouseEvent) {

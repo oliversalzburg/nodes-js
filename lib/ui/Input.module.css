@@ -5,6 +5,8 @@
 
   background-color: #ccc;
   border-left: 4px solid #111;
+
+  font-family: monospace;
 }
 .input:hover {
   background-color: #bbb;

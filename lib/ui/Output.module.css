@@ -5,6 +5,8 @@
 
   background-color: #ccc;
   border-right: 4px solid #111;
+
+  font-family: monospace;
 }
 .output:hover {
   background-color: #bbb;
