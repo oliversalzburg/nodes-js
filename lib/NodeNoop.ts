@@ -1,28 +1,37 @@
+import { Input } from "./Input";
 import { mustExist } from "./Maybe";
-import { Node } from "./node";
-import { Output } from "./output";
-import { SerializedNode, Workarea } from "./workarea";
+import { Node } from "./Node";
+import { SerializedNode, Workarea } from "./Workarea";
 
-export class NodeSeed extends Node {
+export class NodeNoop extends Node {
   constructor() {
     super();
 
-    this.nodeId = Node.makeId("seed");
-    this.name = Node.makeName("Seed", this.nodeId);
+    this.nodeId = Node.makeId("noop");
+    this.name = Node.makeName("Noop", this.nodeId);
   }
 
   init(workarea: Workarea, initParameters?: SerializedNode) {
     super.init(workarea, initParameters);
 
+
+
+    const connectorIn = document.createElement("dt-input") as Input;
+    connectorIn.init(this, initParameters?.inputs[0]);
+    this.appendChild(connectorIn);
+    this.inputs.push(connectorIn);
+
+    /*
     const connectorOut = document.createElement("dt-output") as Output;
-    connectorOut.init(this, initParameters?.outputs[0]);
+    connectorOut.init(this);
     this.appendChild(connectorOut);
-    this.outputs.push(connectorOut);
+    */
   }
 
   serialize(): SerializedNode {
+    this.getClientRects();
     return {
-      type: "seed",
+      type: "noop",
       id: mustExist(this.nodeId),
       name: this.name,
       x: this.x,
@@ -45,4 +54,4 @@ export class NodeSeed extends Node {
   }
 }
 
-customElements.define("dt-node-seed", NodeSeed);
+customElements.define("dt-node-noop", NodeNoop);

@@ -1,7 +1,7 @@
-import "./connection";
-import "./input";
-import "./node";
-import "./node-noop";
-import "./node-seed";
-import "./output";
-import "./workarea";
+import "./Connection";
+import "./Input";
+import "./Node";
+import "./NodeNoop";
+import "./NodeSeed";
+import "./Output";
+import "./Workarea";

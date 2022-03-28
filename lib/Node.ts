@@ -1,9 +1,9 @@
 import { nanoid } from "nanoid";
-import { Input } from "./input";
+import { Input } from "./Input";
 import { mustExist } from "./Maybe";
-import styles from "./node.module.css";
-import { Output } from "./output";
-import { SerializedNode, Workarea } from "./workarea";
+import styles from "./Node.module.css";
+import { Output } from "./Output";
+import { SerializedNode, Workarea } from "./Workarea";
 
 export abstract class Node extends HTMLElement {
   nodeId: string | null = null;

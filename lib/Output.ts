@@ -1,5 +1,5 @@
-import { Column } from "./column";
-import { Node } from "./node";
+import { Column } from "./Column";
+import { Node } from "./Node";
 
 export class Output extends Column {
   constructor() {

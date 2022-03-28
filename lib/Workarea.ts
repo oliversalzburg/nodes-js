@@ -1,13 +1,13 @@
 import "leader-line";
 import PlainDraggable from "plain-draggable";
-import { Connection } from "./connection";
-import { Input } from "./input";
+import { Connection } from "./Connection";
+import { Input } from "./Input";
 import { mustExist } from "./Maybe";
-import { Node } from "./node";
-import { NodeNoop } from "./node-noop";
-import { NodeSeed } from "./node-seed";
-import { Output } from "./output";
-import styles from "./workarea.module.css";
+import { Node } from "./Node";
+import { NodeNoop } from "./NodeNoop";
+import { NodeSeed } from "./NodeSeed";
+import { Output } from "./Output";
+import styles from "./Workarea.module.css";
 
 export type NodeTypes = "noop" | "seed";
 

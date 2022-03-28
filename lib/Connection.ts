@@ -1,5 +1,5 @@
 import type LeaderLine from "leader-line";
-import { Column } from "./column";
+import { Column } from "./Column";
 
 export class Connection {
   source: Column;

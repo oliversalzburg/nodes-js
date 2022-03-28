@@ -1,6 +1,6 @@
-import { Connection } from "./connection";
-import { Node } from "./node";
-import { SerializedConnection } from "./workarea";
+import { Connection } from "./Connection";
+import { Node } from "./Node";
+import { SerializedConnection } from "./Workarea";
 
 export class Column extends HTMLElement {
   columnId: string | null = null;
