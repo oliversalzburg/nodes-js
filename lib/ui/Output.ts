@@ -5,9 +5,6 @@ import styles from "./Output.module.css";
 import { SerializedConnection } from "./Workarea";
 
 export class Output extends Column {
-  label: string;
-  labelElement?: HTMLLabelElement;
-
   value: unknown;
   valueElement?: HTMLSpanElement;
 
@@ -25,10 +22,6 @@ export class Output extends Column {
 
     this.classList.add(styles.output);
 
-    this.labelElement = document.createElement("label");
-    this.labelElement.textContent = this.label;
-    this.appendChild(this.labelElement);
-
     this.valueElement = document.createElement("span");
     this.valueElement.classList.add(styles.value);
     this.valueElement.textContent = String(this.value);
@@ -37,8 +30,7 @@ export class Output extends Column {
 
   updateUi() {
     super.updateUi();
-    
-    mustExist(this.labelElement).textContent = this.label;
+
     mustExist(this.valueElement).textContent = String(this.value);
   }
 

@@ -17,4 +17,10 @@ export class Connection {
       startSocket: "right",
     });
   }
+
+  disconnect(){
+    this.source.disconnect(this);
+    this.target.disconnect(this);
+    this.line.remove();
+  }
 }

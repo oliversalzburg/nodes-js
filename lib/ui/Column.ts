@@ -1,4 +1,5 @@
 import { Connection } from "./Connection";
+import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedConnection } from "./Workarea";
 
@@ -7,10 +8,17 @@ export class Column extends HTMLElement {
   parent: Node | null = null;
   connections = new Array<Connection>();
 
+  label = "<unlabled column>";
+  labelElement?: HTMLLabelElement;
+
   init(parent: Node, initParameters?: SerializedConnection) {
     this.parent = parent;
 
     this.columnId = initParameters?.id ?? this.columnId;
+
+    this.labelElement = document.createElement("label");
+    this.labelElement.textContent = this.label;
+    this.appendChild(this.labelElement);
   }
 
   connect(connection: Connection) {
@@ -18,10 +26,11 @@ export class Column extends HTMLElement {
   }
   disconnect(connection: Connection) {
     this.connections.splice(this.connections.indexOf(connection), 1);
-    connection.line.remove();
   }
 
   updateUi() {
+    mustExist(this.labelElement).textContent = this.label;
+    
     for (const connection of this.connections) {
       connection.line.position();
     }
