@@ -43,9 +43,19 @@ export class Toolbar extends HTMLElement {
     addAddButton.addEventListener("click", () => mustExist(this.workarea).createNode("add"));
     this.appendChild(addAddButton);
 
-    const divider = document.createElement("span");
-    divider.classList.add(styles.divider);
-    this.appendChild(divider);
+    const divider1 = document.createElement("span");
+    divider1.classList.add(styles.divider);
+    this.appendChild(divider1);
+
+    const clearButton = document.createElement("button");
+    clearButton.classList.add(styles.button);
+    clearButton.textContent = "✖ Clear";
+    clearButton.addEventListener("click", () => mustExist(this.workarea).clear());
+    this.appendChild(clearButton);
+
+    const divider2 = document.createElement("span");
+    divider2.classList.add(styles.divider);
+    this.appendChild(divider2);
 
     const exportButton = document.createElement("button");
     exportButton.classList.add(styles.button);

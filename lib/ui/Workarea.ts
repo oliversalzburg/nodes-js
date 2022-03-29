@@ -92,12 +92,12 @@ export class Workarea extends HTMLElement {
   disconnect(node: Node) {
     for (const input of node.inputs) {
       for (const connection of input.connections) {
-        connection.source.disconnect(connection);
+        connection.disconnect();
       }
     }
     for (const output of node.outputs) {
       for (const connection of output.connections) {
-        connection.target.disconnect(connection);
+        connection.disconnect();
       }
     }
   }
@@ -320,6 +320,12 @@ export class Workarea extends HTMLElement {
     this.disconnect(node);
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);
+  }
+
+  clear() {
+    for (const node of [...this.nodes]) {
+      this.deleteNode(node);
+    }
   }
 
   export() {
