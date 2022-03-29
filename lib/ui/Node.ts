@@ -42,8 +42,8 @@ export abstract class Node extends HTMLElement {
     this.appendChild(deleteButton);
   }
 
-  initConnectionFrom(columnSource: Output) {
-    this.workarea?.initConnectionFrom(columnSource);
+  initConnectionFrom(columnSource: Output, event:MouseEvent) {
+    this.workarea?.initConnectionFrom(columnSource, event);
   }
   finalizeConnection(columnTarget: Input) {
     this.workarea?.finalizeConnection(columnTarget);

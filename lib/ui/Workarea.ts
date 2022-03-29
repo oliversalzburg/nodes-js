@@ -55,7 +55,7 @@ export class Workarea extends HTMLElement {
     toolbar.init(this);
   }
 
-  initConnectionFrom(columnSource: Output) {
+  initConnectionFrom(columnSource: Output, event:MouseEvent) {
     this.#currentConnectionSource = columnSource;
 
     const decoy = document.createElement("dt-decoy") as Decoy;
@@ -67,6 +67,8 @@ export class Workarea extends HTMLElement {
       endSocket: "left",
       startSocket: "right",
     });
+
+    this.#updateDecoy(event);
   }
   finalizeConnection(columnTarget: Input) {
     if (!this.#currentConnectionSource) {
@@ -100,6 +102,19 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  #updateDecoy(event:MouseEvent){
+    if(!isNil(this.#currentDecoy)){
+      const bounds = this.getBoundingClientRect();
+
+      this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${
+        event.pageY - bounds.top
+      }px)`;
+    }
+    if(!isNil(this.#currentDecoyLine)){
+      this.#currentDecoyLine.position();
+    }
+  }
+
   #clearDecoy() {
     if (!isNil(this.#currentDecoy)) {
       this.removeChild(this.#currentDecoy);
@@ -122,13 +137,7 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    const bounds = this.getBoundingClientRect();
-
-    this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${
-      event.pageY - bounds.top
-    }px)`;
-
-    this.#currentDecoyLine.position();
+    this.#updateDecoy(event);
   }
   onMouseUp(event: MouseEvent) {
     // Other mouseUp events are handled by individual components.

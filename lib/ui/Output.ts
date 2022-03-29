@@ -31,7 +31,7 @@ export class Output extends Column {
     }
 
     console.log(`Begin sending output from ${this.parent.name}...`);
-    this.parent.initConnectionFrom(this);
+    this.parent.initConnectionFrom(this, event);
   }
 }
 
