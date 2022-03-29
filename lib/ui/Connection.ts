@@ -1,4 +1,4 @@
-import type LeaderLine from "leader-line";
+import "leader-line";
 import { Column } from "./Column";
 
 export class Connection {
@@ -11,7 +11,6 @@ export class Connection {
     this.source = source;
     this.target = target;
 
-    // @ts-expect-error LeaderLine is imported globally.
     this.line = new LeaderLine(source, target);
   }
 }

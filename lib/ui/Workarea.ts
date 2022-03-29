@@ -1,5 +1,4 @@
 import "leader-line";
-import type LeaderLine from "leader-line";
 import PlainDraggable from "plain-draggable";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
@@ -64,8 +63,9 @@ export class Workarea extends HTMLElement {
     this.appendChild(decoy);
     this.#currentDecoy = decoy;
 
-    // @ts-expect-error LeaderLine is imported globally.
     this.#currentDecoyLine = new LeaderLine(this.#currentConnectionSource, this.#currentDecoy);
+
+    this.classList.add("connecting");
   }
   finalizeConnection(columnTarget: Input) {
     if (!this.#currentConnectionSource) {
@@ -73,6 +73,8 @@ export class Workarea extends HTMLElement {
     }
 
     this.#clearDecoy();
+
+    this.classList.remove("connecting");
 
     const connection = new Connection(this.#currentConnectionSource, columnTarget);
     this.#currentConnectionSource.connect(connection);
@@ -128,10 +130,7 @@ export class Workarea extends HTMLElement {
     this.#currentDecoyLine.position();
   }
   onMouseUp(event: MouseEvent) {
-    if (event.target !== this && event.target !== this.#currentDecoy) {
-      return;
-    }
-
+    // Other mouseUp events are handled by individual components.
     this.#clearDecoy();
   }
 

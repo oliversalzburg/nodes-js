@@ -6,3 +6,9 @@ body {
   padding: 0;
   margin: 0;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+}

@@ -1,5 +1,6 @@
 .output {
   display: block;
+  user-select: none;
 
   height: 16px;
 

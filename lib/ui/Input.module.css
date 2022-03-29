@@ -1,5 +1,6 @@
 .input {
   display: block;
+  user-select: none;
 
   height: 16px;
 
@@ -10,5 +11,4 @@
 }
 .input:hover {
   background-color: #bbb;
-  outline: 2px dashed red;
 }
