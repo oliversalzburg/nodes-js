@@ -1,4 +1,5 @@
 import { Column } from "./Column";
+import { Connection } from "./Connection";
 import styles from "./Input.module.css";
 import { Node } from "./Node";
 import { SerializedConnection } from "./Workarea";
@@ -25,9 +26,17 @@ export class Input extends Column {
     this.appendChild(label);
   }
 
-  onMouseUp(event: MouseEvent) {
-    console.log("Begin receiving input.");
+  connect(connection: Connection) {
+    if (0 < this.connections.length) {
+      this.disconnect(this.connections[0]);
+    }
+    
+    super.connect(connection);
 
+    console.log(`${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`)
+  }
+
+  onMouseUp(event: MouseEvent) {
     this.parent?.finalizeConnection(this);
   }
 }

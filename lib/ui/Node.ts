@@ -57,10 +57,10 @@ export abstract class Node extends HTMLElement {
     this.y = newPosition.top;
 
     for (const input of this.inputs) {
-      input.updateConnections();
+      input.updateUi();
     }
     for (const output of this.outputs) {
-      output.updateConnections();
+      output.updateUi();
     }
   }
 

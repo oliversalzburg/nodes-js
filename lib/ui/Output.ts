@@ -36,6 +36,8 @@ export class Output extends Column {
   }
 
   updateUi() {
+    super.updateUi();
+    
     mustExist(this.labelElement).textContent = this.label;
     mustExist(this.valueElement).textContent = String(this.value);
   }

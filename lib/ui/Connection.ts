@@ -11,7 +11,8 @@ export class Connection {
     this.source = source;
     this.target = target;
 
-    this.line = new LeaderLine(source, target,{
+    this.line = new LeaderLine(source, target, {
+      color: "#111",
       endSocket: "left",
       startSocket: "right",
     });

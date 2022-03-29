@@ -90,13 +90,11 @@ export class Workarea extends HTMLElement {
   disconnect(node: Node) {
     for (const input of node.inputs) {
       for (const connection of input.connections) {
-        connection.line.remove();
         connection.source.disconnect(connection);
       }
     }
     for (const output of node.outputs) {
       for (const connection of output.connections) {
-        connection.line.remove();
         connection.target.disconnect(connection);
       }
     }

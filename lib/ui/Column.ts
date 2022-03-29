@@ -16,11 +16,12 @@ export class Column extends HTMLElement {
   connect(connection: Connection) {
     this.connections.push(connection);
   }
-  disconnect(connections: Connection) {
-    this.connections.splice(this.connections.indexOf(connections), 1);
+  disconnect(connection: Connection) {
+    this.connections.splice(this.connections.indexOf(connection), 1);
+    connection.line.remove();
   }
 
-  updateConnections() {
+  updateUi() {
     for (const connection of this.connections) {
       connection.line.position();
     }
