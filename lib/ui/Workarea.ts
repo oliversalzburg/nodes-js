@@ -324,47 +324,35 @@ export class Workarea extends HTMLElement {
     switch (type) {
       case "add": {
         node = document.createElement("dt-node-add") as NodeAdd;
-        node.init(this, initParameters);
-        this.appendChild(node);
-        this.nodes.push(node);
-        new PlainDraggable(node, {
-          handle: node.getElementsByTagName("title")[0],
-          left: initParameters?.x,
-          onMove: newPosition => mustExist(node).updateUi(newPosition),
-          top: initParameters?.y,
-        });
+        this.#initNode(node, initParameters);
         break;
       }
 
       case "noop": {
         node = document.createElement("dt-node-noop") as NodeNoop;
-        node.init(this, initParameters);
-        this.appendChild(node);
-        this.nodes.push(node);
-        new PlainDraggable(node, {
-          handle: node.getElementsByTagName("title")[0],
-          left: initParameters?.x,
-          onMove: newPosition => mustExist(node).updateUi(newPosition),
-          top: initParameters?.y,
-        });
+        this.#initNode(node, initParameters);
         break;
       }
 
       case "seed": {
         node = document.createElement("dt-node-seed", {}) as NodeSeed;
-        node.init(this, initParameters);
-        this.appendChild(node);
-        this.nodes.push(node);
-        new PlainDraggable(node, {
-          handle: node.getElementsByTagName("title")[0],
-          left: initParameters?.x,
-          onMove: newPosition => mustExist(node).updateUi(newPosition),
-          top: initParameters?.y,
-        });
+        this.#initNode(node, initParameters);
         break;
       }
     }
     return node;
+  }
+
+  #initNode(node: Node, initParameters?: SerializedNode) {
+    node.init(this, initParameters);
+    this.appendChild(node);
+    this.nodes.push(node);
+    new PlainDraggable(node, {
+      handle: node.getElementsByTagName("title")[0],
+      left: initParameters?.x,
+      onMove: newPosition => mustExist(node).updateUi(newPosition),
+      top: initParameters?.y,
+    });
   }
 
   deleteNode(node: Node) {
