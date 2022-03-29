@@ -416,6 +416,7 @@ export class Workarea extends HTMLElement {
     const nodes = new Map<string, Node>();
     const inputs = new Map<string, Input>();
     const outputs = new Map<string, Output>();
+    // Create nodes
     for (const node of workarea.nodes) {
       const createdNode = this.createNode(node.type, node);
       nodes.set(mustExist(createdNode.nodeId), createdNode);
@@ -427,6 +428,7 @@ export class Workarea extends HTMLElement {
       }
     }
 
+    // Connect nodes
     for (const node of workarea.nodes) {
       for (const output of node.outputs) {
         for (const connection of output.connections) {
@@ -435,6 +437,14 @@ export class Workarea extends HTMLElement {
             mustExist(inputs.get(connection.target))
           );
         }
+      }
+    }
+
+    // Init data
+    for (const node of this.nodes) {
+      for (const input of node.inputs) {
+        input.update();
+        input.updateUi();
       }
     }
   }
