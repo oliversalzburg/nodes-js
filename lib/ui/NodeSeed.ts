@@ -1,23 +1,34 @@
+import arbit, { ArbitGenerator } from "arbit";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
-import { Output } from "./Output";
 import { SerializedNode, Workarea } from "./Workarea";
 
 export class NodeSeed extends Node {
+  #random: ArbitGenerator;
+
   constructor() {
     super();
 
     this.nodeId = Node.makeId("seed");
     this.name = Node.makeName("Seed", this.nodeId);
+
+    this.#random = arbit(this.nodeId);
   }
 
   init(workarea: Workarea, initParameters?: SerializedNode) {
     super.init(workarea, initParameters);
 
-    const connectorOut = document.createElement("dt-output") as Output;
-    connectorOut.init(this, initParameters?.outputs[0]);
-    this.appendChild(connectorOut);
-    this.outputs.push(connectorOut);
+    this.#random = arbit(mustExist(this.nodeId));
+
+    const outputFloat = this.addOutput(initParameters?.outputs[0]);
+    outputFloat.label = "Float";
+    outputFloat.value = this.#random();
+    outputFloat.updateUi();
+
+    const outputInt = this.addOutput(initParameters?.outputs[1]);
+    outputInt.label = "Int";
+    outputInt.value = this.#random.nextInt(Number.MAX_SAFE_INTEGER);
+    outputInt.updateUi();
   }
 
   serialize(): SerializedNode {

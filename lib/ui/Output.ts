@@ -1,10 +1,15 @@
 import { Column } from "./Column";
+import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import styles from "./Output.module.css";
 import { SerializedConnection } from "./Workarea";
 
 export class Output extends Column {
   label: string;
+  labelElement?: HTMLLabelElement;
+
+  value: unknown;
+  valueElement?: HTMLSpanElement;
 
   constructor() {
     super();
@@ -20,13 +25,27 @@ export class Output extends Column {
 
     this.classList.add(styles.output);
 
-    const label = document.createElement("span");
-    label.textContent = this.label;
-    this.appendChild(label);
+    this.labelElement = document.createElement("label");
+    this.labelElement.textContent = this.label;
+    this.appendChild(this.labelElement);
+
+    this.valueElement = document.createElement("span");
+    this.valueElement.classList.add(styles.value);
+    this.valueElement.textContent = String(this.value);
+    this.appendChild(this.valueElement);
+  }
+
+  updateUi() {
+    mustExist(this.labelElement).textContent = this.label;
+    mustExist(this.valueElement).textContent = String(this.value);
   }
 
   onMouseDown(event: MouseEvent) {
     if (!this.parent) {
+      return;
+    }
+
+    if (event.button !== 0) {
       return;
     }
 

@@ -3,13 +3,13 @@ import { Input } from "./Input";
 import { mustExist } from "./Maybe";
 import styles from "./Node.module.css";
 import { Output } from "./Output";
-import { SerializedNode, Workarea } from "./Workarea";
+import { SerializedConnection, SerializedNode, Workarea } from "./Workarea";
 
 export abstract class Node extends HTMLElement {
-  nodeId: string | null = null;
+  nodeId: string;
   workarea: Workarea | null = null;
 
-  name = "";
+  name: string;
   x = 0;
   y = 0;
 
@@ -18,6 +18,9 @@ export abstract class Node extends HTMLElement {
 
   constructor() {
     super();
+
+    this.nodeId = Node.makeId("node");
+    this.name = Node.makeName("Node", this.nodeId);
   }
 
   init(workarea: Workarea, initParameters?: SerializedNode): void {
@@ -42,11 +45,11 @@ export abstract class Node extends HTMLElement {
     this.appendChild(deleteButton);
   }
 
-  initConnectionFrom(columnSource: Output, event:MouseEvent) {
-    this.workarea?.initConnectionFrom(columnSource, event);
+  initConnectionFrom(columnSource: Output, event: MouseEvent) {
+    mustExist(this.workarea).initConnectionFrom(columnSource, event);
   }
   finalizeConnection(columnTarget: Input) {
-    this.workarea?.finalizeConnection(columnTarget);
+    mustExist(this.workarea).finalizeConnection(columnTarget);
   }
 
   updatePosition(newPosition: { left: number; top: number }) {
@@ -59,6 +62,14 @@ export abstract class Node extends HTMLElement {
     for (const output of this.outputs) {
       output.updateConnections();
     }
+  }
+
+  protected addOutput(initParameters?: SerializedConnection) {
+    const connectorOut = document.createElement("dt-output") as Output;
+    connectorOut.init(this, initParameters);
+    this.appendChild(connectorOut);
+    this.outputs.push(connectorOut);
+    return connectorOut;
   }
 
   abstract serialize(): SerializedNode;

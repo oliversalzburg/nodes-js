@@ -12,3 +12,10 @@
 .output:hover {
   background-color: #bbb;
 }
+
+.output label {
+  color: #111;
+}
+.output .value {
+  color: #888;
+}

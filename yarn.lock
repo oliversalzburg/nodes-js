@@ -785,6 +785,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"arbit@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "arbit@npm:0.1.1"
+  checksum: eb8da3b3659ea4913e4569f64f8c0b032cce2fb511547507e679dd8e1979045e862d6e89888d739e8137e3df07acfe9554e27e6641383743fecd546b79a09617
+  languageName: node
+  linkType: hard
+
 "are-we-there-yet@npm:^3.0.0":
   version: 3.0.0
   resolution: "are-we-there-yet@npm:3.0.0"
@@ -1436,6 +1443,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.17.0
     "@typescript-eslint/parser": ^5.17.0
     anim-event: ^1.0.17
+    arbit: ^0.1.1
     cssprefix: ^2.0.17
     eslint: ^8.12.0
     leader-line: ^1.0.7
