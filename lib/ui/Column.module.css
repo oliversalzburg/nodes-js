@@ -1,8 +1,11 @@
 .column {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   user-select: none;
 
-  height: 16px;
+  min-height: 16px;
+  padding: 1px;
 
   background-color: #ccc;
   
