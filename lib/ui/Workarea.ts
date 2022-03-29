@@ -51,7 +51,7 @@ export class Workarea extends HTMLElement {
     document.addEventListener("keyup", event => this.onKeyUp(event));
   }
 
-  registerToolbar(toolbar:Toolbar) {
+  registerToolbar(toolbar: Toolbar) {
     toolbar.init(this);
   }
 
@@ -63,9 +63,10 @@ export class Workarea extends HTMLElement {
     this.appendChild(decoy);
     this.#currentDecoy = decoy;
 
-    this.#currentDecoyLine = new LeaderLine(this.#currentConnectionSource, this.#currentDecoy);
-
-    this.classList.add("connecting");
+    this.#currentDecoyLine = new LeaderLine(this.#currentConnectionSource, this.#currentDecoy, {
+      endSocket: "left",
+      startSocket: "right",
+    });
   }
   finalizeConnection(columnTarget: Input) {
     if (!this.#currentConnectionSource) {
@@ -73,8 +74,6 @@ export class Workarea extends HTMLElement {
     }
 
     this.#clearDecoy();
-
-    this.classList.remove("connecting");
 
     const connection = new Connection(this.#currentConnectionSource, columnTarget);
     this.#currentConnectionSource.connect(connection);
@@ -125,7 +124,9 @@ export class Workarea extends HTMLElement {
 
     const bounds = this.getBoundingClientRect();
 
-    this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${event.pageY - bounds.top}px)`;
+    this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${
+      event.pageY - bounds.top
+    }px)`;
 
     this.#currentDecoyLine.position();
   }
