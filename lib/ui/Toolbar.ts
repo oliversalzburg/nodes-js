@@ -42,6 +42,16 @@ export class Toolbar extends HTMLElement {
     addAddButton.textContent = "➕ Add";
     addAddButton.addEventListener("click", () => mustExist(this.workarea).createNode("add"));
     this.appendChild(addAddButton);
+
+    const divider = document.createElement("span");
+    divider.classList.add(styles.divider);
+    this.appendChild(divider);
+
+    const exportButton = document.createElement("button");
+    exportButton.classList.add(styles.button);
+    exportButton.textContent = "🔽 Export";
+    exportButton.addEventListener("click", () => mustExist(this.workarea).export());
+    this.appendChild(exportButton);
   }
 }
 

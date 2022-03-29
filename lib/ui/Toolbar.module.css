@@ -20,3 +20,8 @@
   background-color: #eee;
   border: 1px solid #111;
 }
+
+.toolbar .divider {
+  display: inline-block;
+  width: 20px;
+}
