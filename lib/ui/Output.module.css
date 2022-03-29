@@ -1,21 +1,3 @@
 .output {
-  display: block;
-  user-select: none;
-
-  height: 16px;
-
-  background-color: #ccc;
   border-right: 4px solid #111;
-
-  font-family: monospace;
-}
-.output:hover {
-  background-color: #bbb;
-}
-
-.output label {
-  color: #111;
-}
-.output .value {
-  color: #888;
 }

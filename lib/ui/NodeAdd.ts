@@ -3,18 +3,26 @@ import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedNode, Workarea } from "./Workarea";
 
-export class NodeNoop extends Node {
+export class NodeAdd extends Node {
   constructor() {
     super();
 
-    this.nodeId = Node.makeId("noop");
-    this.name = Node.makeName("Noop", this.nodeId);
+    this.nodeId = Node.makeId("sum");
+    this.name = Node.makeName("Sum", this.nodeId);
   }
 
   init(workarea: Workarea, initParameters?: SerializedNode) {
     super.init(workarea, initParameters);
 
-    this.addInput(initParameters?.inputs[0]);
+    const first = this.addInput(initParameters?.inputs[0]);
+    first.label = "A";
+    const second = this.addInput(initParameters?.inputs[1]);
+    second.label = "B";
+
+    const sum = this.addOutput(initParameters?.outputs[0]);
+    sum.label = "Sum";
+
+    this.updateUi();
   }
 
   serialize(): SerializedNode {
@@ -42,4 +50,4 @@ export class NodeNoop extends Node {
   }
 }
 
-customElements.define("dt-node-noop", NodeNoop);
+customElements.define("dt-node-add", NodeAdd);

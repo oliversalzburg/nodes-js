@@ -52,9 +52,9 @@ export abstract class Node extends HTMLElement {
     mustExist(this.workarea).finalizeConnection(columnTarget);
   }
 
-  updatePosition(newPosition: { left: number; top: number }) {
-    this.x = newPosition.left;
-    this.y = newPosition.top;
+  updateUi(newPosition?: { left: number; top: number }) {
+    this.x = newPosition?.left ?? this.x;
+    this.y = newPosition?.top ?? this.y;
 
     for (const input of this.inputs) {
       input.updateUi();
@@ -64,12 +64,19 @@ export abstract class Node extends HTMLElement {
     }
   }
 
+  protected addInput(initParameters?: SerializedConnection) {
+    const intput = document.createElement("dt-input") as Input;
+    intput.init(this, initParameters);
+    this.appendChild(intput);
+    this.inputs.push(intput);
+    return intput;
+  }
   protected addOutput(initParameters?: SerializedConnection) {
-    const connectorOut = document.createElement("dt-output") as Output;
-    connectorOut.init(this, initParameters);
-    this.appendChild(connectorOut);
-    this.outputs.push(connectorOut);
-    return connectorOut;
+    const output = document.createElement("dt-output") as Output;
+    output.init(this, initParameters);
+    this.appendChild(output);
+    this.outputs.push(output);
+    return output;
   }
 
   abstract serialize(): SerializedNode;

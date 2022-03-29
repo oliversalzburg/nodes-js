@@ -1,13 +1,12 @@
 import { Column } from "./Column";
 import { mustExist } from "./Maybe";
-import { Node } from "./Node";
 import styles from "./Output.module.css";
+import { Node } from "./Node";
+
 import { SerializedConnection } from "./Workarea";
 
 export class Output extends Column {
-  value: unknown;
-  valueElement?: HTMLSpanElement;
-
+  
   constructor() {
     super();
 
@@ -21,19 +20,8 @@ export class Output extends Column {
     super.init(parent, initParameters);
 
     this.classList.add(styles.output);
-
-    this.valueElement = document.createElement("span");
-    this.valueElement.classList.add(styles.value);
-    this.valueElement.textContent = String(this.value);
-    this.appendChild(this.valueElement);
   }
-
-  updateUi() {
-    super.updateUi();
-
-    mustExist(this.valueElement).textContent = String(this.value);
-  }
-
+  
   onMouseDown(event: MouseEvent) {
     if (!this.parent) {
       return;

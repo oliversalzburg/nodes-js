@@ -5,13 +5,14 @@ import { Decoy } from "./Decoy";
 import { Input } from "./Input";
 import { isNil, mustExist } from "./Maybe";
 import { Node } from "./Node";
+import { NodeAdd } from "./NodeAdd";
 import { NodeNoop } from "./NodeNoop";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
 import { Toolbar } from "./Toolbar";
 import styles from "./Workarea.module.css";
 
-export type NodeTypes = "noop" | "seed";
+export type NodeTypes = "add" | "noop" | "seed";
 
 export type SerializedConnection = {
   id: string;
@@ -55,7 +56,7 @@ export class Workarea extends HTMLElement {
     toolbar.init(this);
   }
 
-  initConnectionFrom(columnSource: Output, event:MouseEvent) {
+  initConnectionFrom(columnSource: Output, event: MouseEvent) {
     this.#currentConnectionSource = columnSource;
 
     const decoy = document.createElement("dt-decoy") as Decoy;
@@ -100,15 +101,15 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  #updateDecoy(event:MouseEvent){
-    if(!isNil(this.#currentDecoy)){
+  #updateDecoy(event: MouseEvent) {
+    if (!isNil(this.#currentDecoy)) {
       const bounds = this.getBoundingClientRect();
 
       this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${
         event.pageY - bounds.top
       }px)`;
     }
-    if(!isNil(this.#currentDecoyLine)){
+    if (!isNil(this.#currentDecoyLine)) {
       this.#currentDecoyLine.position();
     }
   }
@@ -269,6 +270,20 @@ export class Workarea extends HTMLElement {
   createNode(type: NodeTypes, initParameters?: SerializedNode) {
     let node: Node | null = null;
     switch (type) {
+      case "add": {
+        node = document.createElement("dt-node-add") as NodeAdd;
+        node.init(this, initParameters);
+        this.appendChild(node);
+        this.nodes.push(node);
+        new PlainDraggable(node, {
+          handle: node.getElementsByTagName("title")[0],
+          left: initParameters?.x,
+          onMove: newPosition => mustExist(node).updateUi(newPosition),
+          top: initParameters?.y,
+        });
+        break;
+      }
+
       case "noop": {
         node = document.createElement("dt-node-noop") as NodeNoop;
         node.init(this, initParameters);
@@ -277,7 +292,7 @@ export class Workarea extends HTMLElement {
         new PlainDraggable(node, {
           handle: node.getElementsByTagName("title")[0],
           left: initParameters?.x,
-          onMove: newPosition => mustExist(node).updatePosition(newPosition),
+          onMove: newPosition => mustExist(node).updateUi(newPosition),
           top: initParameters?.y,
         });
         break;
@@ -291,7 +306,7 @@ export class Workarea extends HTMLElement {
         new PlainDraggable(node, {
           handle: node.getElementsByTagName("title")[0],
           left: initParameters?.x,
-          onMove: newPosition => mustExist(node).updatePosition(newPosition),
+          onMove: newPosition => mustExist(node).updateUi(newPosition),
           top: initParameters?.y,
         });
         break;

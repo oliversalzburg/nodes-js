@@ -27,7 +27,7 @@ export class Input extends Column {
 
     super.connect(connection);
 
-    this.label = connection.source.label;
+    this.value = connection.source.value;
 
     console.log(
       `${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`

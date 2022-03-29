@@ -36,6 +36,12 @@ export class Toolbar extends HTMLElement {
     addNoopButton.textContent = "➕ Noop";
     addNoopButton.addEventListener("click", () => mustExist(this.workarea).createNode("noop"));
     this.appendChild(addNoopButton);
+
+    const addAddButton = document.createElement("button");
+    addAddButton.classList.add(styles.button);
+    addAddButton.textContent = "➕ Add";
+    addAddButton.addEventListener("click", () => mustExist(this.workarea).createNode("add"));
+    this.appendChild(addAddButton);
   }
 }
 

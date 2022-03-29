@@ -1,0 +1,21 @@
+.column {
+  display: block;
+  user-select: none;
+
+  height: 16px;
+
+  background-color: #ccc;
+  
+  font-family: monospace;
+}
+.column:hover {
+  background-color: #bbb;
+}
+
+.column label {
+  color: #111;
+}
+
+.column .value {
+  color: #888;
+}
