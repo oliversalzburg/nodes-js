@@ -1,4 +1,3 @@
-import { Connection } from "./Connection";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedNode, Workarea } from "./Workarea";
@@ -33,7 +32,7 @@ export class NodeAdd extends Node {
 
   serialize(): SerializedNode {
     return {
-      type: "noop",
+      type: "add",
       id: mustExist(this.nodeId),
       name: this.name,
       x: this.x,

@@ -53,13 +53,15 @@ export abstract class Node extends HTMLElement {
     mustExist(this.workarea).finalizeConnection(columnTarget);
   }
 
-  onConnect(connection:Connection){
+  onConnect(connection: Connection) {
     this.update();
     this.updateUi();
   }
 
-  update(){
-    // nothing to do for now.
+  update() {
+    for (const input of this.inputs) {
+      input.update();
+    }
   }
 
   updateUi(newPosition?: { left: number; top: number }) {
@@ -75,11 +77,11 @@ export abstract class Node extends HTMLElement {
   }
 
   protected addInput(initParameters?: SerializedConnection) {
-    const intput = document.createElement("dt-input") as Input;
-    intput.init(this, initParameters);
-    this.appendChild(intput);
-    this.inputs.push(intput);
-    return intput;
+    const input = document.createElement("dt-input") as Input;
+    input.init(this, initParameters);
+    this.appendChild(input);
+    this.inputs.push(input);
+    return input;
   }
   protected addOutput(initParameters?: SerializedConnection) {
     const output = document.createElement("dt-output") as Output;

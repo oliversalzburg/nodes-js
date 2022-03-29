@@ -164,22 +164,27 @@ export class Workarea extends HTMLElement {
           nodes: [
             {
               type: "seed",
-              id: "seed-3vbS7d",
-              name: "Seed seed-3vbS7d",
-              x: 129,
-              y: 158,
+              id: "seed-UoBoRw",
+              name: "Seed seed-UoBoRw",
+              x: 55,
+              y: 260.3333282470703,
               inputs: [],
               outputs: [
                 {
-                  id: "output-zH80OT",
+                  id: "output-5Kvvfp",
                   connections: [
                     {
-                      source: "output-zH80OT",
-                      target: "input-DXvtsb",
+                      source: "output-5Kvvfp",
+                      target: "input-0hRMNl",
                     },
+                  ],
+                },
+                {
+                  id: "output-6pNbhj",
+                  connections: [
                     {
-                      source: "output-zH80OT",
-                      target: "input-JD0Vgi",
+                      source: "output-6pNbhj",
+                      target: "input-YTHliL",
                     },
                   ],
                 },
@@ -187,22 +192,98 @@ export class Workarea extends HTMLElement {
             },
             {
               type: "seed",
-              id: "seed-81lYBT",
-              name: "Seed seed-81lYBT",
-              x: 150,
-              y: 793,
+              id: "seed-V610qb",
+              name: "Seed seed-V610qb",
+              x: 65,
+              y: 653.3333282470703,
               inputs: [],
               outputs: [
                 {
-                  id: "output-Riaeer",
+                  id: "output-wlBs-Q",
+                  connections: [],
+                },
+                {
+                  id: "output-MK3Og-",
                   connections: [
                     {
-                      source: "output-Riaeer",
-                      target: "input-JD0Vgi",
+                      source: "output-MK3Og-",
+                      target: "input-Jhgi34",
                     },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "add",
+              id: "add-qRGuO7",
+              name: "Add add-qRGuO7",
+              x: 660,
+              y: 305.3333282470703,
+              inputs: [
+                {
+                  id: "input-0hRMNl",
+                  connections: [
                     {
-                      source: "output-Riaeer",
-                      target: "input-DXvtsb",
+                      source: "output-5Kvvfp",
+                      target: "input-0hRMNl",
+                    },
+                  ],
+                },
+                {
+                  id: "input-cm02VG",
+                  connections: [
+                    {
+                      source: "output-L_cDzf",
+                      target: "input-cm02VG",
+                    },
+                  ],
+                },
+              ],
+              outputs: [
+                {
+                  id: "output-YWD-Iy",
+                  connections: [
+                    {
+                      source: "output-YWD-Iy",
+                      target: "input-3CnnBq",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "add",
+              id: "add-dYjhk6",
+              name: "Add add-dYjhk6",
+              x: 383,
+              y: 557.3333282470703,
+              inputs: [
+                {
+                  id: "input-YTHliL",
+                  connections: [
+                    {
+                      source: "output-6pNbhj",
+                      target: "input-YTHliL",
+                    },
+                  ],
+                },
+                {
+                  id: "input-Jhgi34",
+                  connections: [
+                    {
+                      source: "output-MK3Og-",
+                      target: "input-Jhgi34",
+                    },
+                  ],
+                },
+              ],
+              outputs: [
+                {
+                  id: "output-L_cDzf",
+                  connections: [
+                    {
+                      source: "output-L_cDzf",
+                      target: "input-cm02VG",
                     },
                   ],
                 },
@@ -210,44 +291,17 @@ export class Workarea extends HTMLElement {
             },
             {
               type: "noop",
-              id: "noop-ijbNh9",
-              name: "Noop noop-ijbNh9",
-              x: 680,
-              y: 270,
+              id: "noop-eK-79L",
+              name: "Noop noop-eK-79L",
+              x: 950,
+              y: 417.3333282470703,
               inputs: [
                 {
-                  id: "input-DXvtsb",
+                  id: "input-3CnnBq",
                   connections: [
                     {
-                      source: "output-zH80OT",
-                      target: "input-DXvtsb",
-                    },
-                    {
-                      source: "output-Riaeer",
-                      target: "input-DXvtsb",
-                    },
-                  ],
-                },
-              ],
-              outputs: [],
-            },
-            {
-              type: "noop",
-              id: "noop-D97Zz9",
-              name: "Noop noop-D97Zz9",
-              x: 680,
-              y: 655,
-              inputs: [
-                {
-                  id: "input-JD0Vgi",
-                  connections: [
-                    {
-                      source: "output-Riaeer",
-                      target: "input-JD0Vgi",
-                    },
-                    {
-                      source: "output-zH80OT",
-                      target: "input-JD0Vgi",
+                      source: "output-YWD-Iy",
+                      target: "input-3CnnBq",
                     },
                   ],
                 },

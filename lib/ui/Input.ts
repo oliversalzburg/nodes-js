@@ -1,10 +1,13 @@
 import { Column } from "./Column";
 import { Connection } from "./Connection";
 import styles from "./Input.module.css";
+import { isNil } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedConnection } from "./Workarea";
 
 export class Input extends Column {
+  #connection?: Connection;
+
   constructor() {
     super();
 
@@ -25,7 +28,8 @@ export class Input extends Column {
       this.connections[0].disconnect();
     }
 
-    this.value = connection.source.value;
+    this.#connection = connection;
+    this.update();
 
     super.connect(connection);
 
@@ -34,8 +38,18 @@ export class Input extends Column {
     );
   }
 
+  update(): void {
+    if (isNil(this.#connection)) {
+      return;
+    }
+
+    this.value = this.#connection.source.value;
+  }
+
   onMouseUp(event: MouseEvent) {
     this.parent?.finalizeConnection(this);
+
+    this.update();
   }
 }
 

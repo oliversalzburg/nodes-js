@@ -1,8 +1,8 @@
+import styles from "./Column.module.css";
 import { Connection } from "./Connection";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedConnection } from "./Workarea";
-import styles from "./Column.module.css";
 
 export class Column extends HTMLElement {
   columnId: string | null = null;
@@ -14,7 +14,6 @@ export class Column extends HTMLElement {
 
   value: unknown;
   valueElement?: HTMLSpanElement;
-
 
   init(parent: Node, initParameters?: SerializedConnection) {
     this.parent = parent;
@@ -44,7 +43,7 @@ export class Column extends HTMLElement {
   updateUi() {
     mustExist(this.labelElement).textContent = this.label;
     mustExist(this.valueElement).textContent = String(this.value);
-    
+
     for (const connection of this.connections) {
       connection.line.position();
     }
