@@ -79,9 +79,6 @@ export class Workarea extends HTMLElement {
     const connection = new Connection(this.#currentConnectionSource, columnTarget);
     this.#currentConnectionSource.connect(connection);
     columnTarget.connect(connection);
-
-    this.#currentConnectionSource = null;
-    this.#clearDecoy();
   }
 
   connect(columnSource: Output, columnTarget: Input) {
@@ -140,7 +137,7 @@ export class Workarea extends HTMLElement {
     this.#updateDecoy(event);
   }
   onMouseUp(event: MouseEvent) {
-    // Other mouseUp events are handled by individual components.
+    this.#currentConnectionSource = null;
     this.#clearDecoy();
   }
 
