@@ -27,7 +27,7 @@ export class NodeSeed extends Node {
 
     const outputInt = this.addOutput(initParameters?.outputs[1]);
     outputInt.label = "Int";
-    outputInt.value = this.#random.nextInt(Number.MAX_SAFE_INTEGER);
+    outputInt.value = this.#random.nextInt(256);
     outputInt.updateUi();
   }
 

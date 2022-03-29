@@ -25,15 +25,13 @@ export class Input extends Column {
       this.connections[0].disconnect();
     }
 
-    super.connect(connection);
-
     this.value = connection.source.value;
+
+    super.connect(connection);
 
     console.log(
       `${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`
     );
-
-    this.updateUi();
   }
 
   onMouseUp(event: MouseEvent) {

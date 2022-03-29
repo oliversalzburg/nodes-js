@@ -35,6 +35,7 @@ export class Column extends HTMLElement {
 
   connect(connection: Connection) {
     this.connections.push(connection);
+    mustExist(this.parent).onConnect(connection);
   }
   disconnect(connection: Connection) {
     this.connections.splice(this.connections.indexOf(connection), 1);

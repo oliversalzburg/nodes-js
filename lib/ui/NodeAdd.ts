@@ -1,4 +1,4 @@
-import { Input } from "./Input";
+import { Connection } from "./Connection";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedNode, Workarea } from "./Workarea";
@@ -7,8 +7,8 @@ export class NodeAdd extends Node {
   constructor() {
     super();
 
-    this.nodeId = Node.makeId("sum");
-    this.name = Node.makeName("Sum", this.nodeId);
+    this.nodeId = Node.makeId("add");
+    this.name = Node.makeName("Add", this.nodeId);
   }
 
   init(workarea: Workarea, initParameters?: SerializedNode) {
@@ -23,6 +23,12 @@ export class NodeAdd extends Node {
     sum.label = "Sum";
 
     this.updateUi();
+  }
+
+  update() {
+    super.update();
+
+    this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);
   }
 
   serialize(): SerializedNode {

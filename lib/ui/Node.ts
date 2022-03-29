@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { Connection } from "./Connection";
 import { Input } from "./Input";
 import { mustExist } from "./Maybe";
 import styles from "./Node.module.css";
@@ -50,6 +51,15 @@ export abstract class Node extends HTMLElement {
   }
   finalizeConnection(columnTarget: Input) {
     mustExist(this.workarea).finalizeConnection(columnTarget);
+  }
+
+  onConnect(connection:Connection){
+    this.update();
+    this.updateUi();
+  }
+
+  update(){
+    // nothing to do for now.
   }
 
   updateUi(newPosition?: { left: number; top: number }) {

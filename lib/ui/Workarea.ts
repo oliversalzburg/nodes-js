@@ -76,11 +76,12 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    this.#clearDecoy();
-
     const connection = new Connection(this.#currentConnectionSource, columnTarget);
     this.#currentConnectionSource.connect(connection);
     columnTarget.connect(connection);
+
+    this.#currentConnectionSource = null;
+    this.#clearDecoy();
   }
 
   connect(columnSource: Output, columnTarget: Input) {
@@ -259,7 +260,7 @@ export class Workarea extends HTMLElement {
 
       case 88:
         // x
-        console.log(JSON.stringify(this.serialize(), undefined, 2));
+        this.export();
         break;
 
       default:
@@ -319,6 +320,10 @@ export class Workarea extends HTMLElement {
     this.disconnect(node);
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);
+  }
+
+  export() {
+    console.debug(JSON.stringify(this.serialize(), undefined, 2));
   }
 
   deserialize(workarea: SerializedWorkarea) {
