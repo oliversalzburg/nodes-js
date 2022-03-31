@@ -104,8 +104,13 @@ export class Workarea extends HTMLElement {
     columnSource.connect(connection);
     columnTarget.connect(connection);
     this.connections.add(connection);
+    this.storeSnapshot();
   }
-  disconnect(node: Node) {
+  disconnect(connection: Connection) {
+    this.connections.delete(connection);
+    connection.disconnect();
+  }
+  disconnectNode(node: Node) {
     for (const input of node.inputs) {
       for (const connection of input.connections) {
         connection.disconnect();
@@ -118,6 +123,7 @@ export class Workarea extends HTMLElement {
         this.connections.delete(connection);
       }
     }
+    this.storeSnapshot();
   }
 
   #updateDecoy(event: MouseEvent) {
@@ -297,6 +303,9 @@ export class Workarea extends HTMLElement {
       autoScroll: true,
       handle: node.getElementsByTagName("title")[0],
       left: initParameters?.x ?? this.scrollLeft + this.offsetLeft + 50,
+      onDragEnd: (newPosition: NewPosition) => {
+        this.storeSnapshot();
+      },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
         /*
         if (event.ctrlKey) {
@@ -313,13 +322,15 @@ export class Workarea extends HTMLElement {
       top: initParameters?.y ?? this.scrollTop + this.offsetTop + 50,
     });
     this.#draggables.set(node, draggable);
+    this.storeSnapshot();
   }
 
   deleteNode(node: Node) {
-    this.disconnect(node);
+    this.disconnectNode(node);
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);
     this.#draggables.delete(node);
+    this.storeSnapshot();
   }
 
   deleteNodes() {
@@ -337,7 +348,20 @@ export class Workarea extends HTMLElement {
   export() {
     console.debug(JSON.stringify(this.serialize(), undefined, 2));
   }
+  storeSnapshot() {
+    const snapshot = this.serialize();
+    localStorage.setItem("snapshot", JSON.stringify(snapshot));
+    console.debug("Snapshot updated.");
+  }
   restoreSnapshot() {
+    const snapshotItem = localStorage.getItem("snapshot");
+    if (snapshotItem === null) {
+      return;
+    }
+    const snapshot = JSON.parse(snapshotItem) as SerializedWorkarea;
+    this.deserialize(snapshot);
+  }
+  restoreSnapshotDemo() {
     this.deserialize(snapshot as SerializedWorkarea);
   }
 

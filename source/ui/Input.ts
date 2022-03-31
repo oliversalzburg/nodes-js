@@ -46,6 +46,12 @@ export class Input extends Column {
   }
 
   onMouseUp(event: MouseEvent) {
+    // Always disconnect on click.
+    if (0 < this.connections.length) {
+      this.parent?.workarea?.disconnect(this.connections[0]);
+    }
+
+    // Create new connection, in case this was the end of a connect operation.
     this.parent?.finalizeConnection(this);
 
     this.update();

@@ -9,6 +9,7 @@ declare module "plain-draggable" {
     handle: HTMLElement;
     left: number;
     onDrag: (event: NewPosition) => boolean | void;
+    onDragEnd: (event: NewPosition) => void;
     onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => boolean | void;
     onMove: (event: NewPosition) => void;
     top: number;
