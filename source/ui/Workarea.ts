@@ -1,10 +1,11 @@
 import "leader-line";
-import PlainDraggable from "plain-draggable";
+import PlainDraggable, { NewPosition } from "plain-draggable";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
 import { isNil, mustExist } from "./Maybe";
 import { Node } from "./Node";
+import stylesNode from "./Node.module.css";
 import { NodeAdd } from "./NodeAdd";
 import { NodeNoop } from "./NodeNoop";
 import { NodeSeed } from "./NodeSeed";
@@ -40,6 +41,9 @@ export class Workarea extends HTMLElement {
   #currentConnectionSource: Output | null = null;
   #currentDecoy: Decoy | null = null;
   #currentDecoyLine: LeaderLine | null = null;
+
+  #draggables = new Map<Node, PlainDraggable>();
+  #dragOperationSource = new Map<Node, [number, number]>();
 
   #scrollableContainer: Scrollable | null = null;
 
@@ -176,6 +180,37 @@ export class Workarea extends HTMLElement {
     // End panning operation.
     this.#panning = false;
   }
+  #beginSynchronizedDragOperation(dragRoot: Node) {
+    const selectedNodes = this.getElementsByClassName(stylesNode.selected);
+    this.#dragOperationSource.clear();
+    this.#dragOperationSource.set(dragRoot, [dragRoot.x, dragRoot.y]);
+    for (const node of selectedNodes as Iterable<Node>) {
+      this.#dragOperationSource.set(node, [node.x, node.y]);
+    }
+  }
+  #synchronizeDragOperation(dragRoot: Node, newPosition: NewPosition) {
+    const selectedNodes = this.getElementsByClassName(stylesNode.selected);
+
+    for (const node of selectedNodes as Iterable<Node>) {
+      if (node === dragRoot) {
+        continue;
+      }
+
+      const position = [
+        this.#dragOperationSource.get(node)[0] +
+          newPosition.left -
+          this.#dragOperationSource.get(dragRoot)[0],
+        this.#dragOperationSource.get(node)[1] +
+          newPosition.top -
+          this.#dragOperationSource.get(dragRoot)[1],
+      ];
+      node.x = position[0];
+      node.y = position[1];
+      this.#draggables.get(node).left = node.x;
+      this.#draggables.get(node).top = node.y;
+      node.updateUi();
+    }
+  }
 
   onKeyUp(event: KeyboardEvent) {
     switch (event.keyCode) {
@@ -238,19 +273,33 @@ export class Workarea extends HTMLElement {
     this.appendChild(node);
     node.init(initParameters);
     this.nodes.push(node);
-    new PlainDraggable(node, {
+    const draggable = new PlainDraggable(node, {
       autoScroll: true,
       handle: node.getElementsByTagName("title")[0],
       left: initParameters?.x,
-      onMove: newPosition => mustExist(node).updateUi(newPosition),
+      onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
+        /*
+        if (event.ctrlKey) {
+          return false;
+        }
+        */
+
+        this.#beginSynchronizedDragOperation(node);
+      },
+      onMove: newPosition => {
+        this.#synchronizeDragOperation(node, newPosition);
+        mustExist(node).updateUi(newPosition);
+      },
       top: initParameters?.y,
     });
+    this.#draggables.set(node, draggable);
   }
 
   deleteNode(node: Node) {
     this.disconnect(node);
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);
+    this.#draggables.delete(node);
   }
 
   clear() {

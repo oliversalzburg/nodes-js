@@ -8,6 +8,10 @@
   border: 1px solid #111;
 }
 
+.selected {
+  outline: 2px solid lime;
+}
+
 .node .title {
   display: block;
   height: 20px;

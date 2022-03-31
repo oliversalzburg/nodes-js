@@ -33,6 +33,9 @@ export abstract class Node extends HTMLElement {
     this.titleElement = document.createElement("title");
     this.titleElement.classList.add(styles.title);
     this.titleElement.textContent = this.name;
+    this.titleElement.addEventListener("click", (event: MouseEvent | TouchEvent) =>
+      this.onSelect(event)
+    );
     this.appendChild(this.titleElement);
 
     const deleteButton = document.createElement("button");
@@ -59,6 +62,9 @@ export abstract class Node extends HTMLElement {
   onConnect(connection: Connection) {
     this.update();
     this.updateUi();
+  }
+  onSelect(event: MouseEvent | TouchEvent) {
+    this.classList.toggle(styles.selected);
   }
 
   update() {
