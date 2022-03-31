@@ -9,7 +9,7 @@
 }
 
 .selected {
-  outline: 2px solid lime;
+  outline: 2px dashed #333;
 }
 
 .node .title {

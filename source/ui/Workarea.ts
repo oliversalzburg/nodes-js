@@ -179,6 +179,14 @@ export class Workarea extends HTMLElement {
 
     // End panning operation.
     this.#panning = false;
+
+    // When the workare itself was clicked, deslect selected nodes.
+    if (event.target === this) {
+      const selectedNodes = this.getElementsByClassName(stylesNode.selected);
+      for (const node of selectedNodes as Iterable<Node>) {
+        node.deselect();
+      }
+    }
   }
   #beginSynchronizedDragOperation(dragRoot: Node) {
     const selectedNodes = this.getElementsByClassName(stylesNode.selected);
@@ -224,6 +232,17 @@ export class Workarea extends HTMLElement {
         this.createNode("noop");
         break;
       }
+
+      case 51: {
+        // 3
+        this.createNode("add");
+        break;
+      }
+
+      case 67:
+        // c
+        this.clear();
+        break;
 
       case 73:
         // i

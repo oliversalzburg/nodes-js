@@ -33,7 +33,7 @@ export abstract class Node extends HTMLElement {
     this.titleElement = document.createElement("title");
     this.titleElement.classList.add(styles.title);
     this.titleElement.textContent = this.name;
-    this.titleElement.addEventListener("click", (event: MouseEvent | TouchEvent) =>
+    this.titleElement.addEventListener("click", (event: MouseEvent | (TouchEvent & Touch)) =>
       this.onSelect(event)
     );
     this.appendChild(this.titleElement);
@@ -64,7 +64,15 @@ export abstract class Node extends HTMLElement {
     this.updateUi();
   }
   onSelect(event: MouseEvent | TouchEvent) {
-    this.classList.toggle(styles.selected);
+    if (event.ctrlKey) {
+      this.classList.toggle(styles.selected);
+    }
+  }
+  select() {
+    this.classList.add(styles.selected);
+  }
+  deselect() {
+    this.classList.remove(styles.selected);
   }
 
   update() {

@@ -22,18 +22,21 @@ export class Toolbar extends HTMLElement {
     const addSeedButton = document.createElement("button");
     addSeedButton.classList.add(styles.button);
     addSeedButton.textContent = "➕ Seed";
+    addSeedButton.title = "1";
     addSeedButton.addEventListener("click", () => mustExist(this.#workarea).createNode("seed"));
     this.appendChild(addSeedButton);
 
     const addNoopButton = document.createElement("button");
     addNoopButton.classList.add(styles.button);
     addNoopButton.textContent = "➕ Noop";
+    addNoopButton.title = "2";
     addNoopButton.addEventListener("click", () => mustExist(this.#workarea).createNode("noop"));
     this.appendChild(addNoopButton);
 
     const addAddButton = document.createElement("button");
     addAddButton.classList.add(styles.button);
     addAddButton.textContent = "➕ Add";
+    addAddButton.title = "3";
     addAddButton.addEventListener("click", () => mustExist(this.#workarea).createNode("add"));
     this.appendChild(addAddButton);
 
@@ -44,6 +47,7 @@ export class Toolbar extends HTMLElement {
     const clearButton = document.createElement("button");
     clearButton.classList.add(styles.button);
     clearButton.textContent = "✖ Clear";
+    clearButton.title = "c";
     clearButton.addEventListener("click", () => mustExist(this.#workarea).clear());
     this.appendChild(clearButton);
 
@@ -54,12 +58,14 @@ export class Toolbar extends HTMLElement {
     const exportButton = document.createElement("button");
     exportButton.classList.add(styles.button);
     exportButton.textContent = "🔽 Export";
+    exportButton.title = "x";
     exportButton.addEventListener("click", () => mustExist(this.#workarea).export());
     this.appendChild(exportButton);
 
     const restoreButton = document.createElement("button");
     restoreButton.classList.add(styles.button);
     restoreButton.textContent = "🔃 Restore";
+    restoreButton.title = "i";
     restoreButton.addEventListener("click", () => mustExist(this.#workarea).restoreSnapshot());
     this.appendChild(restoreButton);
 
