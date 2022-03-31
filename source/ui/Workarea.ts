@@ -53,6 +53,10 @@ export class Workarea extends HTMLElement {
     console.debug("Workarea constructed.");
   }
 
+  get selectedNodes(): Iterable<Node> {
+    return this.getElementsByClassName(stylesNode.selected) as Iterable<Node>;
+  }
+
   connectedCallback() {
     this.classList.add(styles.workarea);
 
@@ -183,25 +187,22 @@ export class Workarea extends HTMLElement {
 
     // When the workare itself was clicked, deslect selected nodes.
     if (event.target === this) {
-      const selectedNodes = this.getElementsByClassName(stylesNode.selected);
-      for (const node of selectedNodes as Iterable<Node>) {
+      for (const node of this.selectedNodes as Iterable<Node>) {
         node.deselect();
       }
     }
   }
   #beginSynchronizedDragOperation(dragRoot: Node) {
-    const selectedNodes = this.getElementsByClassName(stylesNode.selected);
     this.#dragOperationSource.clear();
     this.#dragOperationSource.set(dragRoot, [dragRoot.x, dragRoot.y]);
-    for (const node of selectedNodes as Iterable<Node>) {
+    for (const node of this.selectedNodes as Iterable<Node>) {
       this.#dragOperationSource.set(node, [node.x, node.y]);
     }
   }
   #synchronizeDragOperation(dragRoot: Node, newPosition: NewPosition) {
     const rootDragSource = mustExist(this.#dragOperationSource.get(dragRoot));
 
-    const selectedNodes = this.getElementsByClassName(stylesNode.selected);
-    for (const node of selectedNodes as Iterable<Node>) {
+    for (const node of this.selectedNodes as Iterable<Node>) {
       if (node === dragRoot) {
         continue;
       }
@@ -319,6 +320,12 @@ export class Workarea extends HTMLElement {
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);
     this.#draggables.delete(node);
+  }
+
+  deleteNodes() {
+    for (const node of [...this.selectedNodes]) {
+      this.deleteNode(node);
+    }
   }
 
   clear() {

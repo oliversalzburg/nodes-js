@@ -44,9 +44,16 @@ export class Toolbar extends HTMLElement {
     divider1.classList.add(styles.divider);
     this.appendChild(divider1);
 
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add(styles.button);
+    deleteButton.textContent = "✖ Delete";
+    deleteButton.title = "D";
+    deleteButton.addEventListener("click", () => mustExist(this.#workarea).deleteNodes());
+    this.appendChild(deleteButton);
+
     const clearButton = document.createElement("button");
     clearButton.classList.add(styles.button);
-    clearButton.textContent = "✖ Clear";
+    clearButton.textContent = "♻ Clear";
     clearButton.title = "X";
     clearButton.addEventListener("click", () => mustExist(this.#workarea).clear());
     this.appendChild(clearButton);
