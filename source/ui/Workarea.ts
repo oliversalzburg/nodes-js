@@ -157,156 +157,7 @@ export class Workarea extends HTMLElement {
 
       case 73:
         // i
-        this.deserialize({
-          nodes: [
-            {
-              type: "seed",
-              id: "seed-UoBoRw",
-              name: "Seed seed-UoBoRw",
-              x: 55,
-              y: 260.3333282470703,
-              inputs: [],
-              outputs: [
-                {
-                  id: "output-5Kvvfp",
-                  connections: [
-                    {
-                      source: "output-5Kvvfp",
-                      target: "input-0hRMNl",
-                    },
-                  ],
-                },
-                {
-                  id: "output-6pNbhj",
-                  connections: [
-                    {
-                      source: "output-6pNbhj",
-                      target: "input-YTHliL",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "seed",
-              id: "seed-V610qb",
-              name: "Seed seed-V610qb",
-              x: 65,
-              y: 653.3333282470703,
-              inputs: [],
-              outputs: [
-                {
-                  id: "output-wlBs-Q",
-                  connections: [],
-                },
-                {
-                  id: "output-MK3Og-",
-                  connections: [
-                    {
-                      source: "output-MK3Og-",
-                      target: "input-Jhgi34",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "add",
-              id: "add-qRGuO7",
-              name: "Add add-qRGuO7",
-              x: 660,
-              y: 305.3333282470703,
-              inputs: [
-                {
-                  id: "input-0hRMNl",
-                  connections: [
-                    {
-                      source: "output-5Kvvfp",
-                      target: "input-0hRMNl",
-                    },
-                  ],
-                },
-                {
-                  id: "input-cm02VG",
-                  connections: [
-                    {
-                      source: "output-L_cDzf",
-                      target: "input-cm02VG",
-                    },
-                  ],
-                },
-              ],
-              outputs: [
-                {
-                  id: "output-YWD-Iy",
-                  connections: [
-                    {
-                      source: "output-YWD-Iy",
-                      target: "input-3CnnBq",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "add",
-              id: "add-dYjhk6",
-              name: "Add add-dYjhk6",
-              x: 383,
-              y: 557.3333282470703,
-              inputs: [
-                {
-                  id: "input-YTHliL",
-                  connections: [
-                    {
-                      source: "output-6pNbhj",
-                      target: "input-YTHliL",
-                    },
-                  ],
-                },
-                {
-                  id: "input-Jhgi34",
-                  connections: [
-                    {
-                      source: "output-MK3Og-",
-                      target: "input-Jhgi34",
-                    },
-                  ],
-                },
-              ],
-              outputs: [
-                {
-                  id: "output-L_cDzf",
-                  connections: [
-                    {
-                      source: "output-L_cDzf",
-                      target: "input-cm02VG",
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "noop",
-              id: "noop-eK-79L",
-              name: "Noop noop-eK-79L",
-              x: 950,
-              y: 417.3333282470703,
-              inputs: [
-                {
-                  id: "input-3CnnBq",
-                  connections: [
-                    {
-                      source: "output-YWD-Iy",
-                      target: "input-3CnnBq",
-                    },
-                  ],
-                },
-              ],
-              outputs: [],
-            },
-          ],
-        });
+        this.restoreSnapshot();
         break;
 
       case 88:
@@ -369,6 +220,158 @@ export class Workarea extends HTMLElement {
 
   export() {
     console.debug(JSON.stringify(this.serialize(), undefined, 2));
+  }
+  restoreSnapshot() {
+    this.deserialize({
+      nodes: [
+        {
+          type: "seed",
+          id: "seed-UoBoRw",
+          name: "Seed seed-UoBoRw",
+          x: 55,
+          y: 260.3333282470703,
+          inputs: [],
+          outputs: [
+            {
+              id: "output-5Kvvfp",
+              connections: [
+                {
+                  source: "output-5Kvvfp",
+                  target: "input-0hRMNl",
+                },
+              ],
+            },
+            {
+              id: "output-6pNbhj",
+              connections: [
+                {
+                  source: "output-6pNbhj",
+                  target: "input-YTHliL",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "seed",
+          id: "seed-V610qb",
+          name: "Seed seed-V610qb",
+          x: 65,
+          y: 653.3333282470703,
+          inputs: [],
+          outputs: [
+            {
+              id: "output-wlBs-Q",
+              connections: [],
+            },
+            {
+              id: "output-MK3Og-",
+              connections: [
+                {
+                  source: "output-MK3Og-",
+                  target: "input-Jhgi34",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "add",
+          id: "add-qRGuO7",
+          name: "Add add-qRGuO7",
+          x: 660,
+          y: 305.3333282470703,
+          inputs: [
+            {
+              id: "input-0hRMNl",
+              connections: [
+                {
+                  source: "output-5Kvvfp",
+                  target: "input-0hRMNl",
+                },
+              ],
+            },
+            {
+              id: "input-cm02VG",
+              connections: [
+                {
+                  source: "output-L_cDzf",
+                  target: "input-cm02VG",
+                },
+              ],
+            },
+          ],
+          outputs: [
+            {
+              id: "output-YWD-Iy",
+              connections: [
+                {
+                  source: "output-YWD-Iy",
+                  target: "input-3CnnBq",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "add",
+          id: "add-dYjhk6",
+          name: "Add add-dYjhk6",
+          x: 383,
+          y: 557.3333282470703,
+          inputs: [
+            {
+              id: "input-YTHliL",
+              connections: [
+                {
+                  source: "output-6pNbhj",
+                  target: "input-YTHliL",
+                },
+              ],
+            },
+            {
+              id: "input-Jhgi34",
+              connections: [
+                {
+                  source: "output-MK3Og-",
+                  target: "input-Jhgi34",
+                },
+              ],
+            },
+          ],
+          outputs: [
+            {
+              id: "output-L_cDzf",
+              connections: [
+                {
+                  source: "output-L_cDzf",
+                  target: "input-cm02VG",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "noop",
+          id: "noop-eK-79L",
+          name: "Noop noop-eK-79L",
+          x: 950,
+          y: 417.3333282470703,
+          inputs: [
+            {
+              id: "input-3CnnBq",
+              connections: [
+                {
+                  source: "output-YWD-Iy",
+                  target: "input-3CnnBq",
+                },
+              ],
+            },
+          ],
+          outputs: [],
+        },
+      ],
+    });
   }
 
   deserialize(workarea: SerializedWorkarea) {
