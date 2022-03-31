@@ -10,7 +10,6 @@ import { NodeNoop } from "./NodeNoop";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
 import { Scrollable } from "./Scrollable";
-import { Toolbar } from "./Toolbar";
 import styles from "./Workarea.module.css";
 
 export type NodeTypes = "add" | "noop" | "seed";
@@ -46,7 +45,7 @@ export class Workarea extends HTMLElement {
 
   constructor() {
     super();
-    console.debug("Workarea constructed.")
+    console.debug("Workarea constructed.");
   }
 
   connectedCallback() {
@@ -59,7 +58,7 @@ export class Workarea extends HTMLElement {
 
     document.addEventListener("keyup", event => this.onKeyUp(event));
 
-    console.debug("Workarea connected.")
+    console.debug("Workarea connected.");
   }
 
   initConnectionFrom(columnSource: Output, event: MouseEvent) {
@@ -143,12 +142,15 @@ export class Workarea extends HTMLElement {
   }
 
   #panning = false;
-  #panStartLocation: [number, number] = [0, 0];
+  #panInitMouse: [number, number] = [0, 0];
+  #panInitWorkarea: [number, number] = [0, 0];
+
   onMouseDown(event: MouseEvent) {
     // Middle mouse button.
-    if (event.button === 1) {
+    if (this.#scrollableContainer && event.button === 1) {
       this.#panning = true;
-      this.#panStartLocation = [event.x, event.y];
+      this.#panInitMouse = [event.x, event.y];
+      this.#panInitWorkarea = [this.#scrollableContainer.scrollLeft, this.#scrollableContainer.scrollTop];
     }
   }
   onMouseMove(event: MouseEvent) {
@@ -157,7 +159,10 @@ export class Workarea extends HTMLElement {
     }
 
     if (this.#scrollableContainer && this.#panning) {
-      this.#scrollableContainer.scrollLeft = this.#panStartLocation[0] - event.x;
+      this.#scrollableContainer.scrollLeft =
+        this.#panInitWorkarea[0] + this.#panInitMouse[0] - event.x;
+      this.#scrollableContainer.scrollTop =
+        this.#panInitWorkarea[1] + this.#panInitMouse[1] - event.y;
     }
   }
   onMouseUp(event: MouseEvent) {
