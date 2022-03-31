@@ -115,7 +115,7 @@ export class Workarea extends HTMLElement {
     if (!isNil(this.#currentDecoy)) {
       const bounds = this.getBoundingClientRect();
 
-      this.#currentDecoy.style.transform = `translate(${event.pageX}px, ${
+      this.#currentDecoy.style.transform = `translate(${event.pageX - bounds.left}px, ${
         event.pageY - bounds.top
       }px)`;
     }
