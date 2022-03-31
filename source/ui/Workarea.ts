@@ -366,6 +366,8 @@ export class Workarea extends HTMLElement {
   }
 
   deserialize(workarea: SerializedWorkarea) {
+    this.clear();
+
     const nodes = new Map<string, Node>();
     const inputs = new Map<string, Input>();
     const outputs = new Map<string, Output>();
