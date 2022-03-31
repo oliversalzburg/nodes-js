@@ -33,17 +33,11 @@ export class NodeNoop extends Node {
       y: this.y,
       inputs: this.inputs.map(input => ({
         id: mustExist(input.columnId),
-        connections: input.connections.map(connection => ({
-          source: mustExist(connection.source.columnId),
-          target: mustExist(connection.target.columnId),
-        })),
+        output: input.output ? mustExist(input.output.source.columnId) : null,
       })),
       outputs: this.outputs.map(output => ({
         id: mustExist(output.columnId),
-        connections: output.connections.map(connection => ({
-          source: mustExist(connection.source.columnId),
-          target: mustExist(connection.target.columnId),
-        })),
+        inputs: output.inputs.map(connection => mustExist(connection.target.columnId)),
       })),
     };
   }

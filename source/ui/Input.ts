@@ -5,7 +5,7 @@ import { isNil } from "./Maybe";
 import { Node } from "./Node";
 
 export class Input extends Column {
-  #connection?: Connection;
+  output?: Connection;
 
   constructor() {
     super();
@@ -23,11 +23,11 @@ export class Input extends Column {
   }
 
   connect(connection: Connection) {
-    if (0 < this.connections.length) {
-      this.connections[0].disconnect();
+    if (this.output) {
+      this.output.disconnect();
     }
 
-    this.#connection = connection;
+    this.output = connection;
     this.update();
 
     super.connect(connection);
@@ -36,19 +36,33 @@ export class Input extends Column {
       `${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`
     );
   }
+  disconnect(connection: Connection): void {
+    super.disconnect(connection);
+    this.output = undefined;
+    this.value = undefined;
+    this.parent?.update();
+  }
 
   update(): void {
-    if (isNil(this.#connection)) {
+    if (isNil(this.output)) {
       return;
     }
 
-    this.value = this.#connection.source.value;
+    this.value = this.output.source.value;
+  }
+
+  updateUi() {
+    super.updateUi();
+
+    if (this.output) {
+      this.output.line.position();
+    }
   }
 
   onMouseUp(event: MouseEvent) {
     // Always disconnect on click.
-    if (0 < this.connections.length) {
-      this.parent?.workarea?.disconnect(this.connections[0]);
+    if (this.output) {
+      this.parent?.workarea?.disconnect(this.output);
     }
 
     // Create new connection, in case this was the end of a connect operation.

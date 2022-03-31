@@ -2,165 +2,60 @@ export const snapshot = {
   nodes: [
     {
       type: "seed",
-      id: "seed-g6Qzsd",
-      name: "Seed seed-g6Qzsd",
-      x: 134,
-      y: 518,
+      id: "seed-QNK9dZ",
+      name: "Seed seed-QNK9dZ",
+      x: 0,
+      y: 0,
       inputs: [],
       outputs: [
         {
-          id: "output-nCq769",
-          connections: [
-            {
-              source: "output-nCq769",
-              target: "input-Y9a5on",
-            },
-          ],
+          id: "output-Rcps9C",
+          inputs: ["input-gUjyDm"],
         },
         {
-          id: "output-bvRTSr",
-          connections: [
-            {
-              source: "output-bvRTSr",
-              target: "input-Qr4LWt",
-            },
-            {
-              source: "output-bvRTSr",
-              target: "input-5gpSUq",
-            },
-          ],
+          id: "output-IL0s6U",
+          inputs: [],
         },
       ],
     },
     {
       type: "seed",
-      id: "seed-lAHSwM",
-      name: "Seed seed-lAHSwM",
-      x: 153,
-      y: 728,
+      id: "seed-vgGwv5",
+      name: "Seed seed-vgGwv5",
+      x: 65,
+      y: 424,
       inputs: [],
       outputs: [
         {
-          id: "output-4R98iC",
-          connections: [],
+          id: "output-7ZYio3",
+          inputs: [],
         },
         {
-          id: "output-UMdej3",
-          connections: [
-            {
-              source: "output-UMdej3",
-              target: "input-co1I5n",
-            },
-          ],
+          id: "output-34yJYx",
+          inputs: ["input-HUuye1"],
         },
       ],
     },
     {
       type: "add",
-      id: "add-Jgj6Fz",
-      name: "Add add-Jgj6Fz",
-      x: 558,
-      y: 555,
+      id: "add-rUMGRx",
+      name: "Add add-rUMGRx",
+      x: 539,
+      y: 276,
       inputs: [
         {
-          id: "input-Qr4LWt",
-          connections: [
-            {
-              source: "output-bvRTSr",
-              target: "input-Qr4LWt",
-            },
-          ],
+          id: "input-gUjyDm",
+          output: "output-Rcps9C",
         },
         {
-          id: "input-co1I5n",
-          connections: [
-            {
-              source: "output-UMdej3",
-              target: "input-co1I5n",
-            },
-          ],
+          id: "input-HUuye1",
+          output: "output-34yJYx",
         },
       ],
       outputs: [
         {
-          id: "output-w8V8yD",
-          connections: [
-            {
-              source: "output-w8V8yD",
-              target: "input-yHk4YM",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      type: "add",
-      id: "add-F1WKAt",
-      name: "Add add-F1WKAt",
-      x: 806,
-      y: 422,
-      inputs: [
-        {
-          id: "input-Y9a5on",
-          connections: [
-            {
-              source: "output-nCq769",
-              target: "input-Y9a5on",
-            },
-          ],
-        },
-        {
-          id: "input-yHk4YM",
-          connections: [
-            {
-              source: "output-w8V8yD",
-              target: "input-yHk4YM",
-            },
-          ],
-        },
-      ],
-      outputs: [
-        {
-          id: "output-rx1CHq",
-          connections: [
-            {
-              source: "output-rx1CHq",
-              target: "input-i_wNeV",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      type: "add",
-      id: "add-ZjPb0P",
-      name: "Add add-ZjPb0P",
-      x: 848,
-      y: 769,
-      inputs: [
-        {
-          id: "input-i_wNeV",
-          connections: [
-            {
-              source: "output-rx1CHq",
-              target: "input-i_wNeV",
-            },
-          ],
-        },
-        {
-          id: "input-5gpSUq",
-          connections: [
-            {
-              source: "output-bvRTSr",
-              target: "input-5gpSUq",
-            },
-          ],
-        },
-      ],
-      outputs: [
-        {
-          id: "output-2QW4zZ",
-          connections: [],
+          id: "output-v4t1jr",
+          inputs: [],
         },
       ],
     },

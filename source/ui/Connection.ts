@@ -1,13 +1,14 @@
 import "leader-line";
-import { Column } from "./Column";
+import { Input } from "./Input";
+import { Output } from "./Output";
 
 export class Connection {
-  source: Column;
-  target: Column;
+  source: Output;
+  target: Input;
 
   line: LeaderLine;
 
-  constructor(source: Column, target: Column) {
+  constructor(source: Output, target: Input) {
     this.source = source;
     this.target = target;
 
@@ -18,7 +19,7 @@ export class Connection {
     });
   }
 
-  disconnect(){
+  disconnect() {
     this.source.disconnect(this);
     this.target.disconnect(this);
     this.line.remove();

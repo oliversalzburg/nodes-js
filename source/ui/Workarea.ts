@@ -21,14 +21,24 @@ export type SerializedConnection = {
   connections: Array<{ source: string; target: string }>;
 };
 
+export type SerializedInput = {
+  id: string;
+  output: string | null;
+};
+
+export type SerializedOutput = {
+  id: string;
+  inputs: Array<string>;
+};
+
 export type SerializedNode = {
   type: NodeTypes;
   id: string;
   name: string;
   x: number;
   y: number;
-  inputs: Array<SerializedConnection>;
-  outputs: Array<SerializedConnection>;
+  inputs: Array<SerializedInput>;
+  outputs: Array<SerializedOutput>;
 };
 
 export type SerializedWorkarea = {
@@ -109,16 +119,20 @@ export class Workarea extends HTMLElement {
   disconnect(connection: Connection) {
     this.connections.delete(connection);
     connection.disconnect();
+    connection.target.parent?.updateUi();
   }
   disconnectNode(node: Node) {
     for (const input of node.inputs) {
-      for (const connection of input.connections) {
-        connection.disconnect();
-        this.connections.delete(connection);
+      if (input.output) {
+        if (!this.connections.has(input.output)) {
+          continue;
+        }
+        input.output.disconnect();
+        this.connections.delete(input.output);
       }
     }
     for (const output of node.outputs) {
-      for (const connection of output.connections) {
+      for (const connection of output.inputs) {
         connection.disconnect();
         this.connections.delete(connection);
       }
@@ -386,11 +400,8 @@ export class Workarea extends HTMLElement {
     // Connect nodes
     for (const node of workarea.nodes) {
       for (const output of node.outputs) {
-        for (const connection of output.connections) {
-          this.connect(
-            mustExist(outputs.get(connection.source)),
-            mustExist(inputs.get(connection.target))
-          );
+        for (const inputId of output.inputs) {
+          this.connect(mustExist(outputs.get(output.id)), mustExist(inputs.get(inputId)));
         }
       }
     }

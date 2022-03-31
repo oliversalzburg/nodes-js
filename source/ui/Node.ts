@@ -4,7 +4,7 @@ import { Input } from "./Input";
 import { mustExist } from "./Maybe";
 import styles from "./Node.module.css";
 import { Output } from "./Output";
-import { SerializedConnection, SerializedNode, Workarea } from "./Workarea";
+import { SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
 
 export abstract class Node extends HTMLElement {
   nodeId: string;
@@ -95,14 +95,14 @@ export abstract class Node extends HTMLElement {
     }
   }
 
-  protected addInput(initParameters?: SerializedConnection) {
+  protected addInput(initParameters?: SerializedInput) {
     const input = document.createElement("dt-input") as Input;
     this.appendChild(input);
     input.init(initParameters);
     this.inputs.push(input);
     return input;
   }
-  protected addOutput(initParameters?: SerializedConnection) {
+  protected addOutput(initParameters?: SerializedOutput) {
     const output = document.createElement("dt-output") as Output;
     this.appendChild(output);
     output.init(initParameters);

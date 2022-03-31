@@ -2,12 +2,11 @@ import styles from "./Column.module.css";
 import { Connection } from "./Connection";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
-import { SerializedConnection } from "./Workarea";
+import { SerializedInput, SerializedOutput } from "./Workarea";
 
 export class Column extends HTMLElement {
   columnId: string | null = null;
   parent: Node | null = null;
-  connections = new Array<Connection>();
 
   label = "<unlabled column>";
   labelElement?: HTMLLabelElement;
@@ -30,26 +29,20 @@ export class Column extends HTMLElement {
     this.appendChild(this.valueElement);
   }
 
-  init(initParameters?: SerializedConnection) {
+  init(initParameters?: SerializedInput | SerializedOutput) {
     this.columnId = initParameters?.id ?? this.columnId;
   }
 
   connect(connection: Connection) {
-    this.connections.push(connection);
     mustExist(this.parent).onConnect(connection);
     this.classList.add(styles.connected);
   }
   disconnect(connection: Connection) {
-    this.connections.splice(this.connections.indexOf(connection), 1);
     this.classList.remove(styles.connected);
   }
 
   updateUi() {
     mustExist(this.labelElement).textContent = this.label;
     mustExist(this.valueElement).textContent = String(this.value);
-
-    for (const connection of this.connections) {
-      connection.line.position();
-    }
   }
 }
