@@ -1,29 +1,21 @@
 {
   "compilerOptions": {
-    // Allow us to easily import modules that have no default export.
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    // Import helper functions at runtime instead of putting them in each
-    // code unit. This required `tslib` to be available.
     "importHelpers": true,
     "lib": ["ESNext"],
-    // Produce modules that load each other with `require()`.
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "output",
-    // Generate source maps for the compiled code units.
     "sourceMap": true,
-    // Enable extended type checking, increased strictness.
     "strict": true,
-    // Targetting Node 14+.
     "target": "ESNext",
-    // Enable incremental builds for faster building.
     "incremental": true,
-    // Don't check dependencies for correctness. It's a pointless endevour.
     "skipLibCheck": true,
     "types": ["@types/web"]
   },
-  "include": ["./@types", "./lib"]
+  "include": ["./@types", "./source"]
 }
