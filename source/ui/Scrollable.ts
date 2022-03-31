@@ -8,17 +8,23 @@ export class Scrollable extends HTMLElement {
   constructor() {
     super();
 
-    console.debug("Scrollable constructed.")
+    console.debug("Scrollable constructed.");
   }
 
   connectedCallback() {
-    this.#workarea = mustExist(this.querySelector("dt-workarea")) as Workarea;
-    this.#workarea.registerScrollableContainer(this);
+    this.#workarea = this.querySelector("dt-workarea") as Workarea;
 
     this.classList.add(styles.scrollable);
     this.addEventListener("scroll", event => this.onScroll(event));
 
-    console.debug("Scrollable connected.")
+    console.debug("Scrollable connected.");
+
+    this.waitForWorkarea().catch(console.error);
+  }
+
+  async waitForWorkarea() {
+    await customElements.whenDefined("dt-workarea");
+    mustExist(this.#workarea).registerScrollableContainer(this);
   }
 
   onScroll(event: Event) {

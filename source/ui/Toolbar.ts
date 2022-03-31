@@ -7,22 +7,17 @@ export class Toolbar extends HTMLElement {
 
   constructor() {
     super();
-    console.debug("Toolbar constructed.")
+    console.debug("Toolbar constructed.");
   }
 
   connectedCallback() {
+    this.classList.add(styles.toolbar);
+
     const forWorkarea = this.getAttribute("for");
     if (isNil(forWorkarea)) {
       throw new Error("Missing `for` attribute on dt-toolbar. Requires an ID of a dt-workarea.");
     }
     this.#workarea = mustExist(document.getElementById(forWorkarea)) as Workarea;
-    this.#workarea.registerToolbar(this);
-
-    console.debug("Toolbar connected.")
-  }
-
-  init(workarea: Workarea, initParameters?: unknown): void {
-    this.classList.add(styles.toolbar);
 
     const addSeedButton = document.createElement("button");
     addSeedButton.classList.add(styles.button);
@@ -67,6 +62,8 @@ export class Toolbar extends HTMLElement {
     restoreButton.textContent = "🔃 Restore";
     restoreButton.addEventListener("click", () => mustExist(this.#workarea).restoreSnapshot());
     this.appendChild(restoreButton);
+
+    console.debug("Toolbar connected.");
   }
 }
 

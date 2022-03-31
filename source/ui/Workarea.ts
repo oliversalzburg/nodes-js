@@ -62,10 +62,6 @@ export class Workarea extends HTMLElement {
     console.debug("Workarea connected.")
   }
 
-  registerToolbar(toolbar: Toolbar) {
-    toolbar.init(this);
-  }
-
   initConnectionFrom(columnSource: Output, event: MouseEvent) {
     this.#currentConnectionSource = columnSource;
 
