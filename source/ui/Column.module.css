@@ -8,6 +8,7 @@
   padding: 1px;
 
   background-color: #ccc;
+  border-color:#888;
 
   font-family: monospace;
 }
@@ -21,4 +22,11 @@
 
 .column .value {
   color: #888;
+}
+
+.column.connected {
+  border-color: #111;
+}
+.column.connected .value {
+  color: #111;
 }
