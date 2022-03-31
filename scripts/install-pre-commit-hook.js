@@ -18,5 +18,7 @@ const path = require("path");
   const hookFilename = path.resolve(hooksDirectory, "pre-commit");
   await fs.writeFile(hookFilename, hookFile, "utf-8");
 
+  await fs.chmod(hookFilename, 0o755);
+
   console.log("Done.");
 })();
