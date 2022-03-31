@@ -240,17 +240,17 @@ export class Workarea extends HTMLElement {
       }
 
       case 67:
-        // c
+        // x
         this.clear();
         break;
 
-      case 73:
-        // i
+      case 82:
+        // r
         this.restoreSnapshot();
         break;
 
       case 88:
-        // x
+        // e
         this.export();
         break;
 
@@ -294,7 +294,7 @@ export class Workarea extends HTMLElement {
     const draggable = new PlainDraggable(node, {
       autoScroll: true,
       handle: node.getElementsByTagName("title")[0],
-      left: initParameters?.x,
+      left: initParameters?.x ?? this.scrollLeft + this.offsetLeft + 50,
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
         /*
         if (event.ctrlKey) {
@@ -308,7 +308,7 @@ export class Workarea extends HTMLElement {
         this.#synchronizeDragOperation(node, newPosition);
         mustExist(node).updateUi(newPosition);
       },
-      top: initParameters?.y,
+      top: initParameters?.y ?? this.scrollTop + this.offsetTop + 50,
     });
     this.#draggables.set(node, draggable);
   }

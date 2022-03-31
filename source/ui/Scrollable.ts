@@ -25,6 +25,9 @@ export class Scrollable extends HTMLElement {
   async waitForWorkarea() {
     await customElements.whenDefined("dt-workarea");
     mustExist(this.#workarea).registerScrollableContainer(this);
+
+    // Don't init on origin. It's uncomfortable.
+    this.scroll(this.scrollHeight / 3, this.scrollWidth / 3);
   }
 
   onScroll(event: Event) {
