@@ -11,4 +11,9 @@ body {
   display: flex;
   flex-direction: column;
   align-content: stretch;
+  overflow: hidden;
+}
+
+.leader-line {
+  z-index: 1;
 }

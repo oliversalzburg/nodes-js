@@ -35,6 +35,7 @@ export type SerializedWorkarea = {
 
 export class Workarea extends HTMLElement {
   nodes = new Array<Node>();
+  connections = new Set<Connection>();
 
   #currentConnectionSource: Output | null = null;
   #currentDecoy: Decoy | null = null;
@@ -76,25 +77,32 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    const connection = new Connection(this.#currentConnectionSource, columnTarget);
-    this.#currentConnectionSource.connect(connection);
-    columnTarget.connect(connection);
+    this.connect(this.#currentConnectionSource,columnTarget);
+  }
+
+  updateConnections(){
+    for(const connection of this.connections){
+      connection.line.position();
+    }
   }
 
   connect(columnSource: Output, columnTarget: Input) {
     const connection = new Connection(columnSource, columnTarget);
     columnSource.connect(connection);
     columnTarget.connect(connection);
+    this.connections.add(connection);
   }
   disconnect(node: Node) {
     for (const input of node.inputs) {
       for (const connection of input.connections) {
         connection.disconnect();
+        this.connections.delete(connection);
       }
     }
     for (const output of node.outputs) {
       for (const connection of output.connections) {
         connection.disconnect();
+        this.connections.delete(connection);
       }
     }
   }
@@ -199,6 +207,7 @@ export class Workarea extends HTMLElement {
     this.appendChild(node);
     this.nodes.push(node);
     new PlainDraggable(node, {
+      autoScroll: true,
       handle: node.getElementsByTagName("title")[0],
       left: initParameters?.x,
       onMove: newPosition => mustExist(node).updateUi(newPosition),

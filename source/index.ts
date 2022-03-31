@@ -7,5 +7,6 @@ import "./ui/NodeAdd";
 import "./ui/NodeNoop";
 import "./ui/NodeSeed";
 import "./ui/Output";
+import "./ui/Scrollable";
 import "./ui/Toolbar";
 import "./ui/Workarea";

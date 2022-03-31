@@ -5,6 +5,7 @@ declare module "plain-draggable" {
   };
 
   export type ConstructionOptions = {
+    autoScroll: boolean;
     handle?: HTMLElement;
     left?: number;
     onMove: (event: NewPosition) => void;

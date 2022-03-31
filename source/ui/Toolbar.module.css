@@ -8,6 +8,8 @@
 
   background-color: #ddd;
   border: 1px solid #111;
+
+  z-index: 2;
 }
 
 .toolbar .button {

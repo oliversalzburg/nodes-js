@@ -1,6 +1,11 @@
 .workarea {
   display: block;
-  height: 100%;
+  position: relative;
+  
+  width: 10000px;
+  height: 10000px;
 
   background-color: #eee;
+
+  z-index:0;
 }
