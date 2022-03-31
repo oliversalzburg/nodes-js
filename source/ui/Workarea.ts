@@ -189,25 +189,24 @@ export class Workarea extends HTMLElement {
     }
   }
   #synchronizeDragOperation(dragRoot: Node, newPosition: NewPosition) {
-    const selectedNodes = this.getElementsByClassName(stylesNode.selected);
+    const rootDragSource = mustExist(this.#dragOperationSource.get(dragRoot));
 
+    const selectedNodes = this.getElementsByClassName(stylesNode.selected);
     for (const node of selectedNodes as Iterable<Node>) {
       if (node === dragRoot) {
         continue;
       }
 
+      const nodeDragSource = mustExist(this.#dragOperationSource.get(node));
+      const nodeDraggable = mustExist(this.#draggables.get(node));
       const position = [
-        this.#dragOperationSource.get(node)[0] +
-          newPosition.left -
-          this.#dragOperationSource.get(dragRoot)[0],
-        this.#dragOperationSource.get(node)[1] +
-          newPosition.top -
-          this.#dragOperationSource.get(dragRoot)[1],
+        nodeDragSource[0] + newPosition.left - rootDragSource[0],
+        nodeDragSource[1] + newPosition.top - rootDragSource[1],
       ];
       node.x = position[0];
       node.y = position[1];
-      this.#draggables.get(node).left = node.x;
-      this.#draggables.get(node).top = node.y;
+      nodeDraggable.left = node.x;
+      nodeDraggable.top = node.y;
       node.updateUi();
     }
   }
