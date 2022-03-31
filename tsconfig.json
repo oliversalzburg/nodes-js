@@ -17,5 +17,6 @@
     "skipLibCheck": true,
     "types": ["@types/web"]
   },
-  "include": ["./@types", "./source"]
+  "include": ["./@types", "./source"],
+  "exclude": ["./output"]
 }

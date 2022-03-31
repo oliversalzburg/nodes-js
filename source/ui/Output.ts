@@ -12,7 +12,9 @@ export class Output extends Column {
 
     this.columnId = Node.makeId("output");
     this.label = "<unlabled output>";
+  }
 
+  connectedCallback() {
     this.addEventListener("mousedown", event => this.onMouseDown(event));
   }
 

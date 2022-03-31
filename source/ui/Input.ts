@@ -13,7 +13,9 @@ export class Input extends Column {
 
     this.columnId = Node.makeId("input");
     this.label = "<unlabled input>";
+  }
 
+  connectedCallback() {
     this.addEventListener("mouseup", event => this.onMouseUp(event));
   }
 

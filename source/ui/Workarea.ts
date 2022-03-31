@@ -9,6 +9,7 @@ import { NodeAdd } from "./NodeAdd";
 import { NodeNoop } from "./NodeNoop";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
+import { Scrollable } from "./Scrollable";
 import { Toolbar } from "./Toolbar";
 import styles from "./Workarea.module.css";
 
@@ -41,16 +42,24 @@ export class Workarea extends HTMLElement {
   #currentDecoy: Decoy | null = null;
   #currentDecoyLine: LeaderLine | null = null;
 
+  #scrollableContainer: Scrollable | null = null;
+
   constructor() {
     super();
+    console.debug("Workarea constructed.")
+  }
 
+  connectedCallback() {
     this.classList.add(styles.workarea);
 
     this.addEventListener("click", event => this.onClick(event));
+    this.addEventListener("mousedown", event => this.onMouseDown(event));
     this.addEventListener("mousemove", event => this.onMouseMove(event));
     this.addEventListener("mouseup", event => this.onMouseUp(event));
 
     document.addEventListener("keyup", event => this.onKeyUp(event));
+
+    console.debug("Workarea connected.")
   }
 
   registerToolbar(toolbar: Toolbar) {
@@ -77,11 +86,11 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    this.connect(this.#currentConnectionSource,columnTarget);
+    this.connect(this.#currentConnectionSource, columnTarget);
   }
 
-  updateConnections(){
-    for(const connection of this.connections){
+  updateConnections() {
+    for (const connection of this.connections) {
       connection.line.position();
     }
   }
@@ -137,16 +146,31 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  #panning = false;
+  #panStartLocation: [number, number] = [0, 0];
+  onMouseDown(event: MouseEvent) {
+    // Middle mouse button.
+    if (event.button === 1) {
+      this.#panning = true;
+      this.#panStartLocation = [event.x, event.y];
+    }
+  }
   onMouseMove(event: MouseEvent) {
-    if (!this.#currentDecoy || !this.#currentDecoyLine) {
-      return;
+    if (this.#currentDecoy) {
+      this.#updateDecoy(event);
     }
 
-    this.#updateDecoy(event);
+    if (this.#scrollableContainer && this.#panning) {
+      this.#scrollableContainer.scrollLeft = this.#panStartLocation[0] - event.x;
+    }
   }
   onMouseUp(event: MouseEvent) {
+    // End connection operation.
     this.#currentConnectionSource = null;
     this.#clearDecoy();
+
+    // End panning operation.
+    this.#panning = false;
   }
 
   onKeyUp(event: KeyboardEvent) {
@@ -176,6 +200,10 @@ export class Workarea extends HTMLElement {
       default:
         console.debug(event.keyCode);
     }
+  }
+
+  registerScrollableContainer(scrollable: Scrollable) {
+    this.#scrollableContainer = scrollable;
   }
 
   createNode(type: NodeTypes, initParameters?: SerializedNode) {

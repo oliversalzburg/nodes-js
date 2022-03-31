@@ -7,16 +7,11 @@ module.exports = {
     source: "/output",
     public: "/",
   },
-  plugins: [
-    /* ... */
-  ],
-  packageOptions: {
-    /* ... */
-  },
-  devOptions: {
-    /* ... */
-  },
   buildOptions: {
-    /* ... */
+    clean: true,
+  },
+  optimize: {
+    bundle: true,
+    sourcemap: false,
   },
 };

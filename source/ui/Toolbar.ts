@@ -3,44 +3,43 @@ import styles from "./Toolbar.module.css";
 import { Workarea } from "./Workarea";
 
 export class Toolbar extends HTMLElement {
-  workarea: Workarea | null = null;
+  #workarea: Workarea | null = null;
 
   constructor() {
     super();
+    console.debug("Toolbar constructed.")
   }
 
   connectedCallback() {
-    setTimeout(() => {
-      const forWorkarea = this.getAttribute("for");
-      if (isNil(forWorkarea)) {
-        throw new Error("Missing `for` attribute on dt-toolbar. Requires an ID of a dt-workarea.");
-      }
-      const workarea = mustExist(document.getElementById(forWorkarea)) as Workarea;
-      workarea.registerToolbar(this);
-    });
+    const forWorkarea = this.getAttribute("for");
+    if (isNil(forWorkarea)) {
+      throw new Error("Missing `for` attribute on dt-toolbar. Requires an ID of a dt-workarea.");
+    }
+    this.#workarea = mustExist(document.getElementById(forWorkarea)) as Workarea;
+    this.#workarea.registerToolbar(this);
+
+    console.debug("Toolbar connected.")
   }
 
   init(workarea: Workarea, initParameters?: unknown): void {
-    this.workarea = workarea;
-
     this.classList.add(styles.toolbar);
 
     const addSeedButton = document.createElement("button");
     addSeedButton.classList.add(styles.button);
     addSeedButton.textContent = "➕ Seed";
-    addSeedButton.addEventListener("click", () => mustExist(this.workarea).createNode("seed"));
+    addSeedButton.addEventListener("click", () => mustExist(this.#workarea).createNode("seed"));
     this.appendChild(addSeedButton);
 
     const addNoopButton = document.createElement("button");
     addNoopButton.classList.add(styles.button);
     addNoopButton.textContent = "➕ Noop";
-    addNoopButton.addEventListener("click", () => mustExist(this.workarea).createNode("noop"));
+    addNoopButton.addEventListener("click", () => mustExist(this.#workarea).createNode("noop"));
     this.appendChild(addNoopButton);
 
     const addAddButton = document.createElement("button");
     addAddButton.classList.add(styles.button);
     addAddButton.textContent = "➕ Add";
-    addAddButton.addEventListener("click", () => mustExist(this.workarea).createNode("add"));
+    addAddButton.addEventListener("click", () => mustExist(this.#workarea).createNode("add"));
     this.appendChild(addAddButton);
 
     const divider1 = document.createElement("span");
@@ -50,7 +49,7 @@ export class Toolbar extends HTMLElement {
     const clearButton = document.createElement("button");
     clearButton.classList.add(styles.button);
     clearButton.textContent = "✖ Clear";
-    clearButton.addEventListener("click", () => mustExist(this.workarea).clear());
+    clearButton.addEventListener("click", () => mustExist(this.#workarea).clear());
     this.appendChild(clearButton);
 
     const divider2 = document.createElement("span");
@@ -60,13 +59,13 @@ export class Toolbar extends HTMLElement {
     const exportButton = document.createElement("button");
     exportButton.classList.add(styles.button);
     exportButton.textContent = "🔽 Export";
-    exportButton.addEventListener("click", () => mustExist(this.workarea).export());
+    exportButton.addEventListener("click", () => mustExist(this.#workarea).export());
     this.appendChild(exportButton);
 
     const restoreButton = document.createElement("button");
     restoreButton.classList.add(styles.button);
     restoreButton.textContent = "🔃 Restore";
-    restoreButton.addEventListener("click", () => mustExist(this.workarea).restoreSnapshot());
+    restoreButton.addEventListener("click", () => mustExist(this.#workarea).restoreSnapshot());
     this.appendChild(restoreButton);
   }
 }
