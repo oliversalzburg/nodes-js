@@ -1,7 +1,7 @@
 import arbit, { ArbitGenerator } from "arbit";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
-import { SerializedNode, Workarea } from "./Workarea";
+import { SerializedNode } from "./Workarea";
 
 export class NodeSeed extends Node {
   #random: ArbitGenerator;
@@ -15,20 +15,27 @@ export class NodeSeed extends Node {
     this.#random = arbit(this.nodeId);
   }
 
-  init(workarea: Workarea, initParameters?: SerializedNode) {
-    super.init(workarea, initParameters);
+  connectedCallback() {
+    super.connectedCallback();
+
+    const outputFloat = this.addOutput();
+    outputFloat.label = "Float";
+    outputFloat.value = this.#random();
+
+    const outputInt = this.addOutput();
+    outputInt.label = "Int";
+    outputInt.value = this.#random.nextInt(256);
+  }
+
+  init(initParameters?: SerializedNode) {
+    super.init(initParameters);
 
     this.#random = arbit(mustExist(this.nodeId));
 
-    const outputFloat = this.addOutput(initParameters?.outputs[0]);
-    outputFloat.label = "Float";
-    outputFloat.value = this.#random();
-    outputFloat.updateUi();
+    this.outputs[0].init(initParameters?.outputs[0]);
+    this.outputs[1].init(initParameters?.outputs[1]);
 
-    const outputInt = this.addOutput(initParameters?.outputs[1]);
-    outputInt.label = "Int";
-    outputInt.value = this.#random.nextInt(256);
-    outputInt.updateUi();
+    this.updateUi();
   }
 
   serialize(): SerializedNode {

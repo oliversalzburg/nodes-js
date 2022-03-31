@@ -1,7 +1,6 @@
-import { Input } from "./Input";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
-import { SerializedNode, Workarea } from "./Workarea";
+import { SerializedNode } from "./Workarea";
 
 export class NodeNoop extends Node {
   constructor() {
@@ -11,10 +10,18 @@ export class NodeNoop extends Node {
     this.name = Node.makeName("Noop", this.nodeId);
   }
 
-  init(workarea: Workarea, initParameters?: SerializedNode) {
-    super.init(workarea, initParameters);
+  connectedCallback() {
+    super.connectedCallback();
 
-    this.addInput(initParameters?.inputs[0]);
+    this.addInput();
+  }
+
+  init(initParameters?: SerializedNode) {
+    super.init(initParameters);
+
+    this.inputs[0].init(initParameters?.inputs[0]);
+
+    this.updateUi();
   }
 
   serialize(): SerializedNode {

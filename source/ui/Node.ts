@@ -11,6 +11,7 @@ export abstract class Node extends HTMLElement {
   workarea: Workarea | null = null;
 
   name: string;
+  titleElement: HTMLTitleElement | null = null;
   x = 0;
   y = 0;
 
@@ -24,26 +25,28 @@ export abstract class Node extends HTMLElement {
     this.name = Node.makeName("Node", this.nodeId);
   }
 
-  init(workarea: Workarea, initParameters?: SerializedNode): void {
-    this.workarea = workarea;
-
-    this.nodeId = initParameters?.id ?? this.nodeId;
-    this.name = initParameters?.name ?? this.name;
-    this.x = initParameters?.x ?? this.x;
-    this.y = initParameters?.y ?? this.y;
+  connectedCallback() {
+    this.workarea = this.parentElement as Workarea;
 
     this.classList.add(styles.node);
 
-    const title = document.createElement("title");
-    title.classList.add(styles.title);
-    title.textContent = this.name;
-    this.appendChild(title);
+    this.titleElement = document.createElement("title");
+    this.titleElement.classList.add(styles.title);
+    this.titleElement.textContent = this.name;
+    this.appendChild(this.titleElement);
 
     const deleteButton = document.createElement("button");
     deleteButton.classList.add(styles.delete);
     deleteButton.textContent = "✖";
     deleteButton.addEventListener("click", () => mustExist(this.workarea).deleteNode(this));
     this.appendChild(deleteButton);
+  }
+
+  init(initParameters?: SerializedNode): void {
+    this.nodeId = initParameters?.id ?? this.nodeId;
+    this.name = initParameters?.name ?? this.name;
+    this.x = initParameters?.x ?? this.x;
+    this.y = initParameters?.y ?? this.y;
   }
 
   initConnectionFrom(columnSource: Output, event: MouseEvent) {
@@ -65,6 +68,8 @@ export abstract class Node extends HTMLElement {
   }
 
   updateUi(newPosition?: { left: number; top: number }) {
+    mustExist(this.titleElement).textContent = this.name;
+
     this.x = newPosition?.left ?? this.x;
     this.y = newPosition?.top ?? this.y;
 
@@ -78,15 +83,15 @@ export abstract class Node extends HTMLElement {
 
   protected addInput(initParameters?: SerializedConnection) {
     const input = document.createElement("dt-input") as Input;
-    input.init(this, initParameters);
     this.appendChild(input);
+    input.init(initParameters);
     this.inputs.push(input);
     return input;
   }
   protected addOutput(initParameters?: SerializedConnection) {
     const output = document.createElement("dt-output") as Output;
-    output.init(this, initParameters);
     this.appendChild(output);
+    output.init(initParameters);
     this.outputs.push(output);
     return output;
   }

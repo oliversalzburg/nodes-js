@@ -1,6 +1,6 @@
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
-import { SerializedNode, Workarea } from "./Workarea";
+import { SerializedNode } from "./Workarea";
 
 export class NodeAdd extends Node {
   constructor() {
@@ -10,16 +10,25 @@ export class NodeAdd extends Node {
     this.name = Node.makeName("Add", this.nodeId);
   }
 
-  init(workarea: Workarea, initParameters?: SerializedNode) {
-    super.init(workarea, initParameters);
+  connectedCallback(): void {
+    super.connectedCallback();
 
-    const first = this.addInput(initParameters?.inputs[0]);
+    const first = this.addInput();
     first.label = "A";
-    const second = this.addInput(initParameters?.inputs[1]);
+    const second = this.addInput();
     second.label = "B";
 
-    const sum = this.addOutput(initParameters?.outputs[0]);
+    const sum = this.addOutput();
     sum.label = "Sum";
+  }
+
+  init(initParameters?: SerializedNode) {
+    super.init(initParameters);
+
+    this.inputs[0].init(initParameters?.inputs[0]);
+    this.inputs[1].init(initParameters?.inputs[1]);
+
+    this.outputs[0].init(initParameters?.outputs[0]);
 
     this.updateUi();
   }

@@ -3,7 +3,6 @@ import { Connection } from "./Connection";
 import styles from "./Input.module.css";
 import { isNil } from "./Maybe";
 import { Node } from "./Node";
-import { SerializedConnection } from "./Workarea";
 
 export class Input extends Column {
   #connection?: Connection;
@@ -16,13 +15,11 @@ export class Input extends Column {
   }
 
   connectedCallback() {
-    this.addEventListener("mouseup", event => this.onMouseUp(event));
-  }
-
-  init(parent: Node, initParameters?: SerializedConnection) {
-    super.init(parent, initParameters);
+    super.connectedCallback();
 
     this.classList.add(styles.input);
+
+    this.addEventListener("mouseup", event => this.onMouseUp(event));
   }
 
   connect(connection: Connection) {

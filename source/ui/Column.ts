@@ -15,10 +15,8 @@ export class Column extends HTMLElement {
   value: unknown;
   valueElement?: HTMLSpanElement;
 
-  init(parent: Node, initParameters?: SerializedConnection) {
-    this.parent = parent;
-
-    this.columnId = initParameters?.id ?? this.columnId;
+  connectedCallback() {
+    this.parent = this.parentElement as Node;
 
     this.classList.add(styles.column);
 
@@ -30,6 +28,10 @@ export class Column extends HTMLElement {
     this.valueElement.classList.add(styles.value);
     this.valueElement.textContent = String(this.value);
     this.appendChild(this.valueElement);
+  }
+
+  init(initParameters?: SerializedConnection) {
+    this.columnId = initParameters?.id ?? this.columnId;
   }
 
   connect(connection: Connection) {

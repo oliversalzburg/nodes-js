@@ -150,7 +150,10 @@ export class Workarea extends HTMLElement {
     if (this.#scrollableContainer && event.button === 1) {
       this.#panning = true;
       this.#panInitMouse = [event.x, event.y];
-      this.#panInitWorkarea = [this.#scrollableContainer.scrollLeft, this.#scrollableContainer.scrollTop];
+      this.#panInitWorkarea = [
+        this.#scrollableContainer.scrollLeft,
+        this.#scrollableContainer.scrollTop,
+      ];
     }
   }
   onMouseMove(event: MouseEvent) {
@@ -232,8 +235,8 @@ export class Workarea extends HTMLElement {
   }
 
   #initNode(node: Node, initParameters?: SerializedNode) {
-    node.init(this, initParameters);
     this.appendChild(node);
+    node.init(initParameters);
     this.nodes.push(node);
     new PlainDraggable(node, {
       autoScroll: true,
