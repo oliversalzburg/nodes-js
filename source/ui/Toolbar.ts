@@ -1,4 +1,4 @@
-import { isNil, mustExist } from "./Maybe";
+import { isNil, mustExist } from "../Maybe";
 import styles from "./Toolbar.module.css";
 import { Workarea } from "./Workarea";
 

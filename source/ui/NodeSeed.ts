@@ -1,5 +1,5 @@
 import arbit, { ArbitGenerator } from "arbit";
-import { mustExist } from "./Maybe";
+import { mustExist } from "../Maybe";
 import { Node } from "./Node";
 import { Output } from "./Output";
 import { SerializedNode } from "./Workarea";

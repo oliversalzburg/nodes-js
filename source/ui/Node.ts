@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 import { Behavior } from "../behavior/Behavior";
+import { mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
-import { mustExist } from "./Maybe";
 import styles from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor";
 import { Output } from "./Output";

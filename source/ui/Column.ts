@@ -1,6 +1,6 @@
+import { mustExist } from "../Maybe";
 import styles from "./Column.module.css";
 import { Connection } from "./Connection";
-import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedInput, SerializedOutput } from "./Workarea";
 

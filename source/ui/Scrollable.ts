@@ -1,4 +1,4 @@
-import { mustExist } from "./Maybe";
+import { mustExist } from "../Maybe";
 import styles from "./Scrollable.module.css";
 import { Workarea } from "./Workarea";
 

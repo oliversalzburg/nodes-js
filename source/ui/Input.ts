@@ -1,7 +1,7 @@
+import { isNil } from "../Maybe";
 import { Column } from "./Column";
 import { Connection } from "./Connection";
 import styles from "./Input.module.css";
-import { isNil } from "./Maybe";
 import { Node } from "./Node";
 
 export class Input extends Column {

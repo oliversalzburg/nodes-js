@@ -1,5 +1,5 @@
 import { Behavior } from "../behavior/Behavior";
-import { mustExist } from "./Maybe";
+import { mustExist } from "../Maybe";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -25,7 +25,7 @@ export class NodeAdd extends Node {
     sum.label = "Sum";
 
     this.behavior = Behavior.fromExecutableNodeScript(
-      "this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);",
+      "output0 = Number(input0) + Number(input1);",
       this
     );
   }

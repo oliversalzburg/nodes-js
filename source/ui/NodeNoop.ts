@@ -1,4 +1,4 @@
-import { mustExist } from "./Maybe";
+import { mustExist } from "../Maybe";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 

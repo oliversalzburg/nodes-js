@@ -1,10 +1,10 @@
 import "leader-line";
 import PlainDraggable, { NewPosition } from "plain-draggable";
 import { Behavior } from "../behavior/Behavior";
+import { isNil, mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
-import { isNil, mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { NodeAdd } from "./NodeAdd";
 import { NodeEditor } from "./NodeEditor";
@@ -161,7 +161,7 @@ export class Workarea extends HTMLElement {
     const draggable = new PlainDraggable(editor, {
       autoScroll: true,
       handle: editor.getElementsByTagName("title")[0],
-      left: node.x + 150,
+      left: this.scrollLeft + node.x + 150,
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
         this.#beginSynchronizedDragOperation(node);
       },
