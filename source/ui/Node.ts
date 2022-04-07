@@ -19,12 +19,25 @@ export abstract class Node extends HTMLElement {
   y = 0;
   protected hasBehavior = false;
 
+  #selected = false;
+
   #titleElement: HTMLTitleElement | null = null;
   #editElement: HTMLButtonElement | null = null;
   #deleteElement: HTMLButtonElement | null = null;
 
   inputs = new Array<Input>();
   outputs = new Array<Output>();
+
+  get selected() {
+    return this.#selected;
+  }
+  set selected(value: boolean) {
+    if (value) {
+      this.select();
+    } else {
+      this.deselect();
+    }
+  }
 
   get titleElement(): HTMLTitleElement | null {
     return this.#titleElement;
@@ -62,9 +75,7 @@ export abstract class Node extends HTMLElement {
     this.titleElement = document.createElement("title");
     this.titleElement.classList.add(styles.title);
     this.titleElement.textContent = this.name;
-    this.titleElement.addEventListener("click", (event: MouseEvent | (TouchEvent & Touch)) =>
-      this.onSelect(event)
-    );
+    this.titleElement.addEventListener("click", (event: MouseEvent) => this.onClickTitle(event));
     this.appendChild(this.titleElement);
 
     if (this.hasBehavior) {
@@ -102,16 +113,34 @@ export abstract class Node extends HTMLElement {
     this.update();
     this.updateUi();
   }
-  onSelect(event: MouseEvent | TouchEvent) {
-    if (event.ctrlKey) {
-      this.classList.toggle(styles.selected);
+  onClickTitle(event: MouseEvent) {
+    if (!event.ctrlKey) {
+      return;
+    }
+
+    if (!this.#selected) {
+      this.select();
+    } else {
+      this.deselect();
     }
   }
-  select() {
+  select(event?: MouseEvent) {
+    if (this.#selected) {
+      return;
+    }
+
     this.classList.add(styles.selected);
+    this.#selected = true;
+    this.workarea?.onNodeSelect(this, event);
   }
-  deselect() {
+  deselect(event?: MouseEvent) {
+    if (!this.#selected) {
+      return;
+    }
+
     this.classList.remove(styles.selected);
+    this.#selected = false;
+    this.workarea?.onNodeDeselect(this, event);
   }
 
   update() {

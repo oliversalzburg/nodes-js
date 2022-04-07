@@ -5,7 +5,6 @@ import { Decoy } from "./Decoy";
 import { Input } from "./Input";
 import { isNil, mustExist } from "./Maybe";
 import { Node } from "./Node";
-import stylesNode from "./Node.module.css";
 import { NodeAdd } from "./NodeAdd";
 import { NodeEditor } from "./NodeEditor";
 import { NodeNoop } from "./NodeNoop";
@@ -66,7 +65,7 @@ export class Workarea extends HTMLElement {
   }
 
   get selectedNodes(): Iterable<Node> {
-    return this.getElementsByClassName(stylesNode.selected) as Iterable<Node>;
+    return this.nodes.filter(node => node.selected);
   }
 
   connectedCallback() {
@@ -77,6 +76,7 @@ export class Workarea extends HTMLElement {
     this.addEventListener("mousemove", event => this.onMouseMove(event));
     this.addEventListener("mouseup", event => this.onMouseUp(event));
 
+    document.addEventListener("keydown", event => this.onKeyDown(event));
     document.addEventListener("keyup", event => this.onKeyUp(event));
 
     console.debug("Workarea connected.");
@@ -252,7 +252,7 @@ export class Workarea extends HTMLElement {
 
     // When the workare itself was clicked, deslect selected nodes.
     if (event.target === this) {
-      for (const node of this.selectedNodes as Iterable<Node>) {
+      for (const node of [...this.selectedNodes]) {
         node.deselect();
       }
     }
@@ -286,6 +286,9 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  onKeyDown(event: KeyboardEvent) {
+    // intentionally left blank
+  }
   onKeyUp(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 49: {
@@ -330,6 +333,13 @@ export class Workarea extends HTMLElement {
       default:
         console.debug(event.keyCode);
     }
+  }
+
+  onNodeSelect(node: Node, event?: MouseEvent) {
+    // intentionally left blank
+  }
+  onNodeDeselect(node: Node, event?: MouseEvent) {
+    // intentionally left blank
   }
 
   registerScrollableContainer(scrollable: Scrollable) {
