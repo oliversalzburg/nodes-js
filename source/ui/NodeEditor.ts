@@ -25,6 +25,10 @@ export class NodeEditor extends Node {
     this.#textarea = document.createElement("textarea");
     this.#textarea.setAttribute("spellcheck", "false");
     this.appendChild(this.#textarea);
+
+    new ResizeObserver(() => {
+      this.workarea?.onNodeResize(this);
+    }).observe(this.#textarea);
   }
 
   editNodeBehavior(node: Node) {

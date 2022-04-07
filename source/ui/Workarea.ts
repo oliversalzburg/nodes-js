@@ -341,6 +341,11 @@ export class Workarea extends HTMLElement {
   onNodeDeselect(node: Node, event?: MouseEvent) {
     // intentionally left blank
   }
+  onNodeResize(node: Node) {
+    if (node instanceof NodeEditor) {
+      node.line?.position();
+    }
+  }
 
   registerScrollableContainer(scrollable: Scrollable) {
     this.#scrollableContainer = scrollable;
