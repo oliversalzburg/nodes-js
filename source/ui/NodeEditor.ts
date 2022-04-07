@@ -41,7 +41,7 @@ export class NodeEditor extends Node {
   editNodeBehavior(node: Node) {
     this.target = node;
     node.behaviorEditor = this;
-    mustExist(this.#textarea).value = node.behavior ?? "";
+    mustExist(this.#textarea).value = node.behavior?.toEditableScript() ?? "";
   }
 
   init(initParameters?: SerializedNode) {

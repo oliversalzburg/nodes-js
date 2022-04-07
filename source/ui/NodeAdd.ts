@@ -1,3 +1,4 @@
+import { Behavior } from "../behavior/Behavior";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
@@ -10,8 +11,6 @@ export class NodeAdd extends Node {
     this.name = Node.makeName("Add", this.nodeId);
 
     this.hasBehavior = true;
-    this.behavior =
-      "this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);";
   }
 
   connectedCallback(): void {
@@ -24,6 +23,11 @@ export class NodeAdd extends Node {
 
     const sum = this.addOutput();
     sum.label = "Sum";
+
+    this.behavior = Behavior.fromExecutableNodeScript(
+      "this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);",
+      this
+    );
   }
 
   init(initParameters?: SerializedNode) {

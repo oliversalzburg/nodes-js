@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { Behavior } from "../behavior/Behavior";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
 import { mustExist } from "./Maybe";
@@ -14,7 +15,7 @@ export abstract class Node extends HTMLElement {
   workarea: Workarea | null = null;
 
   behaviorEditor: NodeEditor | null = null;
-  behavior: string | null = null;
+  behavior: Behavior | null = null;
   behaviorCompiled: CompiledBehavior | null = null;
 
   name: string;
@@ -175,9 +176,35 @@ export abstract class Node extends HTMLElement {
       return;
     }
 
-    this.behaviorCompiled = new Function(this.behavior) as CompiledBehavior;
+    const script = this.behavior.toExecutableScript();
+    console.debug(script);
+    this.behaviorCompiled = new Function(script) as CompiledBehavior;
     this.update();
   }
+
+  /*
+  static annotateWithMetadata(behavior: string, node: Node) {
+    const metadata = Node.generateBehaviorMetadata(node);
+    return metadata + "\n\n" + behavior;
+  }
+  static generateBehaviorMetadata(node: Node) {
+    const meta = new Array<string>();
+
+    let inputIndex = 0;
+    for (const input of node.inputs) {
+      meta.push(`/// @input input${inputIndex++} ${input.label}`);
+    }
+    let outputIndex = 0;
+    for (const output of node.outputs) {
+      meta.push(`/// @output output${outputIndex++} ${output.label}`);
+    }
+
+    return meta.join("\n");
+  }
+  static stripBehaviorMetadata(behavior: string) {
+    return behavior.replace(/^\/\/\/ @input .+$/gm, "").replace(/^\/\/\/ @output .+$/gm, "");
+  }
+  */
 
   protected addInput(initParameters?: SerializedInput) {
     const input = document.createElement("dt-input") as Input;

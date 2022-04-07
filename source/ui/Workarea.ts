@@ -1,5 +1,6 @@
 import "leader-line";
 import PlainDraggable, { NewPosition } from "plain-draggable";
+import { Behavior } from "../behavior/Behavior";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
@@ -109,6 +110,11 @@ export class Workarea extends HTMLElement {
     for (const connection of this.connections) {
       connection.line.position();
     }
+    for (const node of this.nodes) {
+      if (node.behaviorEditor) {
+        node.behaviorEditor.line?.position();
+      }
+    }
   }
 
   connect(columnSource: Output, columnTarget: Input) {
@@ -176,7 +182,7 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    node.updateBehavior(node.behaviorEditor.behaviorSource);
+    node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
 
     node.behaviorEditor.line?.remove();
 

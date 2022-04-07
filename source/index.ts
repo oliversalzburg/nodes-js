@@ -1,3 +1,5 @@
+import "./behavior/Behavior";
+import "./behavior/BehaviorMetadata";
 import "./ui/Column";
 import "./ui/Connection";
 import "./ui/Decoy";
