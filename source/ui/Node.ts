@@ -32,6 +32,9 @@ export abstract class Node extends HTMLElement {
   inputs = new Array<Input>();
   outputs = new Array<Output>();
 
+  #inputSectionElement: HTMLDivElement | null = null;
+  #outputSectionElement: HTMLDivElement | null = null;
+
   get selected() {
     return this.#selected;
   }
@@ -95,8 +98,15 @@ export abstract class Node extends HTMLElement {
     this.deleteElement = document.createElement("button");
     this.deleteElement.classList.add(styles.delete);
     this.deleteElement.textContent = "✖";
-    this.deleteElement.addEventListener("click", () => mustExist(this.workarea).deleteNode(this));
+    this.deleteElement.addEventListener("click", (event: MouseEvent) => this.onClickDelete(event));
     this.appendChild(this.deleteElement);
+
+    this.#inputSectionElement = document.createElement("div");
+    this.#inputSectionElement.classList.add(styles.inputSection);
+    this.appendChild(this.#inputSectionElement);
+    this.#outputSectionElement = document.createElement("div");
+    this.#outputSectionElement.classList.add(styles.outputSection);
+    this.appendChild(this.#outputSectionElement);
   }
 
   init(initParameters?: SerializedNode): void {
@@ -127,6 +137,9 @@ export abstract class Node extends HTMLElement {
     } else {
       this.deselect();
     }
+  }
+  onClickDelete(event: MouseEvent) {
+    mustExist(this.workarea).deleteNode(this);
   }
   select(event?: MouseEvent) {
     if (this.#selected) {
@@ -185,14 +198,14 @@ export abstract class Node extends HTMLElement {
 
   protected addInput(initParameters?: SerializedInput) {
     const input = document.createElement("dt-input") as Input;
-    this.appendChild(input);
+    mustExist(this.#inputSectionElement).appendChild(input);
     input.init(initParameters);
     this.inputs.push(input);
     return input;
   }
   protected removeInput(input: Input) {
     const workarea = mustExist(this.workarea);
-    this.removeChild(input);
+    mustExist(this.#inputSectionElement).removeChild(input);
     if (input.output) {
       workarea.disconnect(input.output);
     }
@@ -200,14 +213,14 @@ export abstract class Node extends HTMLElement {
   }
   protected addOutput(initParameters?: SerializedOutput) {
     const output = document.createElement("dt-output") as Output;
-    this.appendChild(output);
+    mustExist(this.#outputSectionElement).appendChild(output);
     output.init(initParameters);
     this.outputs.push(output);
     return output;
   }
   protected removeOutput(output: Output) {
     const workarea = mustExist(this.workarea);
-    this.removeChild(output);
+    mustExist(this.#outputSectionElement).removeChild(output);
     for (const input of output.inputs) {
       workarea.disconnect(input);
     }

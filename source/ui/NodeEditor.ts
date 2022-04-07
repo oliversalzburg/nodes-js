@@ -44,6 +44,15 @@ export class NodeEditor extends Node {
     mustExist(this.#textarea).value = node.behavior?.toEditableScript() ?? "";
   }
 
+  onClickDelete(event: MouseEvent): void {
+    const shouldApply = window.confirm("Apply new behavior?");
+    if (shouldApply) {
+      this.workarea?.closeBehaviorEditor(mustExist(this.target));
+    } else {
+      super.onClickDelete(event);
+    }
+  }
+
   init(initParameters?: SerializedNode) {
     super.init(initParameters);
     this.updateUi();

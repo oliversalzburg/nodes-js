@@ -180,12 +180,10 @@ export class Workarea extends HTMLElement {
       size: 2,
     });
   }
-  closeBehaviorEditor(node: Node, event?: MouseEvent) {
+  cancelBehaviorEditor(node: Node, event?: MouseEvent) {
     if (!node.behaviorEditor) {
       return;
     }
-
-    node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
 
     node.behaviorEditor.line?.remove();
 
@@ -194,6 +192,15 @@ export class Workarea extends HTMLElement {
 
     node.behaviorEditor = null;
     node.updateUi();
+  }
+  closeBehaviorEditor(node: Node, event?: MouseEvent) {
+    if (!node.behaviorEditor) {
+      return;
+    }
+
+    node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
+
+    this.cancelBehaviorEditor(node, event);
   }
 
   #updateDecoy(event: MouseEvent) {
@@ -425,11 +432,11 @@ export class Workarea extends HTMLElement {
 
   deleteNode(node: Node) {
     if (node instanceof NodeEditor) {
-      this.closeBehaviorEditor(mustExist(node.target));
+      this.cancelBehaviorEditor(mustExist(node.target));
       return;
     }
     if (node.behaviorEditor) {
-      this.closeBehaviorEditor(node);
+      this.cancelBehaviorEditor(node);
     }
 
     this.disconnectNode(node);

@@ -17,8 +17,6 @@
   height: 20px;
   padding: 0 2px;
 
-  border-bottom: 1px solid #111;
-
   font-family: monospace;
   line-height: 20px;
 }
@@ -51,6 +49,11 @@
 
   font-family: monospace;
   line-height: 20px;
+}
+
+.node .inputSection,
+.node .outputSection {
+  border-top: 1px solid #111;
 }
 
 .node textarea {

@@ -15,7 +15,7 @@ export class Column extends HTMLElement {
   valueElement?: HTMLSpanElement;
 
   connectedCallback() {
-    this.parent = this.parentElement as Node;
+    this.parent = mustExist(this.parentElement).parentElement as Node;
 
     this.classList.add(styles.column);
 
