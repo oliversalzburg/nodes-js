@@ -141,6 +141,9 @@ export class Workarea extends HTMLElement {
     }
     for (const output of node.outputs) {
       for (const connection of output.inputs) {
+        if (!this.connections.has(connection)) {
+          continue;
+        }
         connection.disconnect();
         this.connections.delete(connection);
       }
