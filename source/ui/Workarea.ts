@@ -176,11 +176,12 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    node.behavior = node.behaviorEditor.behaviorSource;
+    node.updateBehavior(node.behaviorEditor.behaviorSource);
+
+    node.behaviorEditor.line?.remove();
 
     this.removeChild(node.behaviorEditor);
     this.#draggables.delete(node.behaviorEditor);
-    node.behaviorEditor.line?.remove();
 
     node.behaviorEditor = null;
   }
@@ -250,7 +251,7 @@ export class Workarea extends HTMLElement {
     // End panning operation.
     this.#panning = false;
 
-    // When the workare itself was clicked, deslect selected nodes.
+    // When the workare itself was clicked, deselect selected nodes.
     if (event.target === this) {
       for (const node of [...this.selectedNodes]) {
         node.deselect();
@@ -290,6 +291,7 @@ export class Workarea extends HTMLElement {
     // intentionally left blank
   }
   onKeyUp(event: KeyboardEvent) {
+    return;
     switch (event.keyCode) {
       case 49: {
         // 1

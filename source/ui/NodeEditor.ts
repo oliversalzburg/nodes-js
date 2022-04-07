@@ -4,6 +4,7 @@ import { SerializedNode } from "./Workarea";
 
 export class NodeEditor extends Node {
   #textarea: HTMLTextAreaElement | null = null;
+  #resizeObserver: ResizeObserver | null = null;
 
   target: Node | null = null;
   line: LeaderLine | null = null;
@@ -26,9 +27,15 @@ export class NodeEditor extends Node {
     this.#textarea.setAttribute("spellcheck", "false");
     this.appendChild(this.#textarea);
 
-    new ResizeObserver(() => {
+    this.#resizeObserver = new ResizeObserver(() => {
       this.workarea?.onNodeResize(this);
-    }).observe(this.#textarea);
+    });
+    this.#resizeObserver.observe(this.#textarea);
+  }
+
+  disconnectedCallback() {
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = null;
   }
 
   editNodeBehavior(node: Node) {

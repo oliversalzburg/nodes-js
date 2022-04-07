@@ -7,12 +7,15 @@ import { NodeEditor } from "./NodeEditor";
 import { Output } from "./Output";
 import { SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
 
+export type CompiledBehavior = () => void;
+
 export abstract class Node extends HTMLElement {
   nodeId: string;
   workarea: Workarea | null = null;
 
   behaviorEditor: NodeEditor | null = null;
   behavior: string | null = null;
+  behaviorCompiled: CompiledBehavior | null = null;
 
   name: string;
   x = 0;
@@ -148,7 +151,6 @@ export abstract class Node extends HTMLElement {
       input.update();
     }
   }
-
   updateUi(newPosition?: { left: number; top: number }) {
     mustExist(this.titleElement).textContent = this.name;
 
@@ -165,6 +167,16 @@ export abstract class Node extends HTMLElement {
     if (this.behaviorEditor) {
       this.behaviorEditor.updateUi();
     }
+  }
+  updateBehavior(behavior = this.behavior) {
+    this.behavior = behavior;
+    if (this.behavior === null) {
+      this.behaviorCompiled = null;
+      return;
+    }
+
+    this.behaviorCompiled = new Function(this.behavior) as CompiledBehavior;
+    this.update();
   }
 
   protected addInput(initParameters?: SerializedInput) {

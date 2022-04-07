@@ -8,6 +8,10 @@ export class NodeAdd extends Node {
 
     this.nodeId = Node.makeId("add");
     this.name = Node.makeName("Add", this.nodeId);
+
+    this.hasBehavior = true;
+    this.behavior =
+      "this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);";
   }
 
   connectedCallback(): void {
@@ -36,7 +40,11 @@ export class NodeAdd extends Node {
   update() {
     super.update();
 
-    this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);
+    if (this.behaviorCompiled) {
+      this.behaviorCompiled();
+    } else {
+      this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);
+    }
   }
 
   serialize(): SerializedNode {
