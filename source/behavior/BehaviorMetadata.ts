@@ -14,8 +14,13 @@ export const MatchInputMarkup = /^\/\/\/ @input (?<identifier>[^ ]+) "(?<label>[
 export const MatchOutputMarkup = /^\/\/\/ @output (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
 
 export class BehaviorMetadata {
-  inputs = new Array<InputMetadata>();
-  outputs = new Array<OutputMetadata>();
+  inputs: Array<InputMetadata>;
+  outputs: Array<OutputMetadata>;
+
+  constructor(inputs = new Array<InputMetadata>(), outputs = new Array<OutputMetadata>()) {
+    this.inputs = inputs;
+    this.outputs = outputs;
+  }
 
   serialize() {
     const meta = new Array<string>();
@@ -51,7 +56,7 @@ ${outputsWrite}
     `.trim();
   }
 
-  static generate(node: Node) {
+  static fromNode(node: Node) {
     const meta = new BehaviorMetadata();
 
     let inputIndex = 0;

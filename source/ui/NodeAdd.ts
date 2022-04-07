@@ -1,4 +1,5 @@
 import { Behavior } from "../behavior/Behavior";
+import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
@@ -24,9 +25,15 @@ export class NodeAdd extends Node {
     const sum = this.addOutput();
     sum.label = "Sum";
 
-    this.behavior = Behavior.fromExecutableNodeScript(
-      "output0 = Number(input0) + Number(input1);",
-      this
+    this.behavior = Behavior.fromExecutableScript(
+      "sum = Number(a) + Number(b);",
+      new BehaviorMetadata(
+        [
+          { identifier: "a", label: "A" },
+          { identifier: "b", label: "B" },
+        ],
+        [{ identifier: "sum", label: "Sum" }]
+      )
     );
   }
 

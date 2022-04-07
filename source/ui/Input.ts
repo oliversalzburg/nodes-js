@@ -36,7 +36,7 @@ export class Input extends Column {
       `${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`
     );
   }
-  disconnect(connection: Connection): void {
+  disconnect(connection?: Connection): void {
     super.disconnect(connection);
     this.output = undefined;
     this.value = undefined;

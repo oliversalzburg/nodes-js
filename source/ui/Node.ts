@@ -176,35 +176,12 @@ export abstract class Node extends HTMLElement {
       return;
     }
 
-    const script = this.behavior.toExecutableScript();
+    const script = this.behavior.toExecutableBehavior();
+    this.rebuildIoFromMetadata();
     console.debug(script);
     this.behaviorCompiled = new Function(script) as CompiledBehavior;
     this.update();
   }
-
-  /*
-  static annotateWithMetadata(behavior: string, node: Node) {
-    const metadata = Node.generateBehaviorMetadata(node);
-    return metadata + "\n\n" + behavior;
-  }
-  static generateBehaviorMetadata(node: Node) {
-    const meta = new Array<string>();
-
-    let inputIndex = 0;
-    for (const input of node.inputs) {
-      meta.push(`/// @input input${inputIndex++} ${input.label}`);
-    }
-    let outputIndex = 0;
-    for (const output of node.outputs) {
-      meta.push(`/// @output output${outputIndex++} ${output.label}`);
-    }
-
-    return meta.join("\n");
-  }
-  static stripBehaviorMetadata(behavior: string) {
-    return behavior.replace(/^\/\/\/ @input .+$/gm, "").replace(/^\/\/\/ @output .+$/gm, "");
-  }
-  */
 
   protected addInput(initParameters?: SerializedInput) {
     const input = document.createElement("dt-input") as Input;
@@ -213,12 +190,53 @@ export abstract class Node extends HTMLElement {
     this.inputs.push(input);
     return input;
   }
+  protected removeInput(input: Input) {
+    const workarea = mustExist(this.workarea);
+    this.removeChild(input);
+    if (input.output) {
+      workarea.disconnect(input.output);
+    }
+    this.inputs.splice(this.inputs.indexOf(input), 1);
+  }
   protected addOutput(initParameters?: SerializedOutput) {
     const output = document.createElement("dt-output") as Output;
     this.appendChild(output);
     output.init(initParameters);
     this.outputs.push(output);
     return output;
+  }
+  protected removeOutput(output: Output) {
+    const workarea = mustExist(this.workarea);
+    this.removeChild(output);
+    for (const input of output.inputs) {
+      workarea.disconnect(input);
+    }
+    this.outputs.splice(this.outputs.indexOf(output), 1);
+  }
+  protected rebuildIoFromMetadata() {
+    const behavior = mustExist(this.behavior);
+
+    const excessInputCount = this.inputs.length - behavior.metadata.inputs.length;
+    const excessInputs = this.inputs.splice(behavior.metadata.inputs.length, excessInputCount);
+    for (let inputIndex = 0; inputIndex < behavior.metadata.inputs.length; ++inputIndex) {
+      if (this.inputs.length <= inputIndex) {
+        this.addInput();
+      }
+      this.inputs[inputIndex].label = behavior.metadata.inputs[inputIndex].label;
+    }
+    excessInputs.forEach(input => this.removeInput(input));
+
+    const excessOutputCount = this.outputs.length - behavior.metadata.outputs.length;
+    const excessOutputs = this.outputs.splice(behavior.metadata.inputs.length, excessInputCount);
+    for (let outputIndex = 0; outputIndex < behavior.metadata.outputs.length; ++outputIndex) {
+      if (this.outputs.length <= outputIndex) {
+        this.addOutput();
+      }
+      this.outputs[outputIndex].label = behavior.metadata.outputs[outputIndex].label;
+    }
+    excessOutputs.forEach(output => this.removeOutput(output));
+
+    this.outputs.splice(behavior.metadata.outputs.length, excessOutputCount);
   }
 
   abstract serialize(): SerializedNode;

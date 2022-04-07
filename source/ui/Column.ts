@@ -37,7 +37,7 @@ export class Column extends HTMLElement {
     mustExist(this.parent).onConnect(connection);
     this.classList.add(styles.connected);
   }
-  disconnect(connection: Connection) {
+  disconnect(connection?: Connection) {
     this.classList.remove(styles.connected);
   }
 
