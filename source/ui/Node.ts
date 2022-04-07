@@ -11,7 +11,9 @@ export abstract class Node extends HTMLElement {
   workarea: Workarea | null = null;
 
   name: string;
-  titleElement: HTMLTitleElement | null = null;
+  protected titleElement: HTMLTitleElement | null = null;
+  protected editElement: HTMLButtonElement | null = null;
+  protected deleteElement: HTMLButtonElement | null = null;
   x = 0;
   y = 0;
 
@@ -38,11 +40,17 @@ export abstract class Node extends HTMLElement {
     );
     this.appendChild(this.titleElement);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add(styles.delete);
-    deleteButton.textContent = "✖";
-    deleteButton.addEventListener("click", () => mustExist(this.workarea).deleteNode(this));
-    this.appendChild(deleteButton);
+    this.editElement = document.createElement("button");
+    this.editElement.classList.add(styles.edit);
+    this.editElement.textContent = "⬤";
+    this.editElement.addEventListener("click", event => this.editNodeBehavior(event));
+    this.appendChild(this.editElement);
+
+    this.deleteElement = document.createElement("button");
+    this.deleteElement.classList.add(styles.delete);
+    this.deleteElement.textContent = "✖";
+    this.deleteElement.addEventListener("click", () => mustExist(this.workarea).deleteNode(this));
+    this.appendChild(this.deleteElement);
   }
 
   init(initParameters?: SerializedNode): void {
@@ -73,6 +81,10 @@ export abstract class Node extends HTMLElement {
   }
   deselect() {
     this.classList.remove(styles.selected);
+  }
+
+  async editNodeBehavior(event: MouseEvent) {
+    return;
   }
 
   update() {

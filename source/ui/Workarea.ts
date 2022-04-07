@@ -8,13 +8,14 @@ import { Node } from "./Node";
 import stylesNode from "./Node.module.css";
 import { NodeAdd } from "./NodeAdd";
 import { NodeNoop } from "./NodeNoop";
+import { NodeRow } from "./NodeRow";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
 import { Scrollable } from "./Scrollable";
 import { snapshot } from "./snapshot";
 import styles from "./Workarea.module.css";
 
-export type NodeTypes = "add" | "noop" | "seed";
+export type NodeTypes = "add" | "noop" | "row" | "seed";
 
 export type SerializedConnection = {
   id: string;
@@ -261,6 +262,12 @@ export class Workarea extends HTMLElement {
         break;
       }
 
+      case 52: {
+        // 4
+        this.createNode("row");
+        break;
+      }
+
       case 67:
         // x
         this.clear();
@@ -300,6 +307,12 @@ export class Workarea extends HTMLElement {
         break;
       }
 
+      case "row": {
+        node = document.createElement("dt-node-row", {}) as NodeRow;
+        this.#initNode(node, initParameters);
+        break;
+      }
+
       case "seed": {
         node = document.createElement("dt-node-seed", {}) as NodeSeed;
         this.#initNode(node, initParameters);
@@ -333,7 +346,7 @@ export class Workarea extends HTMLElement {
         this.#synchronizeDragOperation(node, newPosition);
         mustExist(node).updateUi(newPosition);
       },
-      top: initParameters?.y ?? this.scrollTop + this.offsetTop + 50,
+      top: this.offsetTop + (initParameters?.y ?? this.scrollTop + 50),
     });
     this.#draggables.set(node, draggable);
     this.storeSnapshot();
@@ -385,6 +398,7 @@ export class Workarea extends HTMLElement {
     const nodes = new Map<string, Node>();
     const inputs = new Map<string, Input>();
     const outputs = new Map<string, Output>();
+
     // Create nodes
     for (const node of workarea.nodes) {
       const createdNode = this.createNode(node.type, node);

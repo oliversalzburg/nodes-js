@@ -23,6 +23,21 @@
   line-height: 20px;
 }
 
+.node .edit {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+
+  border: none;
+  border-left: 1px solid #111;
+
+  font-family: monospace;
+  line-height: 20px;
+}
+
 .node .delete {
   display: inline-block;
   position: absolute;

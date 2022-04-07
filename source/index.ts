@@ -5,6 +5,7 @@ import "./ui/Input";
 import "./ui/Node";
 import "./ui/NodeAdd";
 import "./ui/NodeNoop";
+import "./ui/NodeRow";
 import "./ui/NodeSeed";
 import "./ui/Output";
 import "./ui/Scrollable";

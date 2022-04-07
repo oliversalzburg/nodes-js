@@ -19,6 +19,13 @@ export class Toolbar extends HTMLElement {
     }
     this.#workarea = mustExist(document.getElementById(forWorkarea)) as Workarea;
 
+    const addRowButton = document.createElement("button");
+    addRowButton.classList.add(styles.button);
+    addRowButton.textContent = "➕ Row";
+    addRowButton.title = "4";
+    addRowButton.addEventListener("click", () => mustExist(this.#workarea).createNode("row"));
+    this.appendChild(addRowButton);
+
     const addSeedButton = document.createElement("button");
     addSeedButton.classList.add(styles.button);
     addSeedButton.textContent = "➕ Seed";
