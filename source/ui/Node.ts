@@ -6,7 +6,7 @@ import { Input } from "./Input";
 import styles from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor";
 import { Output } from "./Output";
-import { SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
+import { NodeTypes, SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
 
 export type CompiledBehavior = () => void;
 
@@ -67,11 +67,11 @@ export abstract class Node extends HTMLElement {
     this.#deleteElement = value;
   }
 
-  constructor() {
+  constructor(typeIdentifier: NodeTypes, namePrefix: string) {
     super();
 
-    this.nodeId = Node.makeId("node");
-    this.name = Node.makeName("Node", this.nodeId);
+    this.nodeId = Node.makeId(typeIdentifier);
+    this.name = Node.makeName(namePrefix, this.nodeId);
   }
 
   connectedCallback() {
@@ -252,7 +252,23 @@ export abstract class Node extends HTMLElement {
     this.outputs.splice(behavior.metadata.outputs.length, excessOutputCount);
   }
 
-  abstract serialize(): SerializedNode;
+  serialize(): SerializedNode {
+    return {
+      type: "add",
+      id: mustExist(this.nodeId),
+      name: this.name,
+      x: this.x,
+      y: this.y,
+      inputs: this.inputs.map(input => ({
+        id: mustExist(input.columnId),
+        output: input.output ? mustExist(input.output.source.columnId) : null,
+      })),
+      outputs: this.outputs.map(output => ({
+        id: mustExist(output.columnId),
+        inputs: output.inputs.map(connection => mustExist(connection.target.columnId)),
+      })),
+    };
+  }
 
   static makeId(type: string) {
     return `${type}-${nanoid(6)}`;

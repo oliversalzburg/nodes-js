@@ -14,10 +14,7 @@ export class NodeEditor extends Node {
   }
 
   constructor() {
-    super();
-
-    this.nodeId = Node.makeId("editor");
-    this.name = Node.makeName("Editor", this.nodeId);
+    super("_editor", "Behavior Editor");
   }
 
   connectedCallback() {

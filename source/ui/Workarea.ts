@@ -16,7 +16,7 @@ import { Scrollable } from "./Scrollable";
 import { snapshot } from "./snapshot";
 import styles from "./Workarea.module.css";
 
-export type NodeTypes = "add" | "noop" | "row" | "seed";
+export type NodeTypes = "_editor" | "add" | "noop" | "row" | "seed";
 
 export type SerializedConnection = {
   id: string;
@@ -396,6 +396,9 @@ export class Workarea extends HTMLElement {
         this.#initNode(node, initParameters);
         break;
       }
+
+      case "_editor":
+        throw new Error("Behavior editors can not be created through this code path.");
     }
     return node;
   }

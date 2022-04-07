@@ -11,10 +11,7 @@ export class NodeSeed extends Node {
   #random: ArbitGenerator;
 
   constructor() {
-    super();
-
-    this.nodeId = Node.makeId("seed");
-    this.name = Node.makeName("Seed", this.nodeId);
+    super("seed", "Seed");
 
     this.#random = arbit(this.nodeId);
   }

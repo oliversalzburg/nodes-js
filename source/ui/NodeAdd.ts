@@ -6,24 +6,13 @@ import { SerializedNode } from "./Workarea";
 
 export class NodeAdd extends Node {
   constructor() {
-    super();
-
-    this.nodeId = Node.makeId("add");
-    this.name = Node.makeName("Add", this.nodeId);
+    super("add", "Add");
 
     this.hasBehavior = true;
   }
 
   connectedCallback(): void {
     super.connectedCallback();
-
-    const first = this.addInput();
-    first.label = "A";
-    const second = this.addInput();
-    second.label = "B";
-
-    const sum = this.addOutput();
-    sum.label = "Sum";
 
     this.behavior = Behavior.fromExecutableScript(
       "sum = Number(a) + Number(b);",
@@ -35,6 +24,8 @@ export class NodeAdd extends Node {
         [{ identifier: "sum", label: "Sum" }]
       )
     );
+
+    this.rebuildIoFromMetadata();
   }
 
   init(initParameters?: SerializedNode) {
