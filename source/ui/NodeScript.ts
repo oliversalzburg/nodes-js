@@ -3,9 +3,9 @@ import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
-export class NodeAdd extends Node {
+export class NodeScript extends Node {
   constructor() {
-    super("add", "Add");
+    super("script", "Script");
 
     this.hasBehavior = true;
   }
@@ -44,4 +44,4 @@ export class NodeAdd extends Node {
   }
 }
 
-customElements.define("dt-node-add", NodeAdd);
+customElements.define("dt-node-script", NodeScript);

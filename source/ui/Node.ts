@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
-import { BehaviorMetadata } from "source/behavior/BehaviorMetadata";
 import { Behavior } from "../behavior/Behavior";
+import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
@@ -92,9 +92,7 @@ export abstract class Node extends HTMLElement {
       this.editElement = document.createElement("button");
       this.editElement.classList.add(styles.edit);
       this.editElement.textContent = "⬤";
-      this.editElement.addEventListener("click", event =>
-        mustExist(this.workarea).editNodeBehavior(this, event)
-      );
+      this.editElement.addEventListener("click", event => this.onClickEdit(event));
       this.appendChild(this.editElement);
     }
 
@@ -178,7 +176,10 @@ export abstract class Node extends HTMLElement {
       this.deselect();
     }
   }
-  onClickDelete(event: MouseEvent) {
+  onClickEdit(event: MouseEvent) {
+    mustExist(this.workarea).editNodeBehavior(this, event);
+  }
+  onClickDelete(event?: MouseEvent) {
     mustExist(this.workarea).deleteNode(this);
   }
   select(event?: MouseEvent) {

@@ -41,13 +41,18 @@ export class NodeEditor extends Node {
     mustExist(this.#textarea).value = node.behavior?.toEditableScript() ?? "";
   }
 
-  onClickDelete(event: MouseEvent): void {
-    const shouldApply = window.confirm("Apply new behavior?");
-    if (shouldApply) {
-      this.workarea?.closeBehaviorEditor(mustExist(this.target));
-    } else {
-      super.onClickDelete(event);
+  onClickDelete(event?: MouseEvent): void {
+    // Check if the current script is different from what the behavior defines.
+    // TODO: This is kinda wasteful. Maybe do some caching?
+    if (this.behaviorSource !== this.target?.behavior?.toEditableScript()) {
+      const shouldApply = window.confirm("Apply new behavior?");
+      if (shouldApply) {
+        this.workarea?.closeBehaviorEditor(mustExist(this.target));
+        return;
+      }
     }
+
+    super.onClickDelete(event);
   }
 
   init(initParameters?: SerializedNode) {

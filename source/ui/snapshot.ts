@@ -37,9 +37,9 @@ export const snapshot = {
       ],
     },
     {
-      type: "add",
-      id: "add-rUMGRx",
-      name: "Add add-rUMGRx",
+      type: "script",
+      id: "script-rUMGRx",
+      name: "Script script-rUMGRx",
       x: 539,
       y: 276,
       inputs: [

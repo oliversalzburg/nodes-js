@@ -6,17 +6,17 @@ import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
 import { Node } from "./Node";
-import { NodeAdd } from "./NodeAdd";
 import { NodeEditor } from "./NodeEditor";
 import { NodeNoop } from "./NodeNoop";
 import { NodeRow } from "./NodeRow";
+import { NodeScript } from "./NodeScript";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
 import { Scrollable } from "./Scrollable";
 import { snapshot } from "./snapshot";
 import styles from "./Workarea.module.css";
 
-export type NodeTypes = "_editor" | "add" | "noop" | "row" | "seed";
+export type NodeTypes = "_editor" | "noop" | "row" | "script" | "seed";
 
 export type SerializedConnection = {
   id: string;
@@ -162,6 +162,11 @@ export class Workarea extends HTMLElement {
   }
 
   editNodeBehavior(node: Node, event?: MouseEvent) {
+    if (node.behaviorEditor) {
+      node.behaviorEditor.onClickDelete(event);
+      return;
+    }
+
     const editor = document.createElement("dt-node-editor") as NodeEditor;
     this.appendChild(editor);
     editor.init();
@@ -333,7 +338,7 @@ export class Workarea extends HTMLElement {
 
       case 51: {
         // 3
-        this.createNode("add");
+        this.createNode("script");
         break;
       }
 
@@ -382,8 +387,8 @@ export class Workarea extends HTMLElement {
   createNode(type: NodeTypes, initParameters?: SerializedNode) {
     let node: Node | null = null;
     switch (type) {
-      case "add": {
-        node = document.createElement("dt-node-add") as NodeAdd;
+      case "script": {
+        node = document.createElement("dt-node-script") as NodeScript;
         this.#initNode(node, initParameters);
         break;
       }
