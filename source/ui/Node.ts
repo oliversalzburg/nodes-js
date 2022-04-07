@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { BehaviorMetadata } from "source/behavior/BehaviorMetadata";
 import { Behavior } from "../behavior/Behavior";
 import { mustExist } from "../Maybe";
 import { Connection } from "./Connection";
@@ -11,6 +12,7 @@ import { NodeTypes, SerializedInput, SerializedNode, SerializedOutput, Workarea 
 export type CompiledBehavior = () => void;
 
 export abstract class Node extends HTMLElement {
+  typeIdentifier: NodeTypes;
   nodeId: string;
   workarea: Workarea | null = null;
 
@@ -70,6 +72,7 @@ export abstract class Node extends HTMLElement {
   constructor(typeIdentifier: NodeTypes, namePrefix: string) {
     super();
 
+    this.typeIdentifier = typeIdentifier;
     this.nodeId = Node.makeId(typeIdentifier);
     this.name = Node.makeName(namePrefix, this.nodeId);
   }
@@ -114,6 +117,43 @@ export abstract class Node extends HTMLElement {
     this.name = initParameters?.name ?? this.name;
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
+
+    if (initParameters) {
+      for (let inputIndex = 0; inputIndex < initParameters.inputs.length; ++inputIndex) {
+        this.inputs[inputIndex].init(initParameters.inputs[inputIndex]);
+      }
+      for (let outputIndex = 0; outputIndex < initParameters.outputs.length; ++outputIndex) {
+        this.outputs[outputIndex].init(initParameters.outputs[outputIndex]);
+      }
+    }
+
+    if (initParameters?.behavior) {
+      for (
+        let inputIndex = 0;
+        inputIndex < initParameters.behavior.metadata.inputs.length;
+        ++inputIndex
+      ) {
+        this.inputs[inputIndex].label = mustExist(
+          initParameters?.behavior?.metadata.inputs[inputIndex].label
+        );
+      }
+      for (
+        let outputIndex = 0;
+        outputIndex < initParameters.behavior.metadata.outputs.length;
+        ++outputIndex
+      ) {
+        this.outputs[outputIndex].label = mustExist(
+          initParameters?.behavior?.metadata.outputs[outputIndex].label
+        );
+      }
+      this.behavior = Behavior.fromCodeFragment(
+        initParameters.behavior.script,
+        new BehaviorMetadata(
+          initParameters.behavior.metadata.inputs,
+          initParameters.behavior.metadata.outputs
+        )
+      );
+    }
   }
 
   initConnectionFrom(columnSource: Output, event: MouseEvent) {
@@ -160,7 +200,7 @@ export abstract class Node extends HTMLElement {
     this.workarea?.onNodeDeselect(this, event);
   }
 
-  update() {
+  async update() {
     for (const input of this.inputs) {
       input.update();
     }
@@ -253,8 +293,8 @@ export abstract class Node extends HTMLElement {
   }
 
   serialize(): SerializedNode {
-    return {
-      type: "add",
+    const serialized: SerializedNode = {
+      type: this.typeIdentifier,
       id: mustExist(this.nodeId),
       name: this.name,
       x: this.x,
@@ -268,6 +308,18 @@ export abstract class Node extends HTMLElement {
         inputs: output.inputs.map(connection => mustExist(connection.target.columnId)),
       })),
     };
+
+    if (this.behavior) {
+      serialized.behavior = {
+        metadata: {
+          inputs: this.behavior.metadata.inputs,
+          outputs: this.behavior.metadata.outputs,
+        },
+        script: this.behavior.toCodeFragment(),
+      };
+    }
+
+    return serialized;
   }
 
   static makeId(type: string) {

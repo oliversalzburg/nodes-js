@@ -21,7 +21,7 @@ export class Behavior {
   toEditableScript() {
     return this.#metadata.serialize() + "\n\n" + this.#script;
   }
-  toExecutableScript() {
+  toCodeFragment() {
     return this.#script;
   }
 
@@ -30,10 +30,10 @@ export class Behavior {
     const script = Behavior.stripMetadataFromEditable(editable);
     return new Behavior(script, metadata);
   }
-  static fromExecutableScript(executable: string, metadata?: BehaviorMetadata) {
+  static fromCodeFragment(executable: string, metadata?: BehaviorMetadata) {
     return new Behavior(executable, metadata);
   }
-  static fromExecutableNodeScript(executable: string, node: Node) {
+  static fromCodeFragmentForNode(executable: string, node: Node) {
     return new Behavior(executable, BehaviorMetadata.fromNode(node));
   }
 

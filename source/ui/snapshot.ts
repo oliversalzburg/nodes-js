@@ -58,6 +58,27 @@ export const snapshot = {
           inputs: [],
         },
       ],
+      behavior: {
+        metadata: {
+          inputs: [
+            {
+              identifier: "a",
+              label: "A",
+            },
+            {
+              identifier: "b",
+              label: "B",
+            },
+          ],
+          outputs: [
+            {
+              identifier: "sum",
+              label: "Sum",
+            },
+          ],
+        },
+        script: "sum = Number(a) + Number(b);",
+      },
     },
   ],
 };

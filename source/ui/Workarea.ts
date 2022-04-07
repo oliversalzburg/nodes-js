@@ -33,6 +33,14 @@ export type SerializedOutput = {
   inputs: Array<string>;
 };
 
+export type SerializedBehavior = {
+  metadata: {
+    inputs: Array<{ identifier: string; label: string }>;
+    outputs: Array<{ identifier: string; label: string }>;
+  };
+  script: string;
+};
+
 export type SerializedNode = {
   type: NodeTypes;
   id: string;
@@ -41,6 +49,7 @@ export type SerializedNode = {
   y: number;
   inputs: Array<SerializedInput>;
   outputs: Array<SerializedOutput>;
+  behavior?: SerializedBehavior;
 };
 
 export type SerializedWorkarea = {
