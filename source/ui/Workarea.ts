@@ -7,6 +7,7 @@ import { isNil, mustExist } from "./Maybe";
 import { Node } from "./Node";
 import stylesNode from "./Node.module.css";
 import { NodeAdd } from "./NodeAdd";
+import { NodeEditor } from "./NodeEditor";
 import { NodeNoop } from "./NodeNoop";
 import { NodeRow } from "./NodeRow";
 import { NodeSeed } from "./NodeSeed";
@@ -138,7 +139,49 @@ export class Workarea extends HTMLElement {
         this.connections.delete(connection);
       }
     }
+
     this.storeSnapshot();
+  }
+
+  editNodeBehavior(node: Node, event?: MouseEvent) {
+    const editor = document.createElement("dt-node-editor") as NodeEditor;
+    this.appendChild(editor);
+    editor.init();
+    editor.target = node;
+    node.behaviorEditor = editor;
+
+    const draggable = new PlainDraggable(editor, {
+      autoScroll: true,
+      handle: editor.getElementsByTagName("title")[0],
+      left: node.x + 150,
+      onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
+        this.#beginSynchronizedDragOperation(node);
+      },
+      onMove: newPosition => {
+        this.#synchronizeDragOperation(node, newPosition);
+        editor.updateUi(newPosition);
+      },
+      top: node.y - 150,
+    });
+    this.#draggables.set(editor, draggable);
+
+    editor.line = new LeaderLine(editor, mustExist(node.editElement), {
+      color: "#333",
+      dash: true,
+      endSocket: "top",
+      size: 2,
+    });
+  }
+  closeBehaviorEditor(node: Node, event?: MouseEvent) {
+    if (!node.behaviorEditor) {
+      return;
+    }
+
+    this.removeChild(node.behaviorEditor);
+    this.#draggables.delete(node.behaviorEditor);
+    node.behaviorEditor.line?.remove();
+
+    node.behaviorEditor = null;
   }
 
   #updateDecoy(event: MouseEvent) {
@@ -308,13 +351,13 @@ export class Workarea extends HTMLElement {
       }
 
       case "row": {
-        node = document.createElement("dt-node-row", {}) as NodeRow;
+        node = document.createElement("dt-node-row") as NodeRow;
         this.#initNode(node, initParameters);
         break;
       }
 
       case "seed": {
-        node = document.createElement("dt-node-seed", {}) as NodeSeed;
+        node = document.createElement("dt-node-seed") as NodeSeed;
         this.#initNode(node, initParameters);
         break;
       }
@@ -353,6 +396,14 @@ export class Workarea extends HTMLElement {
   }
 
   deleteNode(node: Node) {
+    if (node instanceof NodeEditor) {
+      this.closeBehaviorEditor(mustExist(node.target));
+      return;
+    }
+    if (node.behaviorEditor) {
+      this.closeBehaviorEditor(node);
+    }
+
     this.disconnectNode(node);
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);

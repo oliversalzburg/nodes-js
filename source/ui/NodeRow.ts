@@ -1,23 +1,23 @@
-import arbit, { ArbitGenerator } from "arbit";
 import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { Output } from "./Output";
 import { SerializedNode } from "./Workarea";
 
 export class NodeRow extends Node {
-  #outputIntElements= new Array<Output>();
+  #outputIntElements = new Array<Output>();
 
   constructor() {
     super();
 
     this.nodeId = Node.makeId("row");
     this.name = Node.makeName("Row", this.nodeId);
+    this.hasBehavior = true;
   }
 
   connectedCallback() {
     super.connectedCallback();
 
-    for(let elementIndex = 0;elementIndex<5; ++elementIndex){
+    for (let elementIndex = 0; elementIndex < 5; ++elementIndex) {
       const element = this.addOutput();
       element.label = `Int #${elementIndex}`;
       element.value = elementIndex;
@@ -39,7 +39,7 @@ export class NodeRow extends Node {
 
   serialize(): SerializedNode {
     return {
-      type: "seed",
+      type: "row",
       id: mustExist(this.nodeId),
       name: this.name,
       x: this.x,

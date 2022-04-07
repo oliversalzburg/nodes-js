@@ -3,22 +3,47 @@ import { Connection } from "./Connection";
 import { Input } from "./Input";
 import { mustExist } from "./Maybe";
 import styles from "./Node.module.css";
+import { NodeEditor } from "./NodeEditor";
 import { Output } from "./Output";
 import { SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
 
 export abstract class Node extends HTMLElement {
   nodeId: string;
   workarea: Workarea | null = null;
+  behaviorEditor: NodeEditor | null = null;
 
   name: string;
-  protected titleElement: HTMLTitleElement | null = null;
-  protected editElement: HTMLButtonElement | null = null;
-  protected deleteElement: HTMLButtonElement | null = null;
   x = 0;
   y = 0;
+  protected hasBehavior = false;
+
+  #titleElement: HTMLTitleElement | null = null;
+  #editElement: HTMLButtonElement | null = null;
+  #deleteElement: HTMLButtonElement | null = null;
 
   inputs = new Array<Input>();
   outputs = new Array<Output>();
+
+  get titleElement(): HTMLTitleElement | null {
+    return this.#titleElement;
+  }
+  protected set titleElement(value: HTMLTitleElement | null) {
+    this.#titleElement = value;
+  }
+
+  get editElement(): HTMLButtonElement | null {
+    return this.#editElement;
+  }
+  protected set editElement(value: HTMLButtonElement | null) {
+    this.#editElement = value;
+  }
+
+  get deleteElement(): HTMLButtonElement | null {
+    return this.#deleteElement;
+  }
+  protected set deleteElement(value: HTMLButtonElement | null) {
+    this.#deleteElement = value;
+  }
 
   constructor() {
     super();
@@ -40,11 +65,15 @@ export abstract class Node extends HTMLElement {
     );
     this.appendChild(this.titleElement);
 
-    this.editElement = document.createElement("button");
-    this.editElement.classList.add(styles.edit);
-    this.editElement.textContent = "⬤";
-    this.editElement.addEventListener("click", event => this.editNodeBehavior(event));
-    this.appendChild(this.editElement);
+    if (this.hasBehavior) {
+      this.editElement = document.createElement("button");
+      this.editElement.classList.add(styles.edit);
+      this.editElement.textContent = "⬤";
+      this.editElement.addEventListener("click", event =>
+        mustExist(this.workarea).editNodeBehavior(this, event)
+      );
+      this.appendChild(this.editElement);
+    }
 
     this.deleteElement = document.createElement("button");
     this.deleteElement.classList.add(styles.delete);
@@ -83,10 +112,6 @@ export abstract class Node extends HTMLElement {
     this.classList.remove(styles.selected);
   }
 
-  async editNodeBehavior(event: MouseEvent) {
-    return;
-  }
-
   update() {
     for (const input of this.inputs) {
       input.update();
@@ -104,6 +129,10 @@ export abstract class Node extends HTMLElement {
     }
     for (const output of this.outputs) {
       output.updateUi();
+    }
+
+    if (this.behaviorEditor) {
+      this.behaviorEditor.updateUi();
     }
   }
 

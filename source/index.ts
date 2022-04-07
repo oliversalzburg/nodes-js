@@ -4,6 +4,7 @@ import "./ui/Decoy";
 import "./ui/Input";
 import "./ui/Node";
 import "./ui/NodeAdd";
+import "./ui/NodeEditor";
 import "./ui/NodeNoop";
 import "./ui/NodeRow";
 import "./ui/NodeSeed";
