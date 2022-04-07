@@ -10,7 +10,9 @@ import { SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./W
 export abstract class Node extends HTMLElement {
   nodeId: string;
   workarea: Workarea | null = null;
+
   behaviorEditor: NodeEditor | null = null;
+  behavior: string | null = null;
 
   name: string;
   x = 0;

@@ -1,9 +1,16 @@
+import { mustExist } from "./Maybe";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
 export class NodeEditor extends Node {
+  #textarea: HTMLTextAreaElement | null = null;
+
   target: Node | null = null;
   line: LeaderLine | null = null;
+
+  get behaviorSource(): string {
+    return this.#textarea?.value ?? "";
+  }
 
   constructor() {
     super();
@@ -15,8 +22,15 @@ export class NodeEditor extends Node {
   connectedCallback() {
     super.connectedCallback();
 
-    const textarea = document.createElement("textarea");
-    this.appendChild(textarea);
+    this.#textarea = document.createElement("textarea");
+    this.#textarea.setAttribute("spellcheck", "false");
+    this.appendChild(this.#textarea);
+  }
+
+  editNodeBehavior(node: Node) {
+    this.target = node;
+    node.behaviorEditor = this;
+    mustExist(this.#textarea).value = node.behavior ?? "";
   }
 
   init(initParameters?: SerializedNode) {

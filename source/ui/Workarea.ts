@@ -147,8 +147,7 @@ export class Workarea extends HTMLElement {
     const editor = document.createElement("dt-node-editor") as NodeEditor;
     this.appendChild(editor);
     editor.init();
-    editor.target = node;
-    node.behaviorEditor = editor;
+    editor.editNodeBehavior(node);
 
     const draggable = new PlainDraggable(editor, {
       autoScroll: true,
@@ -176,6 +175,8 @@ export class Workarea extends HTMLElement {
     if (!node.behaviorEditor) {
       return;
     }
+
+    node.behavior = node.behaviorEditor.behaviorSource;
 
     this.removeChild(node.behaviorEditor);
     this.#draggables.delete(node.behaviorEditor);
