@@ -55,7 +55,7 @@ export class Toolbar extends HTMLElement {
     deleteButton.classList.add(styles.button);
     deleteButton.textContent = "✖ Delete";
     deleteButton.title = "D";
-    deleteButton.addEventListener("click", () => mustExist(this.#workarea).deleteNodes());
+    deleteButton.addEventListener("click", () => mustExist(this.#workarea).deleteSelectedNodes());
     this.appendChild(deleteButton);
 
     const clearButton = document.createElement("button");
@@ -78,7 +78,7 @@ export class Toolbar extends HTMLElement {
 
     const restoreButton = document.createElement("button");
     restoreButton.classList.add(styles.button);
-    restoreButton.textContent = "🔃 Restore";
+    restoreButton.textContent = "🔃 Restore snapshot";
     restoreButton.title = "R";
     restoreButton.addEventListener("click", () => mustExist(this.#workarea).restoreSnapshot());
     this.appendChild(restoreButton);

@@ -138,7 +138,7 @@ export class Workarea extends HTMLElement {
     connection.disconnect();
     connection.target.parent?.updateUi();
   }
-  disconnectNode(node: Node) {
+  disconnectNode(node: Node, updateSnapshot = true) {
     for (const input of node.inputs) {
       if (input.output) {
         if (!this.connections.has(input.output)) {
@@ -158,7 +158,9 @@ export class Workarea extends HTMLElement {
       }
     }
 
-    this.storeSnapshot();
+    if (updateSnapshot) {
+      this.storeSnapshot();
+    }
   }
 
   editNodeBehavior(node: Node, event?: MouseEvent) {
@@ -447,7 +449,7 @@ export class Workarea extends HTMLElement {
     this.storeSnapshot();
   }
 
-  deleteNode(node: Node) {
+  deleteNode(node: Node, updateSnapshot = true) {
     if (node instanceof NodeEditor) {
       this.cancelBehaviorEditor(mustExist(node.target));
       return;
@@ -456,14 +458,17 @@ export class Workarea extends HTMLElement {
       this.cancelBehaviorEditor(node);
     }
 
-    this.disconnectNode(node);
+    this.disconnectNode(node, updateSnapshot);
     this.nodes.splice(this.nodes.indexOf(node), 1);
     this.removeChild(node);
     this.#draggables.delete(node);
-    this.storeSnapshot();
+
+    if (updateSnapshot) {
+      this.storeSnapshot();
+    }
   }
 
-  deleteNodes() {
+  deleteSelectedNodes() {
     for (const node of [...this.selectedNodes]) {
       this.deleteNode(node);
     }
@@ -471,7 +476,7 @@ export class Workarea extends HTMLElement {
 
   clear() {
     for (const node of [...this.nodes]) {
-      this.deleteNode(node);
+      this.deleteNode(node, false);
     }
   }
 
@@ -480,6 +485,7 @@ export class Workarea extends HTMLElement {
   }
   storeSnapshot() {
     const snapshot = this.serialize();
+    console.dir(snapshot);
     localStorage.setItem("snapshot", JSON.stringify(snapshot));
     console.debug("Snapshot updated.");
   }
