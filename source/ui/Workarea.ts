@@ -184,6 +184,7 @@ export class Workarea extends HTMLElement {
     this.#draggables.delete(node.behaviorEditor);
 
     node.behaviorEditor = null;
+    node.updateUi();
   }
 
   #updateDecoy(event: MouseEvent) {
