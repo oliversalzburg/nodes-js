@@ -122,6 +122,16 @@ export abstract class Node extends HTMLElement {
     this.y = initParameters?.y ?? this.y;
 
     if (initParameters?.behavior) {
+      this.updateBehavior(
+        Behavior.fromCodeFragment(
+          initParameters.behavior.script,
+          new BehaviorMetadata(
+            this.name,
+            initParameters.behavior.metadata.inputs,
+            initParameters.behavior.metadata.outputs
+          )
+        )
+      );
       for (
         let inputIndex = 0;
         inputIndex < initParameters.behavior.metadata.inputs.length;
@@ -140,16 +150,6 @@ export abstract class Node extends HTMLElement {
           initParameters?.behavior?.metadata.outputs[outputIndex].label
         );
       }
-      this.updateBehavior(
-        Behavior.fromCodeFragment(
-          initParameters.behavior.script,
-          new BehaviorMetadata(
-            this.name,
-            initParameters.behavior.metadata.inputs,
-            initParameters.behavior.metadata.outputs
-          )
-        )
-      );
     }
 
     if (initParameters) {
