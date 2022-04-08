@@ -26,7 +26,6 @@ export class Input extends Column {
     super.disconnect(connection);
     this.output = void 0;
     this.value = void 0;
-    this.parent?.update();
   }
   update() {
     if (isNil(this.output)) {
