@@ -300,7 +300,7 @@ export abstract class Node extends HTMLElement {
     excessInputs.forEach(input => this.removeInput(input));
 
     const excessOutputCount = this.outputs.length - behavior.metadata.outputs.length;
-    const excessOutputs = this.outputs.splice(behavior.metadata.inputs.length, excessInputCount);
+    const excessOutputs = this.outputs.splice(behavior.metadata.inputs.length, excessOutputCount);
     for (let outputIndex = 0; outputIndex < behavior.metadata.outputs.length; ++outputIndex) {
       if (this.outputs.length <= outputIndex) {
         this.addOutput();
