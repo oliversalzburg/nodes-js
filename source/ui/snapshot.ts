@@ -1,11 +1,15 @@
 export const snapshot = {
+  stage: {
+    x: 2845,
+    y: 2396,
+  },
   nodes: [
     {
       type: "seed",
       id: "seed-QNK9dZ",
       name: "Seed seed-QNK9dZ",
-      x: 0,
-      y: 0,
+      x: 3000,
+      y: 3000,
       inputs: [],
       outputs: [
         {
@@ -22,8 +26,8 @@ export const snapshot = {
       type: "seed",
       id: "seed-vgGwv5",
       name: "Seed seed-vgGwv5",
-      x: 65,
-      y: 424,
+      x: 3065,
+      y: 3424,
       inputs: [],
       outputs: [
         {
@@ -40,8 +44,8 @@ export const snapshot = {
       type: "script",
       id: "script-rUMGRx",
       name: "Script script-rUMGRx",
-      x: 539,
-      y: 276,
+      x: 3539,
+      y: 3276,
       inputs: [
         {
           id: "input-gUjyDm",

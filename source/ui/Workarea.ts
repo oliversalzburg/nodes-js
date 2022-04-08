@@ -54,6 +54,7 @@ export type SerializedNode = {
 };
 
 export type SerializedWorkarea = {
+  stage?: { x: number; y: number };
   nodes: Array<SerializedNode>;
 };
 
@@ -588,10 +589,19 @@ export class Workarea extends HTMLElement {
         input.updateUi();
       }
     }
+
+    if (!isNil(workarea.stage) && !isNil(this.#scrollableContainer)) {
+      this.#scrollableContainer.scroll(workarea.stage.x, workarea.stage.y);
+    }
   }
 
   serialize(): SerializedWorkarea {
-    return { nodes: this.nodes.map(node => node.serialize()) };
+    return {
+      stage: this.#scrollableContainer
+        ? { x: this.#scrollableContainer.scrollLeft, y: this.#scrollableContainer.scrollTop }
+        : undefined,
+      nodes: this.nodes.map(node => node.serialize()),
+    };
   }
 }
 
