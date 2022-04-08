@@ -10,7 +10,7 @@ declare module "plain-draggable" {
     left: number;
     onDrag: (event: NewPosition) => boolean | void;
     onDragEnd: (event: NewPosition) => void;
-    onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => boolean | void;
+    onDragStart: (event: PointerEvent) => boolean | void;
     onMove: (event: NewPosition) => void;
     top: number;
   };

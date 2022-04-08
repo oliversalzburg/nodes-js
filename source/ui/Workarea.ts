@@ -175,10 +175,18 @@ export class Workarea extends HTMLElement {
     editor.init();
     editor.editNodeBehavior(node);
 
+    const position = Locator.forWorkarea(
+      this,
+      this.#scrollableContainer ?? undefined
+    ).absoluteToDraggable({
+      x: node.x + 250,
+      y: node.y - 250,
+    });
+
     const draggable = new PlainDraggable(editor, {
       autoScroll: true,
       handle: editor.getElementsByTagName("title")[0],
-      left: this.scrollLeft + node.x + 150,
+      left: position.x,
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
         this.#beginSynchronizedDragOperation(node);
       },
@@ -186,13 +194,13 @@ export class Workarea extends HTMLElement {
         this.#synchronizeDragOperation(node, newPosition);
         editor.updateUi();
       },
-      top: node.y - 150,
+      top: position.y,
     });
     this.#draggables.set(editor, draggable);
 
     editor.line = new LeaderLine(editor, mustExist(node.editElement), {
       color: "#333",
-      dash: true,
+      dash: { animation: true },
       endSocket: "top",
       size: 2,
     });
@@ -437,15 +445,15 @@ export class Workarea extends HTMLElement {
         };
 
     let position;
-    if (initParameters?.x && initParameters?.y) {
+    if (!isNil(initParameters) && !isNil(initParameters.x) && !isNil(initParameters.y)) {
       position = Locator.forWorkarea(
         this,
         this.#scrollableContainer ?? undefined
       ).absoluteToDraggable(initParameters);
     } else {
       position = {
-        x: this.scrollLeft + this.offsetLeft + containerBounds.height / 2 - node.clientHeight / 2,
-        y: this.scrollTop + this.offsetTop + containerBounds.width / 2 - node.clientWidth / 2,
+        x: this.offsetLeft + containerBounds.width / 2 - node.clientWidth / 2,
+        y: this.offsetTop + containerBounds.height / 2 - node.clientHeight / 2,
       };
     }
 

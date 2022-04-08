@@ -244,7 +244,6 @@ export abstract class Node extends HTMLElement {
 
     const script = this.behavior.toExecutableBehavior();
     this.rebuildIoFromMetadata();
-    console.debug(script);
     this.behaviorCompiled = new Function(script).bind(this) as CompiledBehavior;
     this.update();
   }

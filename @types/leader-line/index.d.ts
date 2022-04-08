@@ -2,7 +2,9 @@ declare module "leader-line";
 
 declare class LeaderLine implements LeaderLine.Options {
   constructor(
-    options: LeaderLine.StartEndOptions & Partial<LeaderLine.Options> & Partial<LeaderLine.ConstructorOnlyOptions>
+    options: LeaderLine.StartEndOptions &
+      Partial<LeaderLine.Options> &
+      Partial<LeaderLine.ConstructorOnlyOptions>
   );
   constructor(
     start: Element | LeaderLine.Attachment,
@@ -10,11 +12,17 @@ declare class LeaderLine implements LeaderLine.Options {
     options?: Partial<LeaderLine.Options> & Partial<LeaderLine.ConstructorOnlyOptions>
   );
 
-  hide(showEffectName?: LeaderLine.ShowHideEffect, animOptions?: Partial<LeaderLine.AnimationOptions>): void;
+  hide(
+    showEffectName?: LeaderLine.ShowHideEffect,
+    animOptions?: Partial<LeaderLine.AnimationOptions>
+  ): void;
   position(): void;
   remove(): void;
   setOptions(options: LeaderLine.Options): void;
-  show(showEffectName?: LeaderLine.ShowHideEffect, animOptions?: Partial<LeaderLine.AnimationOptions>): void;
+  show(
+    showEffectName?: LeaderLine.ShowHideEffect,
+    animOptions?: Partial<LeaderLine.AnimationOptions>
+  ): void;
 
   end: Element | LeaderLine.Attachment;
   start: Element | LeaderLine.Attachment;
@@ -73,7 +81,7 @@ declare namespace LeaderLine {
 
   type Options = {
     color: string;
-    dash: boolean | { animation: boolean; gap: number | "auto"; len: number | "auto" };
+    dash: boolean | Partial<{ animation: boolean; gap: number | "auto"; len: number | "auto" }>;
     dropShadow: boolean | { blur: number; color: string; dx: number; dy: number; opacity: number };
     endLabel: string | Attachment;
     endPlug: Plug;
