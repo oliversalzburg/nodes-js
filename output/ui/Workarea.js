@@ -224,7 +224,9 @@ export class Workarea extends HTMLElement {
   onKeyDown(event) {
   }
   onKeyUp(event) {
-    return;
+    if (event.target !== document.body) {
+      return;
+    }
     switch (event.keyCode) {
       case 49: {
         this.createNode("seed");
