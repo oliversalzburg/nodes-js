@@ -348,7 +348,10 @@ export class Workarea extends HTMLElement {
     // intentionally left blank
   }
   onKeyUp(event: KeyboardEvent) {
-    return;
+    if (event.target !== document.body) {
+      return;
+    }
+
     switch (event.keyCode) {
       case 49: {
         // 1
