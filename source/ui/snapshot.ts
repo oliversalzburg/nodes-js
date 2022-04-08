@@ -7,7 +7,7 @@ export const snapshot = {
     {
       type: "seed",
       id: "seed-QNK9dZ",
-      name: "Seed seed-QNK9dZ",
+      name: "Seed",
       x: 3000,
       y: 3000,
       inputs: [],
@@ -25,7 +25,7 @@ export const snapshot = {
     {
       type: "seed",
       id: "seed-vgGwv5",
-      name: "Seed seed-vgGwv5",
+      name: "Seed",
       x: 3065,
       y: 3424,
       inputs: [],
@@ -43,7 +43,7 @@ export const snapshot = {
     {
       type: "script",
       id: "script-rUMGRx",
-      name: "Script script-rUMGRx",
+      name: "Script",
       x: 3539,
       y: 3276,
       inputs: [

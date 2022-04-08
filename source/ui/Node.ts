@@ -25,6 +25,7 @@ export abstract class Node extends HTMLElement {
   x = 0;
   y = 0;
   protected hasBehavior = false;
+  protected hasIo = true;
 
   #selected = false;
 
@@ -75,7 +76,7 @@ export abstract class Node extends HTMLElement {
 
     this.typeIdentifier = typeIdentifier;
     this.nodeId = Node.makeId(typeIdentifier);
-    this.name = Node.makeName(namePrefix, this.nodeId);
+    this.name = namePrefix;
   }
 
   connectedCallback() {
@@ -86,6 +87,7 @@ export abstract class Node extends HTMLElement {
     this.titleElement = document.createElement("title");
     this.titleElement.classList.add(styles.title);
     this.titleElement.textContent = this.name;
+    this.titleElement.title = this.nodeId;
     this.titleElement.addEventListener("click", (event: MouseEvent) => this.onClickTitle(event));
     this.appendChild(this.titleElement);
 
@@ -103,12 +105,14 @@ export abstract class Node extends HTMLElement {
     this.deleteElement.addEventListener("click", (event: MouseEvent) => this.onClickDelete(event));
     this.appendChild(this.deleteElement);
 
-    this.#inputSectionElement = document.createElement("div");
-    this.#inputSectionElement.classList.add(styles.inputSection);
-    this.appendChild(this.#inputSectionElement);
-    this.#outputSectionElement = document.createElement("div");
-    this.#outputSectionElement.classList.add(styles.outputSection);
-    this.appendChild(this.#outputSectionElement);
+    if (this.hasIo) {
+      this.#inputSectionElement = document.createElement("div");
+      this.#inputSectionElement.classList.add(styles.inputSection);
+      this.appendChild(this.#inputSectionElement);
+      this.#outputSectionElement = document.createElement("div");
+      this.#outputSectionElement.classList.add(styles.outputSection);
+      this.appendChild(this.#outputSectionElement);
+    }
   }
 
   init(initParameters?: SerializedNode): void {
@@ -334,10 +338,7 @@ export abstract class Node extends HTMLElement {
     return serialized;
   }
 
-  static makeId(type: string) {
+  static makeId(type: NodeTypes) {
     return `${type}-${nanoid(6)}`;
-  }
-  static makeName(type: string, id: string) {
-    return `${type} ${id}`;
   }
 }

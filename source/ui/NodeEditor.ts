@@ -16,6 +16,8 @@ export class NodeEditor extends Node {
 
   constructor() {
     super("_editor", "Behavior Editor");
+
+    this.hasIo = false;
   }
 
   connectedCallback() {
@@ -39,6 +41,8 @@ export class NodeEditor extends Node {
   editNodeBehavior(node: Node) {
     this.target = node;
     node.behaviorEditor = this;
+
+    mustExist(this.titleElement).textContent = `Behavior Editor for ${this.target.nodeId}`;
     mustExist(this.#textarea).value = node.behavior?.toEditableScript() ?? "";
   }
 
