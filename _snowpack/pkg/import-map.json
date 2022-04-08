@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "arbit": "./arbit.js",
+    "leader-line": "./leader-line.js",
+    "lz-string": "./lz-string.js",
+    "nanoid": "./nanoid.js",
+    "plain-draggable": "./plain-draggable.js"
+  }
+}

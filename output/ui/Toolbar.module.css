@@ -1,0 +1,24 @@
+._toolbar_1u7av_1 {
+  display: block;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  background-color: #ddd;
+  border: 1px solid #111;
+  z-index: 2;
+}
+._toolbar_1u7av_1 ._button_1u7av_15 {
+  display: inline-block;
+  height: 40px;
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #eee;
+  border: 1px solid #111;
+}
+._toolbar_1u7av_1 ._button_1u7av_15:hover {
+  background-color: #ddd;
+}
+._toolbar_1u7av_1 ._divider_1u7av_29 {
+  display: inline-block;
+  width: 20px;
+}

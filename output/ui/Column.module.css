@@ -1,0 +1,26 @@
+._column_1bhoe_1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  user-select: none;
+  min-height: 16px;
+  padding: 1px;
+  background-color: #ccc;
+  border-color: #888;
+  font-family: monospace;
+}
+._column_1bhoe_1:hover {
+  background-color: #bbb;
+}
+._column_1bhoe_1 label {
+  color: #111;
+}
+._column_1bhoe_1 ._value_1bhoe_23 {
+  color: #888;
+}
+._column_1bhoe_1._connected_1bhoe_27 {
+  border-color: #111;
+}
+._column_1bhoe_1._connected_1bhoe_27 ._value_1bhoe_23 {
+  color: #111;
+}
