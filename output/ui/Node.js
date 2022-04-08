@@ -179,7 +179,7 @@ const _Node = class extends HTMLElement {
       try {
         await this.behaviorCompiled();
       } catch (error) {
-        console.error(`  Execution of ${this.nodeId} failed!`, error);
+        console.error(`  Execution of ${this.nodeId} failed!`, this.behavior?.toExecutableBehavior(), error);
       }
     }
   }
