@@ -149,12 +149,14 @@ export abstract class Node extends HTMLElement {
           initParameters?.behavior?.metadata.outputs[outputIndex].label
         );
       }
-      this.behavior = Behavior.fromCodeFragment(
-        initParameters.behavior.script,
-        new BehaviorMetadata(
-          this.name,
-          initParameters.behavior.metadata.inputs,
-          initParameters.behavior.metadata.outputs
+      this.updateBehavior(
+        Behavior.fromCodeFragment(
+          initParameters.behavior.script,
+          new BehaviorMetadata(
+            this.name,
+            initParameters.behavior.metadata.inputs,
+            initParameters.behavior.metadata.outputs
+          )
         )
       );
     }

@@ -40,7 +40,6 @@ export class Input extends Column {
     super.disconnect(connection);
     this.output = undefined;
     this.value = undefined;
-    this.parent?.update();
   }
 
   update(): void {
