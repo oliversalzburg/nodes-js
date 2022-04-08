@@ -4,7 +4,7 @@ import { Connection } from "./Connection";
 import { Node } from "./Node";
 import { SerializedInput, SerializedOutput } from "./Workarea";
 
-export class Column extends HTMLElement {
+export abstract class Column extends HTMLElement {
   columnId: string | null = null;
   parent: Node | null = null;
 
@@ -27,7 +27,13 @@ export class Column extends HTMLElement {
     this.valueElement.classList.add(styles.value);
     this.valueElement.textContent = String(this.value);
     this.appendChild(this.valueElement);
+
+    this.addEventListener("mouseenter", event => this.onMouseEnter(event));
+    this.addEventListener("mouseleave", event => this.onMouseLeave(event));
   }
+
+  abstract onMouseEnter(event: MouseEvent): void;
+  abstract onMouseLeave(event: MouseEvent): void;
 
   init(initParameters?: SerializedInput | SerializedOutput) {
     this.columnId = initParameters?.id ?? this.columnId;

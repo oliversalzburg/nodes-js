@@ -103,6 +103,7 @@ export class Workarea extends HTMLElement {
     this.#currentDecoy = decoy;
 
     this.#currentDecoyLine = new LeaderLine(this.#currentConnectionSource, this.#currentDecoy, {
+      color: "#0078d7",
       endSocket: "left",
       startSocket: "right",
     });
@@ -200,9 +201,10 @@ export class Workarea extends HTMLElement {
     this.#draggables.set(editor, draggable);
 
     editor.line = new LeaderLine(editor, mustExist(node.editElement), {
-      color: "#333",
-      dash: { animation: true },
+      color: "#888",
+      dash: { len: 2, gap: 4 },
       endSocket: "top",
+      path: "grid",
       size: 2,
     });
   }

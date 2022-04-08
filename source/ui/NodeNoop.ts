@@ -4,10 +4,7 @@ import { SerializedNode } from "./Workarea";
 
 export class NodeNoop extends Node {
   constructor() {
-    super();
-
-    this.nodeId = Node.makeId("noop");
-    this.name = Node.makeName("Noop", this.nodeId);
+    super("noop", "Noop");
   }
 
   connectedCallback() {

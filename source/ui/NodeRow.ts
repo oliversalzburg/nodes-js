@@ -7,11 +7,7 @@ export class NodeRow extends Node {
   #outputIntElements = new Array<Output>();
 
   constructor() {
-    super();
-
-    this.nodeId = Node.makeId("row");
-    this.name = Node.makeName("Row", this.nodeId);
-    this.hasBehavior = true;
+    super("row", "Row");
   }
 
   connectedCallback() {

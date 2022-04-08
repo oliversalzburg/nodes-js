@@ -32,6 +32,17 @@ export class Output extends Column {
     super.disconnect(connection);
   }
 
+  onMouseEnter(event: MouseEvent) {
+    for (const input of this.inputs) {
+      input.line.dash = { animation: true };
+    }
+  }
+  onMouseLeave(event: MouseEvent) {
+    for (const input of this.inputs) {
+      input.line.dash = false;
+    }
+  }
+
   onMouseDown(event: MouseEvent) {
     if (!this.parent) {
       return;

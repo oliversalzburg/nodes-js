@@ -59,6 +59,17 @@ export class Input extends Column {
     }
   }
 
+  onMouseEnter(event: MouseEvent) {
+    if (!isNil(this.output)) {
+      this.output.line.dash = { animation: true };
+    }
+  }
+  onMouseLeave(event: MouseEvent) {
+    if (!isNil(this.output)) {
+      this.output.line.dash = false;
+    }
+  }
+
   onMouseUp(event: MouseEvent) {
     // Always disconnect on click.
     if (this.output) {

@@ -28,7 +28,7 @@ declare class LeaderLine implements LeaderLine.Options {
   start: Element | LeaderLine.Attachment;
 
   color: string;
-  dash: boolean | { animation: boolean; gap: number | "auto"; len: number | "auto" };
+  dash: boolean | Partial<{ animation: boolean; gap: number | "auto"; len: number | "auto" }>;
   dropShadow: boolean | { blur: number; color: string; dx: number; dy: number; opacity: number };
   endLabel: string | LeaderLine.Attachment;
   endPlug: LeaderLine.Plug;
