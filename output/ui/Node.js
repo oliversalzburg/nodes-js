@@ -110,13 +110,13 @@ const _Node = class extends HTMLElement {
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
     if (initParameters?.behavior) {
+      this.updateBehavior(Behavior.fromCodeFragment(initParameters.behavior.script, new BehaviorMetadata(this.name, initParameters.behavior.metadata.inputs, initParameters.behavior.metadata.outputs)));
       for (let inputIndex = 0; inputIndex < initParameters.behavior.metadata.inputs.length; ++inputIndex) {
         this.inputs[inputIndex].label = mustExist(initParameters?.behavior?.metadata.inputs[inputIndex].label);
       }
       for (let outputIndex = 0; outputIndex < initParameters.behavior.metadata.outputs.length; ++outputIndex) {
         this.outputs[outputIndex].label = mustExist(initParameters?.behavior?.metadata.outputs[outputIndex].label);
       }
-      this.updateBehavior(Behavior.fromCodeFragment(initParameters.behavior.script, new BehaviorMetadata(this.name, initParameters.behavior.metadata.inputs, initParameters.behavior.metadata.outputs)));
     }
     if (initParameters) {
       for (let inputIndex = 0; inputIndex < initParameters.inputs.length; ++inputIndex) {
