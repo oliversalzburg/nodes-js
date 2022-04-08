@@ -329,10 +329,12 @@ export class Workarea extends HTMLElement {
   export() {
     const serialized = this.serialize();
     const pretty = JSON.stringify(serialized, void 0, 2);
+    console.debug(pretty);
     const short = JSON.stringify(serialized);
     const compressed = LZString.compressToBase64(short);
-    console.debug(pretty);
-    console.info(`http://localhost:8080/#${compressed}`);
+    const url = new URL(window.location.href);
+    url.hash = compressed;
+    console.info(url.toString());
   }
   import(compressedSnapshot) {
     const short = LZString.decompressFromBase64(compressedSnapshot);
