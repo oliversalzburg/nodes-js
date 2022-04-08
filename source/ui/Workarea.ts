@@ -488,7 +488,9 @@ export class Workarea extends HTMLElement {
         );
 
         console.debug(
-          `Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${newPosition.left}x${newPosition.top}).`
+          `Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${Math.round(
+            newPosition.left
+          )}x${Math.round(newPosition.top)}).`
         );
         this.storeSnapshot();
       },
@@ -515,7 +517,7 @@ export class Workarea extends HTMLElement {
     ).draggableToAbsolute(position);
     node.updateUi(coords);
 
-    console.debug(`Created node ${node.nodeId} at ${node.x}x${node.y}.`);
+    console.debug(`Created node ${node.nodeId} at ${Math.round(node.x)}x${Math.round(node.y)}.`);
     this.storeSnapshot();
   }
 
