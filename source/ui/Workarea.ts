@@ -552,10 +552,10 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  execute() {
+  async execute() {
     const execution = Execution.fromNodes(this.nodes);
     execution.plan();
-    execution.execute();
+    return execution.execute();
   }
 
   export() {

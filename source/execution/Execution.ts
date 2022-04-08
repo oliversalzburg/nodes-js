@@ -35,7 +35,7 @@ export class Execution {
     }
   }
 
-  execute(withUpdateUi = true) {
+  async execute(withUpdateUi = true) {
     if (isNil(this.stages)) {
       return;
     }
@@ -43,7 +43,7 @@ export class Execution {
     if (withUpdateUi) {
       for (const stage of this.stages) {
         for (const node of stage) {
-          node.update();
+          await node.update();
           node.updateUi();
         }
       }
