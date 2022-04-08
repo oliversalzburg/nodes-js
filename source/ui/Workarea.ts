@@ -477,7 +477,6 @@ export class Workarea extends HTMLElement {
       handle: node.getElementsByTagName("title")[0],
       left: position.x,
       onDragEnd: (newPosition: NewPosition) => {
-        node.update();
         node.updateUi(
           Locator.forWorkarea(this, this.#scrollableContainer ?? undefined).draggableToAbsolute({
             x: newPosition.left,
