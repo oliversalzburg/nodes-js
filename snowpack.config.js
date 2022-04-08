@@ -8,6 +8,7 @@ module.exports = {
     public: "/",
   },
   buildOptions: {
+    baseUrl: "/nodes-js",
     clean: true,
   },
   optimize: {
