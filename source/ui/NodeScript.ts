@@ -32,16 +32,6 @@ export class NodeScript extends Node {
 
     this.updateUi();
   }
-
-  async update() {
-    await super.update();
-
-    if (this.behaviorCompiled) {
-      this.behaviorCompiled();
-    } else {
-      this.outputs[0].value = Number(this.inputs[0].value) + Number(this.inputs[1].value);
-    }
-  }
 }
 
 customElements.define("dt-node-script", NodeScript);

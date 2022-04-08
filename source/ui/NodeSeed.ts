@@ -1,4 +1,6 @@
 import arbit, { ArbitGenerator } from "arbit";
+import { Behavior } from "../behavior/Behavior";
+import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
 import { Node } from "./Node";
 import { Output } from "./Output";
@@ -8,17 +10,18 @@ export class NodeSeed extends Node {
   #outputFloatElement: Output | null = null;
   #outputIntElement: Output | null = null;
 
-  #random: ArbitGenerator;
+  random: ArbitGenerator;
 
   constructor() {
     super("seed", "Seed");
 
-    this.#random = arbit(this.nodeId);
+    this.hasBehavior = true;
+    this.random = arbit(this.nodeId);
   }
 
   connectedCallback() {
     super.connectedCallback();
-
+    /*
     this.#outputFloatElement = this.addOutput();
     this.#outputFloatElement.label = "Float";
     this.#outputFloatElement.value = this.#random();
@@ -26,38 +29,35 @@ export class NodeSeed extends Node {
     this.#outputIntElement = this.addOutput();
     this.#outputIntElement.label = "Int";
     this.#outputIntElement.value = this.#random.nextInt(256);
+*/
+    this.updateBehavior(
+      Behavior.fromCodeFragment(
+        "float = this.random();" + "\n" + "int = this.random.nextInt(256);",
+        new BehaviorMetadata(
+          [],
+          [
+            { identifier: "float", label: "Float" },
+            { identifier: "int", label: "Integer" },
+          ]
+        )
+      )
+    );
+
+    this.rebuildIoFromMetadata();
   }
 
   init(initParameters?: SerializedNode) {
     super.init(initParameters);
 
-    this.#random = arbit(mustExist(this.nodeId));
-
+    this.random = arbit(mustExist(this.nodeId));
+    /*
     this.outputs[0].init(initParameters?.outputs[0]);
     this.outputs[1].init(initParameters?.outputs[1]);
 
     mustExist(this.#outputFloatElement).value = this.#random();
     mustExist(this.#outputIntElement).value = this.#random.nextInt(256);
-
+*/
     this.updateUi();
-  }
-
-  serialize(): SerializedNode {
-    return {
-      type: "seed",
-      id: mustExist(this.nodeId),
-      name: this.name,
-      x: this.x,
-      y: this.y,
-      inputs: this.inputs.map(input => ({
-        id: mustExist(input.columnId),
-        output: input.output ? mustExist(input.output.source.columnId) : null,
-      })),
-      outputs: this.outputs.map(output => ({
-        id: mustExist(output.columnId),
-        inputs: output.inputs.map(connection => mustExist(connection.target.columnId)),
-      })),
-    };
   }
 }
 

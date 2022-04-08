@@ -5,6 +5,7 @@ import { isNil, mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
+import { Locator } from "./Locator";
 import { Node } from "./Node";
 import { NodeEditor } from "./NodeEditor";
 import { NodeNoop } from "./NodeNoop";
@@ -183,7 +184,7 @@ export class Workarea extends HTMLElement {
       },
       onMove: newPosition => {
         this.#synchronizeDragOperation(node, newPosition);
-        editor.updateUi(newPosition);
+        editor.updateUi();
       },
       top: node.y - 150,
     });
@@ -423,11 +424,47 @@ export class Workarea extends HTMLElement {
     this.appendChild(node);
     node.init(initParameters);
     this.nodes.push(node);
+
+    // Place new nodes at the center of the stage.
+    const containerBounds = this.#scrollableContainer
+      ? {
+          width: this.#scrollableContainer.clientWidth,
+          height: this.#scrollableContainer.clientHeight,
+        }
+      : {
+          width: this.clientWidth,
+          height: this.clientHeight,
+        };
+
+    let position;
+    if (initParameters?.x && initParameters?.y) {
+      position = Locator.forWorkarea(
+        this,
+        this.#scrollableContainer ?? undefined
+      ).absoluteToDraggable(initParameters);
+    } else {
+      position = {
+        x: this.scrollLeft + this.offsetLeft + containerBounds.height / 2 - node.clientHeight / 2,
+        y: this.scrollTop + this.offsetTop + containerBounds.width / 2 - node.clientWidth / 2,
+      };
+    }
+
     const draggable = new PlainDraggable(node, {
       autoScroll: true,
       handle: node.getElementsByTagName("title")[0],
-      left: initParameters?.x ?? this.scrollLeft + this.offsetLeft + 50,
+      left: position.x,
       onDragEnd: (newPosition: NewPosition) => {
+        node.update();
+        node.updateUi(
+          Locator.forWorkarea(this, this.#scrollableContainer ?? undefined).draggableToAbsolute({
+            x: newPosition.left,
+            y: newPosition.top,
+          })
+        );
+
+        console.debug(
+          `Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${newPosition.left}x${newPosition.top}).`
+        );
         this.storeSnapshot();
       },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
@@ -441,11 +478,19 @@ export class Workarea extends HTMLElement {
       },
       onMove: newPosition => {
         this.#synchronizeDragOperation(node, newPosition);
-        mustExist(node).updateUi(newPosition);
+        mustExist(node).updateUi();
       },
-      top: this.offsetTop + (initParameters?.y ?? this.scrollTop + 50),
+      top: position.y,
     });
     this.#draggables.set(node, draggable);
+
+    const coords = Locator.forWorkarea(
+      this,
+      this.#scrollableContainer ?? undefined
+    ).draggableToAbsolute(position);
+    node.updateUi(coords);
+
+    console.debug(`Created node ${node.nodeId} at ${node.x}x${node.y}.`);
     this.storeSnapshot();
   }
 
@@ -485,7 +530,6 @@ export class Workarea extends HTMLElement {
   }
   storeSnapshot() {
     const snapshot = this.serialize();
-    console.dir(snapshot);
     localStorage.setItem("snapshot", JSON.stringify(snapshot));
     console.debug("Snapshot updated.");
   }

@@ -1,4 +1,5 @@
 import { mustExist } from "../Maybe";
+import { Coordinates } from "./Locator";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -60,7 +61,7 @@ export class NodeEditor extends Node {
     this.updateUi();
   }
 
-  updateUi(newPosition?: { left: number; top: number }) {
+  updateUi(newPosition?: Coordinates) {
     super.updateUi(newPosition);
 
     if (this.line) {

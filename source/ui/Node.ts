@@ -4,12 +4,13 @@ import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
+import { Coordinates } from "./Locator";
 import styles from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor";
 import { Output } from "./Output";
 import { NodeTypes, SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
 
-export type CompiledBehavior = () => void;
+export type CompiledBehavior = () => Promise<unknown>;
 
 export abstract class Node extends HTMLElement {
   typeIdentifier: NodeTypes;
@@ -202,15 +203,26 @@ export abstract class Node extends HTMLElement {
   }
 
   async update() {
+    console.debug(`Updating ${this.nodeId}...`);
+
     for (const input of this.inputs) {
       input.update();
     }
+
+    if (this.behaviorCompiled) {
+      console.debug("  Executing compiled behavior...");
+      try {
+        await this.behaviorCompiled();
+      } catch (error) {
+        console.error(`  Execution of ${this.nodeId} failed!`, error);
+      }
+    }
   }
-  updateUi(newPosition?: { left: number; top: number }) {
+  updateUi(newPosition?: Coordinates) {
     mustExist(this.titleElement).textContent = this.name;
 
-    this.x = newPosition?.left ?? this.x;
-    this.y = newPosition?.top ?? this.y;
+    this.x = newPosition?.x ?? this.x;
+    this.y = newPosition?.y ?? this.y;
 
     for (const input of this.inputs) {
       input.updateUi();
@@ -233,7 +245,7 @@ export abstract class Node extends HTMLElement {
     const script = this.behavior.toExecutableBehavior();
     this.rebuildIoFromMetadata();
     console.debug(script);
-    this.behaviorCompiled = new Function(script) as CompiledBehavior;
+    this.behaviorCompiled = new Function(script).bind(this) as CompiledBehavior;
     this.update();
   }
 
