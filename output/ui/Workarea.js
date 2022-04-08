@@ -323,10 +323,10 @@ export class Workarea extends HTMLElement {
       this.deleteNode(node, false);
     }
   }
-  execute() {
+  async execute() {
     const execution = Execution.fromNodes(this.nodes);
     execution.plan();
-    execution.execute();
+    return execution.execute();
   }
   export() {
     const serialized = this.serialize();

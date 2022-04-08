@@ -90,7 +90,7 @@ export class Toolbar extends HTMLElement {
     const executeButton = document.createElement("button");
     executeButton.classList.add(styles.button);
     executeButton.textContent = "▶ Execute";
-    executeButton.addEventListener("click", () => mustExist(__privateGet(this, _workarea)).execute());
+    executeButton.addEventListener("click", () => mustExist(__privateGet(this, _workarea)).execute().catch(console.error));
     this.appendChild(executeButton);
     console.debug("Toolbar connected.");
   }

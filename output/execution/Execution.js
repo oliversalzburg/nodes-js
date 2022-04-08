@@ -34,14 +34,14 @@ const _Execution = class {
       }
     }
   }
-  execute(withUpdateUi = true) {
+  async execute(withUpdateUi = true) {
     if (isNil(this.stages)) {
       return;
     }
     if (withUpdateUi) {
       for (const stage of this.stages) {
         for (const node of stage) {
-          node.update();
+          await node.update();
           node.updateUi();
         }
       }
