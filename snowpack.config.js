@@ -9,7 +9,7 @@ module.exports = {
   },
   buildOptions: {
     baseUrl: "/nodes-js",
-    clean: true,
+    clean: false,
   },
   optimize: {
     bundle: false,
