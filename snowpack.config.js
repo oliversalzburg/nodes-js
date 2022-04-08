@@ -12,8 +12,7 @@ module.exports = {
     clean: true,
   },
   optimize: {
-    bundle: true,
+    bundle: false,
     sourcemap: false,
   },
-  plugins: [["@snowpack/plugin-webpack"]],
 };
