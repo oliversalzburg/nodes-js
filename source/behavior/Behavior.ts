@@ -1,5 +1,5 @@
 import { Node } from "../ui/Node";
-import { BehaviorMetadata, MatchInputMarkup, MatchOutputMarkup } from "./BehaviorMetadata";
+import { BehaviorMetadata } from "./BehaviorMetadata";
 
 export class Behavior {
   #script: string;
@@ -27,7 +27,7 @@ export class Behavior {
 
   static fromEditableScript(editable: string) {
     const metadata = BehaviorMetadata.parse(editable);
-    const script = Behavior.stripMetadataFromEditable(editable);
+    const script = BehaviorMetadata.stripMetadataFromBehaviorScript(editable);
     return new Behavior(script, metadata);
   }
   static fromCodeFragment(executable: string, metadata?: BehaviorMetadata) {
@@ -35,9 +35,5 @@ export class Behavior {
   }
   static fromCodeFragmentForNode(executable: string, node: Node) {
     return new Behavior(executable, BehaviorMetadata.fromNode(node));
-  }
-
-  static stripMetadataFromEditable(behavior: string) {
-    return behavior.replaceAll(MatchInputMarkup, "").replaceAll(MatchOutputMarkup, "").trim();
   }
 }

@@ -152,6 +152,7 @@ export abstract class Node extends HTMLElement {
       this.behavior = Behavior.fromCodeFragment(
         initParameters.behavior.script,
         new BehaviorMetadata(
+          this.name,
           initParameters.behavior.metadata.inputs,
           initParameters.behavior.metadata.outputs
         )
@@ -224,6 +225,7 @@ export abstract class Node extends HTMLElement {
   }
   updateUi(newPosition?: Coordinates) {
     mustExist(this.titleElement).textContent = this.name;
+    mustExist(this.titleElement).title = this.nodeId;
 
     this.x = newPosition?.x ?? this.x;
     this.y = newPosition?.y ?? this.y;
@@ -247,7 +249,7 @@ export abstract class Node extends HTMLElement {
     }
 
     const script = this.behavior.toExecutableBehavior();
-    this.rebuildIoFromMetadata();
+    this.rebuildFromMetadata();
     this.behaviorCompiled = new Function(script).bind(this) as CompiledBehavior;
     this.update();
   }
@@ -282,8 +284,10 @@ export abstract class Node extends HTMLElement {
     }
     this.outputs.splice(this.outputs.indexOf(output), 1);
   }
-  protected rebuildIoFromMetadata() {
+  protected rebuildFromMetadata() {
     const behavior = mustExist(this.behavior);
+
+    this.name = behavior.metadata.title;
 
     const excessInputCount = this.inputs.length - behavior.metadata.inputs.length;
     const excessInputs = this.inputs.splice(behavior.metadata.inputs.length, excessInputCount);
@@ -338,7 +342,7 @@ export abstract class Node extends HTMLElement {
     return serialized;
   }
 
-  static makeId(type: NodeTypes) {
+  static makeId(type: NodeTypes | string) {
     return `${type}-${nanoid(6)}`;
   }
 }

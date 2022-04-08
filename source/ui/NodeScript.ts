@@ -16,6 +16,7 @@ export class NodeScript extends Node {
     this.behavior = Behavior.fromCodeFragment(
       "sum = Number(a) + Number(b);",
       new BehaviorMetadata(
+        "Sum",
         [
           { identifier: "a", label: "A" },
           { identifier: "b", label: "B" },
@@ -24,7 +25,7 @@ export class NodeScript extends Node {
       )
     );
 
-    this.rebuildIoFromMetadata();
+    this.rebuildFromMetadata();
   }
 
   init(initParameters?: SerializedNode) {

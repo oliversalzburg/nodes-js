@@ -10,14 +10,21 @@ export type OutputMetadata = {
   label: string;
 };
 
+export const MatchTitleMarkup = /^\/\/\/ @title "(?<title>[^"]+)"$/gm;
 export const MatchInputMarkup = /^\/\/\/ @input (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
 export const MatchOutputMarkup = /^\/\/\/ @output (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
 
 export class BehaviorMetadata {
+  title: string;
   inputs: Array<InputMetadata>;
   outputs: Array<OutputMetadata>;
 
-  constructor(inputs = new Array<InputMetadata>(), outputs = new Array<OutputMetadata>()) {
+  constructor(
+    title = "",
+    inputs = new Array<InputMetadata>(),
+    outputs = new Array<OutputMetadata>()
+  ) {
+    this.title = title;
     this.inputs = inputs;
     this.outputs = outputs;
   }
@@ -25,6 +32,7 @@ export class BehaviorMetadata {
   serialize() {
     const meta = new Array<string>();
 
+    meta.push(`/// @title "${this.title}"`);
     for (const input of this.inputs) {
       meta.push(`/// @input ${input.identifier} "${input.label}"`);
     }
@@ -59,6 +67,7 @@ ${outputsWrite}
   static fromNode(node: Node) {
     const meta = new BehaviorMetadata();
 
+    meta.title = node.name;
     let inputIndex = 0;
     for (const input of node.inputs) {
       meta.inputs.push({ identifier: `input${inputIndex++}`, label: input.label });
@@ -73,6 +82,11 @@ ${outputsWrite}
 
   static parse(script: string) {
     const meta = new BehaviorMetadata();
+
+    const titleMatches = script.matchAll(MatchTitleMarkup);
+    for (const titleMatch of titleMatches) {
+      meta.title = mustExist(titleMatch.groups)["title"];
+    }
 
     const inputMatches = script.matchAll(MatchInputMarkup);
     const outputMatches = script.matchAll(MatchOutputMarkup);
@@ -91,5 +105,13 @@ ${outputsWrite}
     }
 
     return meta;
+  }
+
+  static stripMetadataFromBehaviorScript(behavior: string) {
+    return behavior
+      .replaceAll(MatchTitleMarkup, "")
+      .replaceAll(MatchInputMarkup, "")
+      .replaceAll(MatchOutputMarkup, "")
+      .trim();
   }
 }
