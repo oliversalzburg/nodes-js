@@ -42,7 +42,8 @@ export class NodeEditor extends Node {
     this.target = node;
     node.behaviorEditor = this;
 
-    mustExist(this.titleElement).textContent = `Behavior Editor for ${this.target.nodeId}`;
+    this.name = `Behavior Editor for ${this.target.nodeId}`;
+
     mustExist(this.#textarea).value = node.behavior?.toEditableScript() ?? "";
   }
 

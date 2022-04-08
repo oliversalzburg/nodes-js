@@ -176,6 +176,7 @@ export class Workarea extends HTMLElement {
     this.appendChild(editor);
     editor.init();
     editor.editNodeBehavior(node);
+    editor.updateUi();
 
     const position = Locator.forWorkarea(
       this,
