@@ -13,6 +13,7 @@
     "plain-draggable": "^2.5.14"
   },
   "devDependencies": {
+    "@snowpack/plugin-webpack": "^3.0.0",
     "@types/eslint": "^8",
     "@types/lz-string": "^1",
     "@types/nanoid": "^3.0.0",

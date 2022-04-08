@@ -15,4 +15,5 @@ module.exports = {
     bundle: true,
     sourcemap: false,
   },
+  plugins: [["@snowpack/plugin-webpack"]],
 };
