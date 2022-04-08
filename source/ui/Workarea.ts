@@ -1,11 +1,12 @@
 import "leader-line";
+import LZString from "lz-string";
 import PlainDraggable, { NewPosition } from "plain-draggable";
 import { Behavior } from "../behavior/Behavior";
 import { isNil, mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
-import { Locator } from "./Locator";
+import { Coordinates, Locator } from "./Locator";
 import { Node } from "./Node";
 import { NodeEditor } from "./NodeEditor";
 import { NodeNoop } from "./NodeNoop";
@@ -67,7 +68,7 @@ export class Workarea extends HTMLElement {
   #currentDecoyLine: LeaderLine | null = null;
 
   #draggables = new Map<Node, PlainDraggable>();
-  #dragOperationSource = new Map<Node, [number, number]>();
+  #dragOperationSource = new Map<Node, Coordinates>();
 
   #scrollableContainer: Scrollable | null = null;
 
@@ -306,13 +307,16 @@ export class Workarea extends HTMLElement {
   }
   #beginSynchronizedDragOperation(dragRoot: Node) {
     this.#dragOperationSource.clear();
-    this.#dragOperationSource.set(dragRoot, [dragRoot.x, dragRoot.y]);
+    this.#dragOperationSource.set(dragRoot, { x: dragRoot.x, y: dragRoot.y });
+    const locator = Locator.forWorkarea(this, this.#scrollableContainer ?? undefined);
     for (const node of this.selectedNodes as Iterable<Node>) {
-      this.#dragOperationSource.set(node, [node.x, node.y]);
+      this.#dragOperationSource.set(node, locator.absoluteToDraggable({ x: node.x, y: node.y }));
     }
   }
   #synchronizeDragOperation(dragRoot: Node, newPosition: NewPosition) {
     const rootDragSource = mustExist(this.#dragOperationSource.get(dragRoot));
+    const deltaX = newPosition.left - rootDragSource.x;
+    const deltaY = newPosition.top - rootDragSource.y;
 
     for (const node of this.selectedNodes as Iterable<Node>) {
       if (node === dragRoot) {
@@ -321,14 +325,20 @@ export class Workarea extends HTMLElement {
 
       const nodeDragSource = mustExist(this.#dragOperationSource.get(node));
       const nodeDraggable = mustExist(this.#draggables.get(node));
-      const position = [
-        nodeDragSource[0] + newPosition.left - rootDragSource[0],
-        nodeDragSource[1] + newPosition.top - rootDragSource[1],
-      ];
-      node.x = position[0];
-      node.y = position[1];
-      nodeDraggable.left = node.x;
-      nodeDraggable.top = node.y;
+      const position = {
+        x: nodeDragSource.x + deltaX,
+        y: nodeDragSource.y + deltaY,
+      };
+      nodeDraggable.left = position.x;
+      nodeDraggable.top = position.y;
+
+      const positionAbsolute = Locator.forWorkarea(
+        this,
+        this.#scrollableContainer ?? undefined
+      ).draggableToAbsolute(position);
+      node.x = positionAbsolute.x;
+      node.y = positionAbsolute.y;
+
       node.updateUi();
     }
   }
@@ -538,8 +548,23 @@ export class Workarea extends HTMLElement {
   }
 
   export() {
-    console.debug(JSON.stringify(this.serialize(), undefined, 2));
+    const serialized = this.serialize();
+    const pretty = JSON.stringify(serialized, undefined, 2);
+    const short = JSON.stringify(serialized);
+    const compressed = LZString.compressToBase64(short);
+
+    console.debug(pretty);
+    console.info(`http://localhost:8080/#${compressed}`);
   }
+  import(compressedSnapshot: string) {
+    const short = LZString.decompressFromBase64(compressedSnapshot);
+    if (short === null) {
+      throw new Error("Unable to decompress snapshot!");
+    }
+    const parsed = JSON.parse(short) as SerializedWorkarea;
+    this.deserialize(parsed);
+  }
+
   storeSnapshot() {
     const snapshot = this.serialize();
     localStorage.setItem("snapshot", JSON.stringify(snapshot));
