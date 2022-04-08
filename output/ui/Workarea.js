@@ -493,7 +493,7 @@ initNode_fn = function(node, initParameters) {
         x: newPosition.left,
         y: newPosition.top
       }));
-      console.debug(`Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${newPosition.left}x${newPosition.top}).`);
+      console.debug(`Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${Math.round(newPosition.left)}x${Math.round(newPosition.top)}).`);
       this.storeSnapshot();
     },
     onDragStart: (event) => {
@@ -508,7 +508,7 @@ initNode_fn = function(node, initParameters) {
   __privateGet(this, _draggables).set(node, draggable);
   const coords = Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0).draggableToAbsolute(position);
   node.updateUi(coords);
-  console.debug(`Created node ${node.nodeId} at ${node.x}x${node.y}.`);
+  console.debug(`Created node ${node.nodeId} at ${Math.round(node.x)}x${Math.round(node.y)}.`);
   this.storeSnapshot();
 };
 customElements.define("dt-workarea", Workarea);

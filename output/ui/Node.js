@@ -109,14 +109,6 @@ const _Node = class extends HTMLElement {
     this.name = initParameters?.name ?? this.name;
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
-    if (initParameters) {
-      for (let inputIndex = 0; inputIndex < initParameters.inputs.length; ++inputIndex) {
-        this.inputs[inputIndex].init(initParameters.inputs[inputIndex]);
-      }
-      for (let outputIndex = 0; outputIndex < initParameters.outputs.length; ++outputIndex) {
-        this.outputs[outputIndex].init(initParameters.outputs[outputIndex]);
-      }
-    }
     if (initParameters?.behavior) {
       for (let inputIndex = 0; inputIndex < initParameters.behavior.metadata.inputs.length; ++inputIndex) {
         this.inputs[inputIndex].label = mustExist(initParameters?.behavior?.metadata.inputs[inputIndex].label);
@@ -125,6 +117,14 @@ const _Node = class extends HTMLElement {
         this.outputs[outputIndex].label = mustExist(initParameters?.behavior?.metadata.outputs[outputIndex].label);
       }
       this.updateBehavior(Behavior.fromCodeFragment(initParameters.behavior.script, new BehaviorMetadata(this.name, initParameters.behavior.metadata.inputs, initParameters.behavior.metadata.outputs)));
+    }
+    if (initParameters) {
+      for (let inputIndex = 0; inputIndex < initParameters.inputs.length; ++inputIndex) {
+        this.inputs[inputIndex].init(initParameters.inputs[inputIndex]);
+      }
+      for (let outputIndex = 0; outputIndex < initParameters.outputs.length; ++outputIndex) {
+        this.outputs[outputIndex].init(initParameters.outputs[outputIndex]);
+      }
     }
   }
   initConnectionFrom(columnSource, event) {
