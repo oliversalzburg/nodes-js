@@ -149,8 +149,8 @@ export class Workarea extends HTMLElement {
         if (!this.connections.has(input.output)) {
           continue;
         }
-        input.output.disconnect();
         this.connections.delete(input.output);
+        input.output.disconnect();
       }
     }
     for (const output of node.outputs) {
@@ -158,8 +158,8 @@ export class Workarea extends HTMLElement {
         if (!this.connections.has(connection)) {
           continue;
         }
-        connection.disconnect();
         this.connections.delete(connection);
+        connection.disconnect();
       }
     }
 
