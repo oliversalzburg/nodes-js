@@ -2,6 +2,7 @@ import "leader-line";
 import LZString from "lz-string";
 import PlainDraggable, { NewPosition } from "plain-draggable";
 import { Behavior } from "../behavior/Behavior";
+import { Execution } from "../execution/Execution";
 import { isNil, mustExist } from "../Maybe";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
@@ -545,6 +546,12 @@ export class Workarea extends HTMLElement {
     for (const node of [...this.nodes]) {
       this.deleteNode(node, false);
     }
+  }
+
+  execute() {
+    const execution = Execution.fromNodes(this.nodes);
+    execution.plan();
+    execution.execute();
   }
 
   export() {

@@ -89,6 +89,12 @@ export class Toolbar extends HTMLElement {
     demoButton.addEventListener("click", () => mustExist(this.#workarea).restoreSnapshotDemo());
     this.appendChild(demoButton);
 
+    const executeButton = document.createElement("button");
+    executeButton.classList.add(styles.button);
+    executeButton.textContent = "▶ Execute";
+    executeButton.addEventListener("click", () => mustExist(this.#workarea).execute());
+    this.appendChild(executeButton);
+
     console.debug("Toolbar connected.");
   }
 }

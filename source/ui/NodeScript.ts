@@ -13,15 +13,17 @@ export class NodeScript extends Node {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.behavior = Behavior.fromCodeFragment(
-      "sum = Number(a) + Number(b);",
-      new BehaviorMetadata(
-        "Sum",
-        [
-          { identifier: "a", label: "A" },
-          { identifier: "b", label: "B" },
-        ],
-        [{ identifier: "sum", label: "Sum" }]
+    this.updateBehavior(
+      Behavior.fromCodeFragment(
+        "sum = Number(a) + Number(b);",
+        new BehaviorMetadata(
+          "Sum",
+          [
+            { identifier: "a", label: "A" },
+            { identifier: "b", label: "B" },
+          ],
+          [{ identifier: "sum", label: "Sum" }]
+        )
       )
     );
 
