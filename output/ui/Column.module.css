@@ -1,4 +1,4 @@
-._column_1bhoe_1 {
+._column_dkpfu_1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -7,20 +7,22 @@
   padding: 1px;
   background-color: #ccc;
   border-color: #888;
-  font-family: monospace;
+  font-family: system-ui;
+  font-size: 14px;
 }
-._column_1bhoe_1:hover {
+._column_dkpfu_1:hover {
   background-color: #bbb;
 }
-._column_1bhoe_1 label {
+._column_dkpfu_1 label {
   color: #111;
 }
-._column_1bhoe_1 ._value_1bhoe_23 {
+._column_dkpfu_1 ._value_dkpfu_24 {
   color: #888;
+  font-family: monospace;
 }
-._column_1bhoe_1._connected_1bhoe_27 {
+._column_dkpfu_1._connected_dkpfu_29 {
   border-color: #111;
 }
-._column_1bhoe_1._connected_1bhoe_27 ._value_1bhoe_23 {
+._column_dkpfu_1._connected_dkpfu_29 ._value_dkpfu_24 {
   color: #111;
 }

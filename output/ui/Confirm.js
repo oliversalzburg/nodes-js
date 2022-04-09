@@ -7,14 +7,17 @@ var __privateMethod = (obj, member, method) => {
   return method;
 };
 var _addCancel, _a, addCancel_fn, _addNo, addNo_fn, _addYes, addYes_fn;
+import styles from "./Confirm.module.css.proxy.js";
 const _Confirm = (_a = class {
   static yesNo(question, parent = document.body) {
     return new Promise((resolve, reject) => {
       const dialog = document.createElement("dialog");
+      dialog.classList.add(styles.dialog);
       const label = document.createElement("div");
       label.textContent = question;
       dialog.appendChild(label);
       const choiceSection = document.createElement("div");
+      choiceSection.classList.add(styles.choiceSection);
       dialog.appendChild(choiceSection);
       __privateMethod(_Confirm, _addYes, addYes_fn).call(_Confirm, parent, dialog, choiceSection, resolve);
       __privateMethod(_Confirm, _addNo, addNo_fn).call(_Confirm, parent, dialog, choiceSection, resolve);
@@ -25,10 +28,12 @@ const _Confirm = (_a = class {
   static yesNoCancel(question, parent = document.body) {
     return new Promise((resolve, reject) => {
       const dialog = document.createElement("dialog");
+      dialog.classList.add(styles.dialog);
       const label = document.createElement("div");
       label.textContent = question;
       dialog.appendChild(label);
       const choiceSection = document.createElement("div");
+      choiceSection.classList.add(styles.choiceSection);
       dialog.appendChild(choiceSection);
       __privateMethod(_Confirm, _addYes, addYes_fn).call(_Confirm, parent, dialog, choiceSection, resolve);
       __privateMethod(_Confirm, _addNo, addNo_fn).call(_Confirm, parent, dialog, choiceSection, resolve);

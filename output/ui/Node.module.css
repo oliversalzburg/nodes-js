@@ -1,4 +1,4 @@
-._node_b84i4_1 {
+._node_11kd9_1 {
   display: inline-block;
   position: absolute;
   min-width: 200px;
@@ -6,17 +6,18 @@
   border: 1px solid #111;
   color: #222;
 }
-._selected_b84i4_12 {
+._selected_11kd9_12 {
   outline: 2px dashed #333;
 }
-._node_b84i4_1 ._title_b84i4_16 {
+._node_11kd9_1 ._title_11kd9_16 {
   display: block;
   height: 20px;
   padding: 0 2px;
-  font-family: monospace;
+  font-family: system-ui;
+  font-size: 14px;
   line-height: 20px;
 }
-._node_b84i4_1 ._edit_b84i4_25 {
+._node_11kd9_1 ._edit_11kd9_26 {
   display: inline-block;
   position: absolute;
   top: 0;
@@ -28,7 +29,7 @@
   font-family: monospace;
   line-height: 20px;
 }
-._node_b84i4_1 ._delete_b84i4_40 {
+._node_11kd9_1 ._delete_11kd9_41 {
   display: inline-block;
   position: absolute;
   top: 0;
@@ -40,11 +41,11 @@
   font-family: monospace;
   line-height: 20px;
 }
-._node_b84i4_1 ._inputSection_b84i4_55,
-._node_b84i4_1 ._outputSection_b84i4_56 {
+._node_11kd9_1 ._inputSection_11kd9_56,
+._node_11kd9_1 ._outputSection_11kd9_57 {
   border-top: 1px solid #111;
 }
-._node_b84i4_1 textarea {
+._node_11kd9_1 textarea {
   position: relative;
   box-sizing: border-box;
   width: 100%;
