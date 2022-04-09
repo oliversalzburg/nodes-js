@@ -10,7 +10,7 @@ export type OutputMetadata = {
   label: string;
 };
 
-export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)"$/gm;
+export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)";$/gm;
 export const MatchInputMarkup =
   /^\/\/ @input "(?<label>[^"]+)"\nconst (?<identifier>[^ ]+) = .+;$/gm;
 export const MatchOutputMarkup =
@@ -35,7 +35,7 @@ export class BehaviorMetadata {
     const meta = new Array<string>();
 
     meta.push("// @title");
-    meta.push(`const title = "${this.title}"`);
+    meta.push(`const title = "${this.title}";`);
     meta.push("");
 
     let inputIndex = 0;
@@ -56,12 +56,6 @@ export class BehaviorMetadata {
   }
 
   wrapExecutable(executable: string) {
-    const inputsInit = this.inputs
-      .map((input, index) => `const ${input.identifier} = this.inputs[${index}].value;`)
-      .join("\n");
-    const outputsInit = this.outputs
-      .map((output, index) => `let ${output.identifier} = undefined;`)
-      .join("\n");
     const outputsWrite = this.outputs
       .map((output, index) => `this.outputs[${index}].value = ${output.identifier};`)
       .join("\n");
