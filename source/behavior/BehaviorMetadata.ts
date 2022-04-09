@@ -58,9 +58,11 @@ export class BehaviorMetadata {
 ${inputsInit}
 ${outputsInit}
 
+(async () => {
 ${executable}
 
 ${outputsWrite}
+})();
     `.trim();
   }
 
