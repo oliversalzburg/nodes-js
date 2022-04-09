@@ -1,4 +1,5 @@
 import { isNil, mustExist } from "../Maybe";
+import { Confirm } from "./Confirm";
 import styles from "./Toolbar.module.css";
 import { Workarea } from "./Workarea";
 
@@ -55,14 +56,24 @@ export class Toolbar extends HTMLElement {
     deleteButton.classList.add(styles.button);
     deleteButton.textContent = "✖ Delete";
     deleteButton.title = "D";
-    deleteButton.addEventListener("click", () => mustExist(this.#workarea).deleteSelectedNodes());
+    deleteButton.addEventListener("click", async () => {
+      const choice = await Confirm.yesNo("Delete selected nodes?");
+      if (choice === Confirm.YES) {
+        mustExist(this.#workarea).deleteSelectedNodes();
+      }
+    });
     this.appendChild(deleteButton);
 
     const clearButton = document.createElement("button");
     clearButton.classList.add(styles.button);
     clearButton.textContent = "♻ Clear";
     clearButton.title = "X";
-    clearButton.addEventListener("click", () => mustExist(this.#workarea).clear());
+    clearButton.addEventListener("click", async () => {
+      const choice = await Confirm.yesNo("Clear all nodes?");
+      if (choice === Confirm.YES) {
+        mustExist(this.#workarea).clear();
+      }
+    });
     this.appendChild(clearButton);
 
     const divider2 = document.createElement("span");

@@ -7,6 +7,7 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/theme/mdn-like.css";
 import { mustExist } from "../Maybe";
+import { Confirm } from "./Confirm";
 import { Coordinates } from "./Locator";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
@@ -64,13 +65,15 @@ export class NodeEditor extends Node {
     this.#resizeObserver.observe(this.#codeMirror.getWrapperElement());
   }
 
-  onClickDelete(event?: MouseEvent): void {
+  async onClickDelete(event?: MouseEvent): Promise<void> {
     // Check if the current script is different from what the behavior defines.
     // TODO: This is kinda wasteful. Maybe do some caching?
     if (this.behaviorSource !== this.target?.behavior?.toEditableScript()) {
-      const shouldApply = window.confirm("Apply new behavior?");
-      if (shouldApply) {
+      const shouldApply = await Confirm.yesNoCancel("Apply new behavior?");
+      if (shouldApply === Confirm.YES) {
         this.workarea?.closeBehaviorEditor(mustExist(this.target));
+        return;
+      } else if (shouldApply === Confirm.CANCEL) {
         return;
       }
     }
