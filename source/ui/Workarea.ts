@@ -414,30 +414,30 @@ export class Workarea extends HTMLElement {
     this.#scrollableContainer = scrollable;
   }
 
-  createNode(type: NodeTypes, initParameters?: SerializedNode) {
+  createNode(type: NodeTypes, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
     let node: Node | null = null;
     switch (type) {
       case "script": {
         node = document.createElement("dt-node-script") as NodeScript;
-        this.#initNode(node, initParameters);
+        this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "noop": {
         node = document.createElement("dt-node-noop") as NodeNoop;
-        this.#initNode(node, initParameters);
+        this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "row": {
         node = document.createElement("dt-node-row") as NodeRow;
-        this.#initNode(node, initParameters);
+        this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "seed": {
         node = document.createElement("dt-node-seed") as NodeSeed;
-        this.#initNode(node, initParameters);
+        this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
@@ -447,7 +447,7 @@ export class Workarea extends HTMLElement {
     return node;
   }
 
-  #initNode(node: Node, initParameters?: SerializedNode) {
+  #initNode(node: Node, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
     this.appendChild(node);
     node.init(initParameters);
     this.nodes.push(node);
@@ -516,10 +516,13 @@ export class Workarea extends HTMLElement {
       this,
       this.#scrollableContainer ?? undefined
     ).draggableToAbsolute(position);
+    node.update();
     node.updateUi(coords);
 
     console.debug(`Created node ${node.nodeId} at ${Math.round(node.x)}x${Math.round(node.y)}.`);
-    this.storeSnapshot();
+    if (shouldUpdateSnapshot) {
+      this.storeSnapshot();
+    }
   }
 
   deleteNode(node: Node, updateSnapshot = true) {
@@ -608,7 +611,7 @@ export class Workarea extends HTMLElement {
 
     // Create nodes
     for (const node of workarea.nodes) {
-      const createdNode = this.createNode(node.type, node);
+      const createdNode = this.createNode(node.type, false, node);
       nodes.set(mustExist(createdNode.nodeId), createdNode);
       for (const input of createdNode.inputs) {
         inputs.set(mustExist(input.columnId), input);
