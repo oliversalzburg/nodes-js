@@ -10,9 +10,11 @@ export type OutputMetadata = {
   label: string;
 };
 
-export const MatchTitleMarkup = /^\/\/\/ @title "(?<title>[^"]+)"$/gm;
-export const MatchInputMarkup = /^\/\/\/ @input (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
-export const MatchOutputMarkup = /^\/\/\/ @output (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
+export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)"$/gm;
+export const MatchInputMarkup =
+  /^\/\/ @input "(?<label>[^"]+)"\nconst (?<identifier>[^ ]+) = .+;$/gm;
+export const MatchOutputMarkup =
+  /^\/\/ @output "(?<label>[^"]+)"\nlet (?<identifier>[^ ]+) = .+;$/gm;
 
 export class BehaviorMetadata {
   title: string;
@@ -32,12 +34,22 @@ export class BehaviorMetadata {
   serialize() {
     const meta = new Array<string>();
 
-    meta.push(`/// @title "${this.title}"`);
+    meta.push("// @title");
+    meta.push(`const title = "${this.title}"`);
+    meta.push("");
+
+    let inputIndex = 0;
     for (const input of this.inputs) {
-      meta.push(`/// @input ${input.identifier} "${input.label}"`);
+      meta.push(`// @input "${input.label}"`);
+      meta.push(`const ${input.identifier} = this.inputs[${inputIndex++}].value;`);
     }
+    if (0 < inputIndex) {
+      meta.push("");
+    }
+
     for (const output of this.outputs) {
-      meta.push(`/// @output ${output.identifier} "${output.label}"`);
+      meta.push(`// @output "${output.label}"`);
+      meta.push(`let ${output.identifier} = undefined;`);
     }
 
     return meta.join("\n");
@@ -55,10 +67,7 @@ export class BehaviorMetadata {
       .join("\n");
 
     return `
-${inputsInit}
-${outputsInit}
-
-(async () => {
+return (async () => {
 ${executable}
 
 ${outputsWrite}

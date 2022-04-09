@@ -257,7 +257,6 @@ export abstract class Node extends HTMLElement {
     const script = this.behavior.toExecutableBehavior();
     this.rebuildFromMetadata();
     this.behaviorCompiled = new Function(script).bind(this) as CompiledBehavior;
-    this.update();
   }
 
   protected addInput(initParameters?: SerializedInput) {

@@ -230,6 +230,7 @@ export class Workarea extends HTMLElement {
     }
 
     node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
+    node.update();
 
     this.cancelBehaviorEditor(node, event);
   }
