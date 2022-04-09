@@ -1,4 +1,5 @@
 export type Choice = "cancel" | "no" | "yes";
+import styles from "./Confirm.module.css";
 
 export class Confirm {
   static readonly CANCEL = "cancel";
@@ -8,12 +9,14 @@ export class Confirm {
   static yesNo(question: string, parent: HTMLElement = document.body): Promise<Choice> {
     return new Promise((resolve, reject) => {
       const dialog = document.createElement("dialog");
+      dialog.classList.add(styles.dialog);
 
       const label = document.createElement("div");
       label.textContent = question;
       dialog.appendChild(label);
 
       const choiceSection = document.createElement("div");
+      choiceSection.classList.add(styles.choiceSection);
       dialog.appendChild(choiceSection);
 
       Confirm.#addYes(parent, dialog, choiceSection, resolve);
@@ -28,12 +31,14 @@ export class Confirm {
   static yesNoCancel(question: string, parent: HTMLElement = document.body): Promise<Choice> {
     return new Promise((resolve, reject) => {
       const dialog = document.createElement("dialog");
+      dialog.classList.add(styles.dialog);
 
       const label = document.createElement("div");
       label.textContent = question;
       dialog.appendChild(label);
 
       const choiceSection = document.createElement("div");
+      choiceSection.classList.add(styles.choiceSection);
       dialog.appendChild(choiceSection);
 
       Confirm.#addYes(parent, dialog, choiceSection, resolve);

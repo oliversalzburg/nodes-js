@@ -8,9 +8,10 @@
   padding: 1px;
 
   background-color: #ccc;
-  border-color:#888;
+  border-color: #888;
 
-  font-family: monospace;
+  font-family: system-ui;
+  font-size: 14px;
 }
 .column:hover {
   background-color: #bbb;
@@ -22,6 +23,7 @@
 
 .column .value {
   color: #888;
+  font-family: monospace;
 }
 
 .column.connected {

@@ -18,7 +18,8 @@
   height: 20px;
   padding: 0 2px;
 
-  font-family: monospace;
+  font-family: system-ui;
+  font-size: 14px;
   line-height: 20px;
 }
 

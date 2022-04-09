@@ -1,0 +1,16 @@
+.dialog {
+  padding: 10px;
+
+  font-family: system-ui;
+  line-height: 20px;
+}
+
+.dialog .choiceSection {
+  margin: 10px 0 0 0;
+}
+
+.dialog button {
+  border: 1px solid #111;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
