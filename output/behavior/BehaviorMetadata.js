@@ -1,5 +1,5 @@
 import {mustExist} from "../Maybe.js";
-export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)"$/gm;
+export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)";$/gm;
 export const MatchInputMarkup = /^\/\/ @input "(?<label>[^"]+)"\nconst (?<identifier>[^ ]+) = .+;$/gm;
 export const MatchOutputMarkup = /^\/\/ @output "(?<label>[^"]+)"\nlet (?<identifier>[^ ]+) = .+;$/gm;
 export class BehaviorMetadata {
@@ -11,7 +11,7 @@ export class BehaviorMetadata {
   serialize() {
     const meta = new Array();
     meta.push("// @title");
-    meta.push(`const title = "${this.title}"`);
+    meta.push(`const title = "${this.title}";`);
     meta.push("");
     let inputIndex = 0;
     for (const input of this.inputs) {
@@ -28,8 +28,6 @@ export class BehaviorMetadata {
     return meta.join("\n");
   }
   wrapExecutable(executable) {
-    const inputsInit = this.inputs.map((input, index) => `const ${input.identifier} = this.inputs[${index}].value;`).join("\n");
-    const outputsInit = this.outputs.map((output, index) => `let ${output.identifier} = undefined;`).join("\n");
     const outputsWrite = this.outputs.map((output, index) => `this.outputs[${index}].value = ${output.identifier};`).join("\n");
     return `
 return (async () => {
