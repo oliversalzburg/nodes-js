@@ -270,27 +270,27 @@ export class Workarea extends HTMLElement {
   registerScrollableContainer(scrollable) {
     __privateSet(this, _scrollableContainer, scrollable);
   }
-  createNode(type, initParameters) {
+  createNode(type, shouldUpdateSnapshot = true, initParameters) {
     let node = null;
     switch (type) {
       case "script": {
         node = document.createElement("dt-node-script");
-        __privateMethod(this, _initNode, initNode_fn).call(this, node, initParameters);
+        __privateMethod(this, _initNode, initNode_fn).call(this, node, shouldUpdateSnapshot, initParameters);
         break;
       }
       case "noop": {
         node = document.createElement("dt-node-noop");
-        __privateMethod(this, _initNode, initNode_fn).call(this, node, initParameters);
+        __privateMethod(this, _initNode, initNode_fn).call(this, node, shouldUpdateSnapshot, initParameters);
         break;
       }
       case "row": {
         node = document.createElement("dt-node-row");
-        __privateMethod(this, _initNode, initNode_fn).call(this, node, initParameters);
+        __privateMethod(this, _initNode, initNode_fn).call(this, node, shouldUpdateSnapshot, initParameters);
         break;
       }
       case "seed": {
         node = document.createElement("dt-node-seed");
-        __privateMethod(this, _initNode, initNode_fn).call(this, node, initParameters);
+        __privateMethod(this, _initNode, initNode_fn).call(this, node, shouldUpdateSnapshot, initParameters);
         break;
       }
       case "_editor":
@@ -371,7 +371,7 @@ export class Workarea extends HTMLElement {
     const inputs = new Map();
     const outputs = new Map();
     for (const node of workarea.nodes) {
-      const createdNode = this.createNode(node.type, node);
+      const createdNode = this.createNode(node.type, false, node);
       nodes.set(mustExist(createdNode.nodeId), createdNode);
       for (const input of createdNode.inputs) {
         inputs.set(mustExist(input.columnId), input);
@@ -467,7 +467,7 @@ synchronizeDragOperation_fn = function(dragRoot, newPosition) {
   }
 };
 _initNode = new WeakSet();
-initNode_fn = function(node, initParameters) {
+initNode_fn = function(node, shouldUpdateSnapshot = true, initParameters) {
   this.appendChild(node);
   node.init(initParameters);
   this.nodes.push(node);
@@ -510,8 +510,11 @@ initNode_fn = function(node, initParameters) {
   });
   __privateGet(this, _draggables).set(node, draggable);
   const coords = Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0).draggableToAbsolute(position);
+  node.update();
   node.updateUi(coords);
   console.debug(`Created node ${node.nodeId} at ${Math.round(node.x)}x${Math.round(node.y)}.`);
-  this.storeSnapshot();
+  if (shouldUpdateSnapshot) {
+    this.storeSnapshot();
+  }
 };
 customElements.define("dt-workarea", Workarea);
