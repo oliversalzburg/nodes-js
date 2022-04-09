@@ -13,6 +13,7 @@ var __privateSet = (obj, member, value, setter) => {
 };
 var _workarea;
 import {isNil, mustExist} from "../Maybe.js";
+import {Confirm} from "./Confirm.js";
 import styles from "./Toolbar.module.css.proxy.js";
 export class Toolbar extends HTMLElement {
   constructor() {
@@ -59,13 +60,23 @@ export class Toolbar extends HTMLElement {
     deleteButton.classList.add(styles.button);
     deleteButton.textContent = "✖ Delete";
     deleteButton.title = "D";
-    deleteButton.addEventListener("click", () => mustExist(__privateGet(this, _workarea)).deleteSelectedNodes());
+    deleteButton.addEventListener("click", async () => {
+      const choice = await Confirm.yesNo("Delete selected nodes?");
+      if (choice === Confirm.YES) {
+        mustExist(__privateGet(this, _workarea)).deleteSelectedNodes();
+      }
+    });
     this.appendChild(deleteButton);
     const clearButton = document.createElement("button");
     clearButton.classList.add(styles.button);
     clearButton.textContent = "♻ Clear";
     clearButton.title = "X";
-    clearButton.addEventListener("click", () => mustExist(__privateGet(this, _workarea)).clear());
+    clearButton.addEventListener("click", async () => {
+      const choice = await Confirm.yesNo("Clear all nodes?");
+      if (choice === Confirm.YES) {
+        mustExist(__privateGet(this, _workarea)).clear();
+      }
+    });
     this.appendChild(clearButton);
     const divider2 = document.createElement("span");
     divider2.classList.add(styles.divider);

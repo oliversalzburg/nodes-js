@@ -21,6 +21,7 @@ import "../../_snowpack/pkg/codemirror/lib/codemirror.css.proxy.js";
 import "../../_snowpack/pkg/codemirror/mode/javascript/javascript.js";
 import "../../_snowpack/pkg/codemirror/theme/mdn-like.css.proxy.js";
 import {mustExist} from "../Maybe.js";
+import {Confirm} from "./Confirm.js";
 import {Node} from "./Node.js";
 export class NodeEditor extends Node {
   constructor() {
@@ -66,11 +67,13 @@ export class NodeEditor extends Node {
     }));
     __privateGet(this, _resizeObserver).observe(__privateGet(this, _codeMirror).getWrapperElement());
   }
-  onClickDelete(event) {
+  async onClickDelete(event) {
     if (this.behaviorSource !== this.target?.behavior?.toEditableScript()) {
-      const shouldApply = window.confirm("Apply new behavior?");
-      if (shouldApply) {
+      const shouldApply = await Confirm.yesNoCancel("Apply new behavior?");
+      if (shouldApply === Confirm.YES) {
         this.workarea?.closeBehaviorEditor(mustExist(this.target));
+        return;
+      } else if (shouldApply === Confirm.CANCEL) {
         return;
       }
     }

@@ -7,7 +7,7 @@ export const snapshot = {
     {
       type: "script",
       id: "script-5QM24I",
-      name: "Clockk",
+      name: "Clock",
       x: 3299.6666717529297,
       y: 2797.6666870117188,
       inputs: [],
