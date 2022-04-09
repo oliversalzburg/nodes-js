@@ -56,12 +56,20 @@ export class BehaviorMetadata {
   }
 
   wrapExecutable(executable: string) {
+    const inputsInit = this.inputs
+      .map((input, index) => `const ${input.identifier} = this.inputs[${index}].value;`)
+      .join("\n");
+    const outputsInit = this.outputs
+      .map((output, index) => `let ${output.identifier} = undefined;`)
+      .join("\n");
     const outputsWrite = this.outputs
       .map((output, index) => `this.outputs[${index}].value = ${output.identifier};`)
       .join("\n");
 
     return `
 return (async () => {
+${inputsInit}
+${outputsInit}
 ${executable}
 
 ${outputsWrite}
