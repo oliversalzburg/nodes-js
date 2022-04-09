@@ -70,6 +70,7 @@ export class Workarea extends HTMLElement {
 
   #draggables = new Map<Node, PlainDraggable>();
   #dragOperationSource = new Map<Node, Coordinates>();
+  #openEditors = new Set<NodeEditor>();
 
   #scrollableContainer: Scrollable | null = null;
 
@@ -78,6 +79,9 @@ export class Workarea extends HTMLElement {
     console.debug("Workarea constructed.");
   }
 
+  get #selectedEditors(): Iterable<NodeEditor> {
+    return [...this.#openEditors].filter(node => node.selected);
+  }
   get selectedNodes(): Iterable<Node> {
     return this.nodes.filter(node => node.selected);
   }
@@ -175,28 +179,39 @@ export class Workarea extends HTMLElement {
     }
 
     const editor = document.createElement("dt-node-editor") as NodeEditor;
+    this.#openEditors.add(editor);
     this.appendChild(editor);
     editor.init();
     editor.editNodeBehavior(node);
     editor.updateUi();
 
+    editor.x = node.x + 250;
+    editor.y = node.y - 250;
     const position = Locator.forWorkarea(
       this,
       this.#scrollableContainer ?? undefined
     ).absoluteToDraggable({
-      x: node.x + 250,
-      y: node.y - 250,
+      x: editor.x,
+      y: editor.y,
     });
 
     const draggable = new PlainDraggable(editor, {
       autoScroll: true,
       handle: editor.getElementsByTagName("title")[0],
       left: position.x,
+      onDragEnd: (newPosition: NewPosition) => {
+        editor.updateUi(
+          Locator.forWorkarea(this, this.#scrollableContainer ?? undefined).draggableToAbsolute({
+            x: newPosition.left,
+            y: newPosition.top,
+          })
+        );
+      },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
-        this.#beginSynchronizedDragOperation(node);
+        this.#beginSynchronizedDragOperation(editor);
       },
       onMove: newPosition => {
-        this.#synchronizeDragOperation(node, newPosition);
+        this.#synchronizeDragOperation(editor, newPosition);
         editor.updateUi();
       },
       top: position.y,
@@ -218,6 +233,7 @@ export class Workarea extends HTMLElement {
 
     node.behaviorEditor.line?.remove();
 
+    this.#openEditors.delete(node.behaviorEditor);
     this.removeChild(node.behaviorEditor);
     this.#draggables.delete(node.behaviorEditor);
 
@@ -302,7 +318,7 @@ export class Workarea extends HTMLElement {
 
     // When the workare itself was clicked, deselect selected nodes.
     if (event.target === this) {
-      for (const node of [...this.selectedNodes]) {
+      for (const node of [...this.selectedNodes, ...this.#selectedEditors]) {
         node.deselect();
       }
     }
@@ -311,7 +327,7 @@ export class Workarea extends HTMLElement {
     this.#dragOperationSource.clear();
     this.#dragOperationSource.set(dragRoot, { x: dragRoot.x, y: dragRoot.y });
     const locator = Locator.forWorkarea(this, this.#scrollableContainer ?? undefined);
-    for (const node of this.selectedNodes as Iterable<Node>) {
+    for (const node of [...this.selectedNodes, ...this.#selectedEditors] as Iterable<Node>) {
       this.#dragOperationSource.set(node, locator.absoluteToDraggable({ x: node.x, y: node.y }));
     }
   }
@@ -320,7 +336,7 @@ export class Workarea extends HTMLElement {
     const deltaX = newPosition.left - rootDragSource.x;
     const deltaY = newPosition.top - rootDragSource.y;
 
-    for (const node of this.selectedNodes as Iterable<Node>) {
+    for (const node of [...this.selectedNodes, ...this.#selectedEditors] as Iterable<Node>) {
       if (node === dragRoot) {
         continue;
       }
@@ -496,17 +512,11 @@ export class Workarea extends HTMLElement {
         this.storeSnapshot();
       },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
-        /*
-        if (event.ctrlKey) {
-          return false;
-        }
-        */
-
         this.#beginSynchronizedDragOperation(node);
       },
       onMove: newPosition => {
         this.#synchronizeDragOperation(node, newPosition);
-        mustExist(node).updateUi();
+        node.updateUi();
       },
       top: position.y,
     });
