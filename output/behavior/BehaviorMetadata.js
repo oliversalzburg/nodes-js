@@ -1,7 +1,7 @@
 import {mustExist} from "../Maybe.js";
-export const MatchTitleMarkup = /^\/\/\/ @title "(?<title>[^"]+)"$/gm;
-export const MatchInputMarkup = /^\/\/\/ @input (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
-export const MatchOutputMarkup = /^\/\/\/ @output (?<identifier>[^ ]+) "(?<label>[^"]+)".*$/gm;
+export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)"$/gm;
+export const MatchInputMarkup = /^\/\/ @input "(?<label>[^"]+)"\nconst (?<identifier>[^ ]+) = .+;$/gm;
+export const MatchOutputMarkup = /^\/\/ @output "(?<label>[^"]+)"\nlet (?<identifier>[^ ]+) = .+;$/gm;
 export class BehaviorMetadata {
   constructor(title = "", inputs = new Array(), outputs = new Array()) {
     this.title = title;
@@ -10,12 +10,20 @@ export class BehaviorMetadata {
   }
   serialize() {
     const meta = new Array();
-    meta.push(`/// @title "${this.title}"`);
+    meta.push("// @title");
+    meta.push(`const title = "${this.title}"`);
+    meta.push("");
+    let inputIndex = 0;
     for (const input of this.inputs) {
-      meta.push(`/// @input ${input.identifier} "${input.label}"`);
+      meta.push(`// @input "${input.label}"`);
+      meta.push(`const ${input.identifier} = this.inputs[${inputIndex++}].value;`);
+    }
+    if (0 < inputIndex) {
+      meta.push("");
     }
     for (const output of this.outputs) {
-      meta.push(`/// @output ${output.identifier} "${output.label}"`);
+      meta.push(`// @output "${output.label}"`);
+      meta.push(`let ${output.identifier} = undefined;`);
     }
     return meta.join("\n");
   }
@@ -24,10 +32,7 @@ export class BehaviorMetadata {
     const outputsInit = this.outputs.map((output, index) => `let ${output.identifier} = undefined;`).join("\n");
     const outputsWrite = this.outputs.map((output, index) => `this.outputs[${index}].value = ${output.identifier};`).join("\n");
     return `
-${inputsInit}
-${outputsInit}
-
-(async () => {
+return (async () => {
 ${executable}
 
 ${outputsWrite}

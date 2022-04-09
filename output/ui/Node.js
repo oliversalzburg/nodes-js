@@ -207,7 +207,6 @@ const _Node = class extends HTMLElement {
     const script = this.behavior.toExecutableBehavior();
     this.rebuildFromMetadata();
     this.behaviorCompiled = new Function(script).bind(this);
-    this.update();
   }
   addInput(initParameters) {
     const input = document.createElement("dt-input");

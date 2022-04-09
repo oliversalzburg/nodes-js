@@ -185,6 +185,7 @@ export class Workarea extends HTMLElement {
       return;
     }
     node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
+    node.update();
     this.cancelBehaviorEditor(node, event);
   }
   onClick(event) {

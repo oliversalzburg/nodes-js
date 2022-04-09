@@ -43,10 +43,6 @@ export class NodeEditor extends Node {
     __privateSet(this, _textarea, document.createElement("textarea"));
     __privateGet(this, _textarea).setAttribute("spellcheck", "false");
     this.appendChild(__privateGet(this, _textarea));
-    __privateSet(this, _resizeObserver, new ResizeObserver(() => {
-      this.workarea?.onNodeResize(this);
-    }));
-    __privateGet(this, _resizeObserver).observe(__privateGet(this, _textarea));
   }
   disconnectedCallback() {
     __privateGet(this, _resizeObserver)?.disconnect();
@@ -64,6 +60,11 @@ export class NodeEditor extends Node {
       showHint: true,
       theme: "mdn-like"
     }));
+    __privateGet(this, _resizeObserver)?.disconnect();
+    __privateSet(this, _resizeObserver, new ResizeObserver(() => {
+      this.workarea?.onNodeResize(this);
+    }));
+    __privateGet(this, _resizeObserver).observe(__privateGet(this, _codeMirror).getWrapperElement());
   }
   onClickDelete(event) {
     if (this.behaviorSource !== this.target?.behavior?.toEditableScript()) {
