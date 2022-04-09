@@ -11,7 +11,15 @@ var __privateSet = (obj, member, value, setter) => {
   setter ? setter.call(obj, value) : member.set(obj, value);
   return value;
 };
-var _textarea, _resizeObserver;
+var _textarea, _resizeObserver, _codeMirror;
+import "../../_snowpack/pkg/codemirror.js";
+import CodeMirror from "../../_snowpack/pkg/codemirror.js";
+import "../../_snowpack/pkg/codemirror/addon/hint/javascript-hint.js";
+import "../../_snowpack/pkg/codemirror/addon/hint/show-hint.js";
+import "../../_snowpack/pkg/codemirror/addon/hint/show-hint.css.proxy.js";
+import "../../_snowpack/pkg/codemirror/lib/codemirror.css.proxy.js";
+import "../../_snowpack/pkg/codemirror/mode/javascript/javascript.js";
+import "../../_snowpack/pkg/codemirror/theme/mdn-like.css.proxy.js";
 import {mustExist} from "../Maybe.js";
 import {Node} from "./Node.js";
 export class NodeEditor extends Node {
@@ -19,14 +27,16 @@ export class NodeEditor extends Node {
     super("_editor", "Behavior Editor");
     _textarea.set(this, void 0);
     _resizeObserver.set(this, void 0);
+    _codeMirror.set(this, void 0);
     __privateSet(this, _textarea, null);
     __privateSet(this, _resizeObserver, null);
+    __privateSet(this, _codeMirror, null);
     this.target = null;
     this.line = null;
     this.hasIo = false;
   }
   get behaviorSource() {
-    return __privateGet(this, _textarea)?.value ?? "";
+    return __privateGet(this, _codeMirror)?.getValue() ?? "";
   }
   connectedCallback() {
     super.connectedCallback();
@@ -47,6 +57,13 @@ export class NodeEditor extends Node {
     node.behaviorEditor = this;
     this.name = `Behavior Editor for ${this.target.nodeId}`;
     mustExist(__privateGet(this, _textarea)).value = node.behavior?.toEditableScript() ?? "";
+    __privateSet(this, _codeMirror, CodeMirror.fromTextArea(mustExist(__privateGet(this, _textarea)), {
+      extraKeys: {"Ctrl-Space": "autocomplete"},
+      lineNumbers: true,
+      mode: {name: "javascript"},
+      showHint: true,
+      theme: "mdn-like"
+    }));
   }
   onClickDelete(event) {
     if (this.behaviorSource !== this.target?.behavior?.toEditableScript()) {
@@ -74,4 +91,5 @@ export class NodeEditor extends Node {
 }
 _textarea = new WeakMap();
 _resizeObserver = new WeakMap();
+_codeMirror = new WeakMap();
 customElements.define("dt-node-editor", NodeEditor);

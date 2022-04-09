@@ -317,11 +317,13 @@ export class Workarea extends HTMLElement {
     for (const node of [...this.selectedNodes]) {
       this.deleteNode(node);
     }
+    console.info("Selected nodes deleted.");
   }
   clear() {
     for (const node of [...this.nodes]) {
       this.deleteNode(node, false);
     }
+    console.info("All nodes deleted.");
   }
   async execute() {
     const execution = Execution.fromNodes(this.nodes);

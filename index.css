@@ -14,3 +14,7 @@ body {
 .leader-line {
   z-index: 1;
 }
+.CodeMirror {
+  height: auto !important;
+  border-top: 1px solid #333;
+}
