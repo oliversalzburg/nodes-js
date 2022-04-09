@@ -35,11 +35,6 @@ export class NodeEditor extends Node {
     this.#textarea = document.createElement("textarea");
     this.#textarea.setAttribute("spellcheck", "false");
     this.appendChild(this.#textarea);
-
-    this.#resizeObserver = new ResizeObserver(() => {
-      this.workarea?.onNodeResize(this);
-    });
-    this.#resizeObserver.observe(this.#textarea);
   }
 
   disconnectedCallback() {
@@ -61,6 +56,12 @@ export class NodeEditor extends Node {
       showHint: true,
       theme: "mdn-like",
     });
+
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = new ResizeObserver(() => {
+      this.workarea?.onNodeResize(this);
+    });
+    this.#resizeObserver.observe(this.#codeMirror.getWrapperElement());
   }
 
   onClickDelete(event?: MouseEvent): void {
