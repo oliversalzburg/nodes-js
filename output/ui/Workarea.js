@@ -15,7 +15,7 @@ var __privateMethod = (obj, member, method) => {
   __accessCheck(obj, member, "access private method");
   return method;
 };
-var _currentConnectionSource, _currentDecoy, _currentDecoyLine, _draggables, _dragOperationSource, _scrollableContainer, _updateDecoy, updateDecoy_fn, _clearDecoy, clearDecoy_fn, _panning, _panInitMouse, _panInitWorkarea, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn, _synchronizeDragOperation, synchronizeDragOperation_fn, _initNode, initNode_fn;
+var _currentConnectionSource, _currentDecoy, _currentDecoyLine, _draggables, _dragOperationSource, _openEditors, _scrollableContainer, _selectedEditors, selectedEditors_get, _updateDecoy, updateDecoy_fn, _clearDecoy, clearDecoy_fn, _panning, _panInitMouse, _panInitWorkarea, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn, _synchronizeDragOperation, synchronizeDragOperation_fn, _initNode, initNode_fn;
 import "../../_snowpack/pkg/leader-line.js";
 import LZString from "../../_snowpack/pkg/lz-string.js";
 import PlainDraggable from "../../_snowpack/pkg/plain-draggable.js";
@@ -30,6 +30,7 @@ import styles from "./Workarea.module.css.proxy.js";
 export class Workarea extends HTMLElement {
   constructor() {
     super();
+    _selectedEditors.add(this);
     _updateDecoy.add(this);
     _clearDecoy.add(this);
     _beginSynchronizedDragOperation.add(this);
@@ -40,6 +41,7 @@ export class Workarea extends HTMLElement {
     _currentDecoyLine.set(this, void 0);
     _draggables.set(this, void 0);
     _dragOperationSource.set(this, void 0);
+    _openEditors.set(this, void 0);
     _scrollableContainer.set(this, void 0);
     _panning.set(this, void 0);
     _panInitMouse.set(this, void 0);
@@ -51,6 +53,7 @@ export class Workarea extends HTMLElement {
     __privateSet(this, _currentDecoyLine, null);
     __privateSet(this, _draggables, new Map());
     __privateSet(this, _dragOperationSource, new Map());
+    __privateSet(this, _openEditors, new Set());
     __privateSet(this, _scrollableContainer, null);
     __privateSet(this, _panning, false);
     __privateSet(this, _panInitMouse, [0, 0]);
@@ -140,23 +143,32 @@ export class Workarea extends HTMLElement {
       return;
     }
     const editor = document.createElement("dt-node-editor");
+    __privateGet(this, _openEditors).add(editor);
     this.appendChild(editor);
     editor.init();
     editor.editNodeBehavior(node);
     editor.updateUi();
+    editor.x = node.x + 250;
+    editor.y = node.y - 250;
     const position = Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0).absoluteToDraggable({
-      x: node.x + 250,
-      y: node.y - 250
+      x: editor.x,
+      y: editor.y
     });
     const draggable = new PlainDraggable(editor, {
       autoScroll: true,
       handle: editor.getElementsByTagName("title")[0],
       left: position.x,
+      onDragEnd: (newPosition) => {
+        editor.updateUi(Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0).draggableToAbsolute({
+          x: newPosition.left,
+          y: newPosition.top
+        }));
+      },
       onDragStart: (event2) => {
-        __privateMethod(this, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn).call(this, node);
+        __privateMethod(this, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn).call(this, editor);
       },
       onMove: (newPosition) => {
-        __privateMethod(this, _synchronizeDragOperation, synchronizeDragOperation_fn).call(this, node, newPosition);
+        __privateMethod(this, _synchronizeDragOperation, synchronizeDragOperation_fn).call(this, editor, newPosition);
         editor.updateUi();
       },
       top: position.y
@@ -175,6 +187,7 @@ export class Workarea extends HTMLElement {
       return;
     }
     node.behaviorEditor.line?.remove();
+    __privateGet(this, _openEditors).delete(node.behaviorEditor);
     this.removeChild(node.behaviorEditor);
     __privateGet(this, _draggables).delete(node.behaviorEditor);
     node.behaviorEditor = null;
@@ -217,7 +230,7 @@ export class Workarea extends HTMLElement {
     __privateMethod(this, _clearDecoy, clearDecoy_fn).call(this);
     __privateSet(this, _panning, false);
     if (event.target === this) {
-      for (const node of [...this.selectedNodes]) {
+      for (const node of [...this.selectedNodes, ...__privateGet(this, _selectedEditors, selectedEditors_get)]) {
         node.deselect();
       }
     }
@@ -409,7 +422,12 @@ _currentDecoy = new WeakMap();
 _currentDecoyLine = new WeakMap();
 _draggables = new WeakMap();
 _dragOperationSource = new WeakMap();
+_openEditors = new WeakMap();
 _scrollableContainer = new WeakMap();
+_selectedEditors = new WeakSet();
+selectedEditors_get = function() {
+  return [...__privateGet(this, _openEditors)].filter((node) => node.selected);
+};
 _updateDecoy = new WeakSet();
 updateDecoy_fn = function(event) {
   if (!isNil(__privateGet(this, _currentDecoy))) {
@@ -439,7 +457,7 @@ beginSynchronizedDragOperation_fn = function(dragRoot) {
   __privateGet(this, _dragOperationSource).clear();
   __privateGet(this, _dragOperationSource).set(dragRoot, {x: dragRoot.x, y: dragRoot.y});
   const locator = Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0);
-  for (const node of this.selectedNodes) {
+  for (const node of [...this.selectedNodes, ...__privateGet(this, _selectedEditors, selectedEditors_get)]) {
     __privateGet(this, _dragOperationSource).set(node, locator.absoluteToDraggable({x: node.x, y: node.y}));
   }
 };
@@ -448,7 +466,7 @@ synchronizeDragOperation_fn = function(dragRoot, newPosition) {
   const rootDragSource = mustExist(__privateGet(this, _dragOperationSource).get(dragRoot));
   const deltaX = newPosition.left - rootDragSource.x;
   const deltaY = newPosition.top - rootDragSource.y;
-  for (const node of this.selectedNodes) {
+  for (const node of [...this.selectedNodes, ...__privateGet(this, _selectedEditors, selectedEditors_get)]) {
     if (node === dragRoot) {
       continue;
     }
@@ -504,7 +522,7 @@ initNode_fn = function(node, shouldUpdateSnapshot = true, initParameters) {
     },
     onMove: (newPosition) => {
       __privateMethod(this, _synchronizeDragOperation, synchronizeDragOperation_fn).call(this, node, newPosition);
-      mustExist(node).updateUi();
+      node.updateUi();
     },
     top: position.y
   });
