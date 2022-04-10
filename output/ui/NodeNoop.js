@@ -8,14 +8,11 @@ export class NodeNoop extends Node {
   getFactory() {
     return NodeNoop;
   }
-  async connectedCallback() {
-    super.connectedCallback();
+  async init(initParameters) {
+    await super.init(initParameters);
     await this.updateBehavior(await Behavior.fromCodeFragment(`this._title("Noop");
 this._input("Sink")`, NodeNoop));
     this.rebuildFromMetadata();
-  }
-  async init(initParameters) {
-    await super.init(initParameters);
     this.updateUi();
   }
 }

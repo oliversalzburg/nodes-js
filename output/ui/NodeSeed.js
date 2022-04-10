@@ -11,8 +11,9 @@ export class NodeSeed extends Node {
   getFactory() {
     return NodeSeed;
   }
-  async connectedCallback() {
-    super.connectedCallback();
+  async init(initParameters) {
+    await super.init(initParameters);
+    this.random = arbit(mustExist(this.nodeId));
     await this.updateBehavior(await Behavior.fromCodeFragment(`this._title("Seed");
 
 let float = this._output("Float");
@@ -21,10 +22,6 @@ let int = this._output("Int");
 float.update(this.random());
 int.update(this.random.nextInt(256));`, NodeSeed));
     this.rebuildFromMetadata();
-  }
-  async init(initParameters) {
-    await super.init(initParameters);
-    this.random = arbit(mustExist(this.nodeId));
     this.updateUi();
   }
 }
