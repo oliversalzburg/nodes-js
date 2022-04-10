@@ -335,8 +335,11 @@ export class Workarea extends HTMLElement {
   }
   #beginSynchronizedDragOperation(dragRoot: Node) {
     this.#dragOperationSource.clear();
-    this.#dragOperationSource.set(dragRoot, { x: dragRoot.x, y: dragRoot.y });
     const locator = Locator.forWorkarea(this, this.#scrollableContainer ?? undefined);
+    this.#dragOperationSource.set(
+      dragRoot,
+      locator.absoluteToDraggable({ x: dragRoot.x, y: dragRoot.y })
+    );
     for (const node of [...this.selectedNodes, ...this.#selectedEditors] as Iterable<Node>) {
       this.#dragOperationSource.set(node, locator.absoluteToDraggable({ x: node.x, y: node.y }));
       node.classList.add(stylesNode.dragging);
