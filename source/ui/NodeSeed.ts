@@ -26,7 +26,8 @@ export class NodeSeed extends Node {
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
-        `this._title("Seed");
+        initParameters?.behavior?.script ??
+          `this._title("Seed");
 
 let float = this._output("Float");
 let int = this._output("Int");

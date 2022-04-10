@@ -19,7 +19,8 @@ export class NodeNoop extends Node {
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
-        `this._title("Noop");
+        initParameters?.behavior?.script ??
+          `this._title("Noop");
 this._input("Sink")`,
         NodeNoop
       )

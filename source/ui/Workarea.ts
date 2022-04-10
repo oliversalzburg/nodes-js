@@ -615,13 +615,13 @@ export class Workarea extends HTMLElement {
     url.hash = compressed;
     console.info(url.toString());
   }
-  import(compressedSnapshot: string) {
+  async import(compressedSnapshot: string) {
     const short = LZString.decompressFromBase64(compressedSnapshot);
     if (short === null) {
       throw new Error("Unable to decompress snapshot!");
     }
     const parsed = JSON.parse(short) as SerializedWorkarea;
-    this.deserialize(parsed);
+    await this.deserialize(parsed);
   }
 
   storeSnapshot() {
@@ -629,19 +629,19 @@ export class Workarea extends HTMLElement {
     localStorage.setItem("snapshot", JSON.stringify(snapshot));
     console.debug("Snapshot updated.");
   }
-  restoreSnapshot() {
+  async restoreSnapshot() {
     const snapshotItem = localStorage.getItem("snapshot");
     if (snapshotItem === null) {
       return;
     }
     const snapshot = JSON.parse(snapshotItem) as SerializedWorkarea;
-    this.deserialize(snapshot);
+    await this.deserialize(snapshot);
   }
-  restoreSnapshotDemo() {
-    this.deserialize(snapshot as SerializedWorkarea);
+  async restoreSnapshotDemo() {
+    await this.deserialize(snapshot as SerializedWorkarea);
   }
 
-  deserialize(workarea: SerializedWorkarea) {
+  async deserialize(workarea: SerializedWorkarea) {
     this.clear();
 
     const nodes = new Map<string, Node>();
@@ -671,6 +671,7 @@ export class Workarea extends HTMLElement {
 
     // Init data
     for (const node of this.nodes) {
+      await node.update();
       for (const input of node.inputs) {
         input.update();
         input.updateUi();

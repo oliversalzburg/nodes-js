@@ -26,7 +26,8 @@ export class NodeFile extends Node {
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
-        `this._title("File");
+        initParameters?.behavior?.script ??
+          `this._title("File");
 
 this._command("Pick file", async function(command) {
   const file = await this.openFile();

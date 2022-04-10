@@ -19,7 +19,8 @@ export class NodeRow extends Node {
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
-        `this._title("Row");
+        initParameters?.behavior?.script ??
+          `this._title("Row");
 for(let inputIndex = 0; inputIndex < 5; ++inputIndex) { 
   const output = this._output(\`Output \${inputIndex}\`);
   output.update(inputIndex * 2);
