@@ -399,7 +399,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/codemirror@npm:^5":
+"@types/codemirror@npm:5.60.5":
   version: 5.60.5
   resolution: "@types/codemirror@npm:5.60.5"
   dependencies:
@@ -408,7 +408,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8":
+"@types/eslint@npm:8.4.1":
   version: 8.4.1
   resolution: "@types/eslint@npm:8.4.1"
   dependencies:
@@ -455,14 +455,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lz-string@npm:^1":
+"@types/lz-string@npm:1.3.34":
   version: 1.3.34
   resolution: "@types/lz-string@npm:1.3.34"
   checksum: e5c5ec0b9b9bfb0a64ca883152ce753244f53a6f12d8d3ba1a363262bea07fed1cd04c399a33a5d600a665d15a39a58bf5fd1ad9c52a98bccf7511f7a42e82f7
   languageName: node
   linkType: hard
 
-"@types/nanoid@npm:^3.0.0":
+"@types/nanoid@npm:3.0.0":
   version: 3.0.0
   resolution: "@types/nanoid@npm:3.0.0"
   dependencies:
@@ -519,14 +519,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web@npm:^0.0.60":
+"@types/web@npm:0.0.60":
   version: 0.0.60
   resolution: "@types/web@npm:0.0.60"
   checksum: 5b1dd84fe9b7c6c450ab3d3cc336f4df37d8c672b7e6a88dc13d23114c5c8dde1690e329fc9eddd49ada457ea53173522f48c9e1aebdd55d6294d36586670903
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.17.0":
+"@typescript-eslint/eslint-plugin@npm:5.17.0":
   version: 5.17.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.17.0"
   dependencies:
@@ -549,7 +549,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.17.0":
+"@typescript-eslint/parser@npm:5.17.0":
   version: 5.17.0
   resolution: "@typescript-eslint/parser@npm:5.17.0"
   dependencies:
@@ -724,7 +724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"anim-event@npm:^1.0.17":
+"anim-event@npm:1.0.17":
   version: 1.0.17
   resolution: "anim-event@npm:1.0.17"
   checksum: 5ef4c5ee47b54f85a64bcc9fcd037e215d7d598e4baa5764d06bf9f9c5ef02968fe2370bf1560cfa778b17785ae5f49454ea7d3bc9d88bc783e087763be77e3a
@@ -810,7 +810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"arbit@npm:^0.1.1":
+"arbit@npm:0.1.1":
   version: 0.1.1
   resolution: "arbit@npm:0.1.1"
   checksum: eb8da3b3659ea4913e4569f64f8c0b032cce2fb511547507e679dd8e1979045e862d6e89888d739e8137e3df07acfe9554e27e6641383743fecd546b79a09617
@@ -998,7 +998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browser-fs-access@npm:^0.26.1":
+"browser-fs-access@npm:0.26.1":
   version: 0.26.1
   resolution: "browser-fs-access@npm:0.26.1"
   checksum: 00f9009480b0de164bcabe0a18aa899080772a3bbf0cb24c395139b3250b09acacc40a665b578d3f36d40f37515fe5ca50e6090957b5e296fa23d17600b47e0c
@@ -1274,7 +1274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"codemirror@npm:^5.65.2":
+"codemirror@npm:5.65.2":
   version: 5.65.2
   resolution: "codemirror@npm:5.65.2"
   checksum: 8e13511319aa8b4772a4406952d89ecef63f4518fa17a3893270d9835ade59d67a94bc83918d881901abb57ed68cbbe697e720a01a43e1aae43fc0f03a6591b1
@@ -1456,7 +1456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssprefix@npm:^2.0.17":
+"cssprefix@npm:2.0.17":
   version: 2.0.17
   resolution: "cssprefix@npm:2.0.17"
   checksum: e7c59441f3c258073ab7a38d3d1118cec4b433160ecd5b0aaaa05dd3dda6de150de972b655481245b6ece0d61d87b588e9e3431749255894c5514713ec231779
@@ -1837,7 +1837,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.12.0":
+"eslint@npm:8.12.0":
   version: 8.12.0
   resolution: "eslint@npm:8.12.0"
   dependencies:
@@ -2925,7 +2925,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"leader-line@npm:^1.0.7":
+"leader-line@npm:1.0.7":
   version: 1.0.7
   resolution: "leader-line@npm:1.0.7"
   checksum: 83fd01bddd927f4bbe0d5791adde0f2d88f803880678b84385c397595e25e69526707ca94e97d23072eaedf6162630879dcd4e5674d5ffe88491d080fc5e4f0c
@@ -2956,7 +2956,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.7":
+"lint-staged@npm:12.3.7":
   version: 12.3.7
   resolution: "lint-staged@npm:12.3.7"
   dependencies:
@@ -3075,7 +3075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lz-string@npm:^1.4.4":
+"lz-string@npm:1.4.4":
   version: 1.4.4
   resolution: "lz-string@npm:1.4.4"
   bin:
@@ -3084,7 +3084,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"m-class-list@npm:^1.1.10":
+"m-class-list@npm:1.1.10":
   version: 1.1.10
   resolution: "m-class-list@npm:1.1.10"
   checksum: c238c6333b95649217e835a85c8ce36044c515ef7ee569218f0a6ef750c383bd6dec25facd944b5bee709305f924c34028ed492505d3d52d78e1de2c09e9b5ca
@@ -3370,7 +3370,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:*, nanoid@npm:^3.3.1":
+"nanoid@npm:*, nanoid@npm:3.3.1, nanoid@npm:^3.3.1":
   version: 3.3.1
   resolution: "nanoid@npm:3.3.1"
   bin:
@@ -3448,31 +3448,31 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nodes-js@workspace:."
   dependencies:
-    "@types/codemirror": ^5
-    "@types/eslint": ^8
-    "@types/lz-string": ^1
-    "@types/nanoid": ^3.0.0
-    "@types/web": ^0.0.60
-    "@typescript-eslint/eslint-plugin": ^5.17.0
-    "@typescript-eslint/parser": ^5.17.0
-    anim-event: ^1.0.17
-    arbit: ^0.1.1
-    browser-fs-access: ^0.26.1
-    codemirror: ^5.65.2
-    cssprefix: ^2.0.17
-    eslint: ^8.12.0
-    leader-line: ^1.0.7
-    lint-staged: ^12.3.7
-    lz-string: ^1.4.4
-    m-class-list: ^1.1.10
-    nanoid: ^3.3.1
-    plain-draggable: ^2.5.14
-    pointer-event: ^1.1.0
-    prettier: ^2.6.1
-    prettier-package-json: ^2.6.3
-    prettier-plugin-organize-imports: ^2.3.4
-    snowpack: ^3.8.8
-    typescript: ^4.6.3
+    "@types/codemirror": 5.60.5
+    "@types/eslint": 8.4.1
+    "@types/lz-string": 1.3.34
+    "@types/nanoid": 3.0.0
+    "@types/web": 0.0.60
+    "@typescript-eslint/eslint-plugin": 5.17.0
+    "@typescript-eslint/parser": 5.17.0
+    anim-event: 1.0.17
+    arbit: 0.1.1
+    browser-fs-access: 0.26.1
+    codemirror: 5.65.2
+    cssprefix: 2.0.17
+    eslint: 8.12.0
+    leader-line: 1.0.7
+    lint-staged: 12.3.7
+    lz-string: 1.4.4
+    m-class-list: 1.1.10
+    nanoid: 3.3.1
+    plain-draggable: 2.5.14
+    pointer-event: 1.1.0
+    prettier: 2.6.1
+    prettier-package-json: 2.6.3
+    prettier-plugin-organize-imports: 2.3.4
+    snowpack: 3.8.8
+    typescript: 4.6.3
   languageName: unknown
   linkType: soft
 
@@ -3959,14 +3959,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"plain-draggable@npm:^2.5.14":
+"plain-draggable@npm:2.5.14":
   version: 2.5.14
   resolution: "plain-draggable@npm:2.5.14"
   checksum: 6e3d7ca88ebba3c3680118cdc06a3a97b79c47e889f3deeeb41dcba4bd59861b478559f97dcc8a3513c24107a8e00610a74ba2b91630dd862b4b5899fcba0a66
   languageName: node
   linkType: hard
 
-"pointer-event@npm:^1.1.0":
+"pointer-event@npm:1.1.0":
   version: 1.1.0
   resolution: "pointer-event@npm:1.1.0"
   checksum: 6e42e84de574a41aa30e8e49ea9e45e0c55f3ad96a0649017187f0ece134470ae56a5cd3c7a29c3ce774e36fab427437396962132dbb23979364b05bf6b2af8e
@@ -4070,7 +4070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-package-json@npm:^2.6.3":
+"prettier-package-json@npm:2.6.3":
   version: 2.6.3
   resolution: "prettier-package-json@npm:2.6.3"
   dependencies:
@@ -4089,7 +4089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-organize-imports@npm:^2.3.4":
+"prettier-plugin-organize-imports@npm:2.3.4":
   version: 2.3.4
   resolution: "prettier-plugin-organize-imports@npm:2.3.4"
   peerDependencies:
@@ -4099,7 +4099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.6.1":
+"prettier@npm:2.6.1":
   version: 2.6.1
   resolution: "prettier@npm:2.6.1"
   bin:
@@ -4587,7 +4587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"snowpack@npm:^3.8.8":
+"snowpack@npm:3.8.8":
   version: 3.8.8
   resolution: "snowpack@npm:3.8.8"
   dependencies:
@@ -5011,7 +5011,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.3":
+"typescript@npm:4.6.3":
   version: 4.6.3
   resolution: "typescript@npm:4.6.3"
   bin:
@@ -5021,7 +5021,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.6.3#~builtin<compat/typescript>":
   version: 4.6.3
   resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=bda367"
   bin:
