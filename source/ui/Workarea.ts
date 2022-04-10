@@ -2,6 +2,7 @@ import "leader-line";
 import LZString from "lz-string";
 import PlainDraggable, { NewPosition } from "plain-draggable";
 import { Behavior } from "../behavior/Behavior";
+import { InputMetadata, OutputMetadata } from "../behavior/BehaviorMetadata";
 import { Execution } from "../execution/Execution";
 import { isNil, mustExist } from "../Maybe";
 import { Command } from "./Command";
@@ -47,8 +48,8 @@ export type SerializedOutput = {
 
 export type SerializedBehavior = {
   metadata: {
-    inputs: Array<{ identifier: string; label: string }>;
-    outputs: Array<{ identifier: string; label: string }>;
+    inputs: Array<InputMetadata>;
+    outputs: Array<OutputMetadata>;
   };
   script: string;
 };

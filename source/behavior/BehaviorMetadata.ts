@@ -3,16 +3,13 @@ import { Command } from "../ui/Command";
 import { Node } from "../ui/Node";
 
 export type CommandMetadata = {
-  identifier: string;
   label: string;
   entrypoint: (command: Command) => Promise<unknown>;
 };
 export type InputMetadata = {
-  identifier: string;
   label: string;
 };
 export type OutputMetadata = {
-  identifier: string;
   label: string;
 };
 
@@ -50,13 +47,11 @@ ${executable}
     const meta = new BehaviorMetadata();
 
     meta.title = node.name;
-    let inputIndex = 0;
     for (const input of node.inputs) {
-      meta.inputs.push({ identifier: `input${inputIndex++}`, label: input.label });
+      meta.inputs.push({ label: input.label });
     }
-    let outputIndex = 0;
     for (const output of node.outputs) {
-      meta.outputs.push({ identifier: `output${outputIndex++}`, label: output.label });
+      meta.outputs.push({ label: output.label });
     }
 
     return meta;
@@ -78,16 +73,15 @@ ${executable}
     const executionSink = Object.assign(new nodeConstructor(), {
       _command: (label: string, callback: (command: Command) => Promise<unknown>) => {
         meta.commands.push({
-          identifier: `command${meta.commands.length}`,
           label,
           entrypoint: callback,
         });
       },
       _input: (label: string) => {
-        meta.inputs.push({ identifier: `input${meta.inputs.length}`, label });
+        meta.inputs.push({ label });
       },
       _output: (label: string) => {
-        meta.outputs.push({ identifier: `ouput${meta.outputs.length}`, label });
+        meta.outputs.push({ label });
         return {
           update: Function.prototype,
         };
