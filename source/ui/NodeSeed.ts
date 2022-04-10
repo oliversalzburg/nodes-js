@@ -19,8 +19,10 @@ export class NodeSeed extends Node {
     return NodeSeed;
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
+
+    this.random = arbit(mustExist(this.nodeId));
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
@@ -36,12 +38,6 @@ int.update(this.random.nextInt(256));`,
     );
 
     this.rebuildFromMetadata();
-  }
-
-  async init(initParameters?: SerializedNode) {
-    await super.init(initParameters);
-
-    this.random = arbit(mustExist(this.nodeId));
 
     this.updateUi();
   }

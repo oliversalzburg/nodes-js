@@ -14,8 +14,8 @@ export class NodeNoop extends Node {
     return NodeNoop;
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
@@ -26,10 +26,6 @@ this._input("Sink")`,
     );
 
     this.rebuildFromMetadata();
-  }
-
-  async init(initParameters?: SerializedNode) {
-    await super.init(initParameters);
 
     this.updateUi();
   }

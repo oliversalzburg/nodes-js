@@ -1,12 +1,9 @@
 import { Behavior } from "../behavior/Behavior";
 import { ConstructorOf } from "../Mixins";
 import { Node } from "./Node";
-import { Output } from "./Output";
 import { SerializedNode } from "./Workarea";
 
 export class NodeRow extends Node {
-  #outputIntElements = new Array<Output>();
-
   constructor() {
     super("row", "Row");
 
@@ -17,8 +14,8 @@ export class NodeRow extends Node {
     return NodeRow;
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
@@ -32,10 +29,6 @@ for(let inputIndex = 0; inputIndex < 5; ++inputIndex) {
     );
 
     this.rebuildFromMetadata();
-  }
-
-  async init(initParameters?: SerializedNode) {
-    await super.init(initParameters);
 
     this.updateUi();
   }

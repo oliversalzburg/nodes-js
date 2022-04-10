@@ -14,8 +14,8 @@ export class NodeScript extends Node {
     return NodeScript;
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
 
     await this.updateBehavior(
       await Behavior.fromCodeFragment(
@@ -29,10 +29,6 @@ sum.update( Number(a) + Number(b));`,
     );
 
     this.rebuildFromMetadata();
-  }
-
-  async init(initParameters?: SerializedNode) {
-    await super.init(initParameters);
 
     this.updateUi();
   }
