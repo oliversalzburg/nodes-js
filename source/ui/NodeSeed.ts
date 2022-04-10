@@ -1,6 +1,5 @@
 import arbit, { ArbitGenerator } from "arbit";
 import { Behavior } from "../behavior/Behavior";
-import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
@@ -20,15 +19,15 @@ export class NodeSeed extends Node {
 
     this.updateBehavior(
       Behavior.fromCodeFragment(
-        "float = this.random();" + "\n" + "int = this.random.nextInt(256);",
-        new BehaviorMetadata(
-          "Seed",
-          [],
-          [
-            { identifier: "float", label: "Float" },
-            { identifier: "int", label: "Integer" },
-          ]
-        )
+        'this._title("Seed");' +
+          "\n" +
+          'let float = this._output("Float");' +
+          "\n" +
+          'let int = this._output("Int");' +
+          "\n" +
+          "float.update(this.random());" +
+          "\n" +
+          "int.update(this.random.nextInt(256));"
       )
     );
 

@@ -9,7 +9,14 @@ import { Coordinates } from "./Locator";
 import styles from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor";
 import { Output } from "./Output";
-import { NodeTypes, SerializedInput, SerializedNode, SerializedOutput, Workarea } from "./Workarea";
+import {
+  CommandDescription,
+  NodeTypes,
+  SerializedInput,
+  SerializedNode,
+  SerializedOutput,
+  Workarea,
+} from "./Workarea";
 
 export type CompiledBehavior = () => Promise<unknown>;
 
@@ -221,7 +228,23 @@ export abstract class Node extends HTMLElement {
     if (this.behaviorCompiled) {
       console.debug("  Executing compiled behavior...");
       try {
-        await this.behaviorCompiled();
+        let inputsRequested = 0;
+        let outputsRequested = 0;
+        const context = Object.assign({}, this, {
+          _input: () => {
+            const inputPointer = inputsRequested++;
+            return this.inputs[inputPointer].value;
+          },
+          _output: () => {
+            const outputPointer = outputsRequested++;
+            const update = (value: unknown) => (this.outputs[outputPointer].value = value);
+            return {
+              update,
+            };
+          },
+          _title: Function.prototype,
+        });
+        await this.behaviorCompiled.bind(context)();
       } catch (error) {
         console.error(
           `  Execution of ${this.nodeId} failed!`,
@@ -261,20 +284,21 @@ export abstract class Node extends HTMLElement {
 
     const script = this.behavior.toExecutableBehavior();
     this.rebuildFromMetadata();
-    this.behaviorCompiled = new Function(script).bind(this) as CompiledBehavior;
+    this.behaviorCompiled = new Function(script) as CompiledBehavior;
   }
 
-  protected addCommand(label: string, callback: () => unknown) {
+  protected addCommand(initParameters?: Partial<CommandDescription>) {
     const command = document.createElement("dt-command") as Command;
     mustExist(this.#inputSectionElement).appendChild(command);
-    command.init({
-      label,
-      callback,
-    });
+    command.init(initParameters);
     this.commands.push(command);
     return command;
   }
-  protected addInput(initParameters?: SerializedInput) {
+  protected removeCommand(command: Command) {
+    mustExist(this.#inputSectionElement).removeChild(command);
+    this.commands.splice(this.commands.indexOf(command), 1);
+  }
+  protected addInput(initParameters?: Partial<SerializedInput>) {
     const input = document.createElement("dt-input") as Input;
     mustExist(this.#inputSectionElement).appendChild(input);
     input.init(initParameters);
@@ -289,7 +313,7 @@ export abstract class Node extends HTMLElement {
     }
     this.inputs.splice(this.inputs.indexOf(input), 1);
   }
-  protected addOutput(initParameters?: SerializedOutput) {
+  protected addOutput(initParameters?: Partial<SerializedOutput>) {
     const output = document.createElement("dt-output") as Output;
     mustExist(this.#outputSectionElement).appendChild(output);
     output.init(initParameters);
@@ -308,6 +332,19 @@ export abstract class Node extends HTMLElement {
     const behavior = mustExist(this.behavior);
 
     this.name = behavior.metadata.title;
+
+    const excessCommandCount = this.commands.length - behavior.metadata.commands.length;
+    const excessCommands = this.commands.splice(
+      behavior.metadata.commands.length,
+      excessCommandCount
+    );
+    for (let commandIndex = 0; commandIndex < behavior.metadata.commands.length; ++commandIndex) {
+      if (this.commands.length <= commandIndex) {
+        this.addCommand();
+      }
+      this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
+    }
+    excessCommands.forEach(command => this.removeCommand(command));
 
     const excessInputCount = this.inputs.length - behavior.metadata.inputs.length;
     const excessInputs = this.inputs.splice(behavior.metadata.inputs.length, excessInputCount);

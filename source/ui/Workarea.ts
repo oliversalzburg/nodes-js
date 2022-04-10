@@ -31,7 +31,8 @@ export type SerializedConnection = {
 export type CommandDescription = {
   id: string;
   label: string;
-  callback: () => unknown;
+  callback: () => Promise<unknown>;
+  code: string;
 };
 
 export type SerializedInput = {

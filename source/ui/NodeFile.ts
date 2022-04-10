@@ -20,7 +20,7 @@ export class NodeFile extends Node {
       Behavior.fromCodeFragment(
         `if(this.file !== null) {
   const fileContent = await this.file.text();
-  text = fileContent.substring(0, 20);
+  text = fileContent;
 }`,
         new BehaviorMetadata(
           "File",
@@ -28,6 +28,17 @@ export class NodeFile extends Node {
           [
             { identifier: "binary", label: "Binary" },
             { identifier: "text", label: "Text" },
+          ],
+          [
+            {
+              identifier: "selectFile",
+              label: "Pick file",
+              code: `return (async(command = arguments[0])=>{
+  const file = await this.openFile();
+  command.value = file.name;
+  this.file = file;
+})();`,
+            },
           ]
         )
       )
@@ -35,13 +46,22 @@ export class NodeFile extends Node {
 
     this.rebuildFromMetadata();
 
-    const command = this.addCommand("Select", async () => {
-      const file = await fileOpen();
-      command.value = file.name;
-      //command.updateUi();
-      this.file = file;
-      this.update();
+    /*
+    const command = this.addCommand({
+      label: "Pick file",
+      callback: async () => {
+        const file = await fileOpen();
+        command.value = file.name;
+        this.file = file;
+        await this.update();
+        this.updateUi();
+      },
     });
+    */
+  }
+
+  openFile() {
+    return fileOpen();
   }
 
   init(initParameters?: SerializedNode) {

@@ -49,6 +49,14 @@ export abstract class Column extends HTMLElement {
 
   updateUi() {
     mustExist(this.labelElement).textContent = this.label;
-    mustExist(this.valueElement).textContent = String(this.value);
+    mustExist(this.valueElement).textContent = Column.makeDisplayValue(this.value);
+  }
+
+  protected static makeDisplayValue(value: unknown) {
+    const stringValue = String(value);
+    if (20 < stringValue.length) {
+      return `${stringValue.substring(0, 18)}…`;
+    }
+    return stringValue;
   }
 }

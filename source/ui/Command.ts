@@ -1,11 +1,11 @@
-import { isNil } from "../Maybe";
+import { isNil, mustExist } from "../Maybe";
 import { Column } from "./Column";
 import styles from "./Input.module.css";
 import { Node } from "./Node";
 import { CommandDescription } from "./Workarea";
 
 export class Command extends Column {
-  callback: (() => unknown) | null = null;
+  callback: ((command: Command) => Promise<unknown>) | null = null;
 
   constructor() {
     super();
@@ -22,11 +22,18 @@ export class Command extends Column {
     this.addEventListener("mouseup", event => this.onMouseUp(event));
   }
 
-  init(initParameters?: Partial<CommandDescription>): void {
+  async init(initParameters?: Partial<CommandDescription>): Promise<void> {
     super.init(initParameters);
 
+    const instruction = initParameters?.callback ?? initParameters?.code ?? null;
+
     this.label = initParameters?.label ?? "";
-    this.callback = initParameters?.callback ?? null;
+    this.callback =
+      typeof instruction === "function"
+        ? instruction
+        : typeof instruction === "string"
+        ? new Function(instruction).bind(this.parent)
+        : null;
   }
 
   update(): void {
@@ -44,13 +51,14 @@ export class Command extends Column {
     /* intentionally left blank */
   }
 
-  onMouseUp(event: MouseEvent) {
+  async onMouseUp(event: MouseEvent) {
     // Always disconnect on click.
     if (!isNil(this.callback)) {
-      this.callback();
+      await this.callback(this);
     }
 
-    this.update();
+    await mustExist(this.parent).update();
+    mustExist(this.parent).updateUi();
   }
 }
 

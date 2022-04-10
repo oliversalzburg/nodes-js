@@ -1,5 +1,4 @@
 import { Behavior } from "../behavior/Behavior";
-import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -15,15 +14,11 @@ export class NodeScript extends Node {
 
     this.updateBehavior(
       Behavior.fromCodeFragment(
-        "sum = Number(a) + Number(b);",
-        new BehaviorMetadata(
-          "Sum",
-          [
-            { identifier: "a", label: "A" },
-            { identifier: "b", label: "B" },
-          ],
-          [{ identifier: "sum", label: "Sum" }]
-        )
+        `this._title("Sum");
+const a = this._input("A");
+const b = this._input("B");
+let sum = this._output("Sum");
+sum.update( Number(a) + Number(b));`
       )
     );
 

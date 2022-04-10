@@ -19,7 +19,8 @@ export class Behavior {
   }
 
   toEditableScript() {
-    return this.#metadata.serialize() + "\n\n" + this.#script;
+    const metadata = this.#metadata.serialize();
+    return (metadata !== "" ? metadata + "\n\n" : "") + this.#script;
   }
   toCodeFragment() {
     return this.#script;
@@ -31,7 +32,7 @@ export class Behavior {
     return new Behavior(script, metadata);
   }
   static fromCodeFragment(executable: string, metadata?: BehaviorMetadata) {
-    return new Behavior(executable, metadata);
+    return new Behavior(executable, metadata ?? BehaviorMetadata.parse(executable));
   }
   static fromCodeFragmentForNode(executable: string, node: Node) {
     return new Behavior(executable, BehaviorMetadata.fromNode(node));

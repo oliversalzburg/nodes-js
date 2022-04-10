@@ -1,5 +1,4 @@
 import { Behavior } from "../behavior/Behavior";
-import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -15,8 +14,8 @@ export class NodeNoop extends Node {
 
     this.updateBehavior(
       Behavior.fromCodeFragment(
-        "",
-        new BehaviorMetadata("Noop", [{ identifier: "sink", label: "Sink" }], [])
+        `this._title("Noop");
+this._input("Sink")`
       )
     );
 
