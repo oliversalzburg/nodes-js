@@ -11,6 +11,7 @@ import { Coordinates, Locator } from "./Locator";
 import { Node } from "./Node";
 import stylesNode from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor";
+import { NodeFile } from "./NodeFile";
 import { NodeNoop } from "./NodeNoop";
 import { NodeRow } from "./NodeRow";
 import { NodeScript } from "./NodeScript";
@@ -20,11 +21,17 @@ import { Scrollable } from "./Scrollable";
 import { snapshot } from "./snapshot";
 import styles from "./Workarea.module.css";
 
-export type NodeTypes = "_editor" | "noop" | "row" | "script" | "seed";
+export type NodeTypes = "_editor" | "file" | "noop" | "row" | "script" | "seed";
 
 export type SerializedConnection = {
   id: string;
   connections: Array<{ source: string; target: string }>;
+};
+
+export type CommandDescription = {
+  id: string;
+  label: string;
+  callback: () => unknown;
 };
 
 export type SerializedInput = {
@@ -443,6 +450,12 @@ export class Workarea extends HTMLElement {
     switch (type) {
       case "script": {
         node = document.createElement("dt-node-script") as NodeScript;
+        this.#initNode(node, shouldUpdateSnapshot, initParameters);
+        break;
+      }
+
+      case "file": {
+        node = document.createElement("dt-node-file") as NodeFile;
         this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }

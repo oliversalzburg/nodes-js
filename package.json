@@ -7,6 +7,7 @@
   "main": "index.html",
   "dependencies": {
     "arbit": "^0.1.1",
+    "browser-fs-access": "^0.26.1",
     "eslint": "^8.12.0",
     "leader-line": "^1.0.7",
     "lz-string": "^1.4.4",

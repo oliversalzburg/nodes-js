@@ -2,7 +2,7 @@ import { mustExist } from "../Maybe";
 import styles from "./Column.module.css";
 import { Connection } from "./Connection";
 import { Node } from "./Node";
-import { SerializedInput, SerializedOutput } from "./Workarea";
+import { CommandDescription, SerializedInput, SerializedOutput } from "./Workarea";
 
 export abstract class Column extends HTMLElement {
   columnId: string | null = null;
@@ -35,7 +35,7 @@ export abstract class Column extends HTMLElement {
   abstract onMouseEnter(event: MouseEvent): void;
   abstract onMouseLeave(event: MouseEvent): void;
 
-  init(initParameters?: SerializedInput | SerializedOutput) {
+  init(initParameters?: Partial<CommandDescription | SerializedInput | SerializedOutput>) {
     this.columnId = initParameters?.id ?? this.columnId;
   }
 

@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import { Behavior } from "../behavior/Behavior";
 import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
+import { Command } from "./Command";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
 import { Coordinates } from "./Locator";
@@ -33,6 +34,7 @@ export abstract class Node extends HTMLElement {
   #editElement: HTMLButtonElement | null = null;
   #deleteElement: HTMLButtonElement | null = null;
 
+  commands = new Array<Command>();
   inputs = new Array<Input>();
   outputs = new Array<Output>();
 
@@ -236,6 +238,9 @@ export abstract class Node extends HTMLElement {
     this.x = newPosition?.x ?? this.x;
     this.y = newPosition?.y ?? this.y;
 
+    for (const command of this.commands) {
+      command.updateUi();
+    }
     for (const input of this.inputs) {
       input.updateUi();
     }
@@ -259,6 +264,16 @@ export abstract class Node extends HTMLElement {
     this.behaviorCompiled = new Function(script).bind(this) as CompiledBehavior;
   }
 
+  protected addCommand(label: string, callback: () => unknown) {
+    const command = document.createElement("dt-command") as Command;
+    mustExist(this.#inputSectionElement).appendChild(command);
+    command.init({
+      label,
+      callback,
+    });
+    this.commands.push(command);
+    return command;
+  }
   protected addInput(initParameters?: SerializedInput) {
     const input = document.createElement("dt-input") as Input;
     mustExist(this.#inputSectionElement).appendChild(input);
