@@ -1,28 +1,28 @@
 export const snapshot = {
   stage: {
-    x: 3092,
-    y: 2504
+    x: 3333,
+    y: 3333
   },
   nodes: [
     {
       type: "script",
-      id: "script-5QM24I",
+      id: "script-18nu1G",
       name: "Clock",
-      x: 3299.6666717529297,
-      y: 2797.6666870117188,
+      x: 3631.5,
+      y: 3762,
       inputs: [],
       outputs: [
         {
-          id: "output-LmkUuh",
-          inputs: ["input-W8yr42"]
+          id: "output-lUSgBU",
+          inputs: []
         },
         {
-          id: "output-MENMA4",
-          inputs: ["input-HklVPx"]
+          id: "output-77j1-4",
+          inputs: []
         },
         {
-          id: "output-iaIULo",
-          inputs: ["input-5V11EJ"]
+          id: "output-oAU53I",
+          inputs: []
         }
       ],
       behavior: {
@@ -30,80 +30,20 @@ export const snapshot = {
           inputs: [],
           outputs: [
             {
-              identifier: "hour",
+              identifier: "ouput0",
               label: "Hour"
             },
             {
-              identifier: "minute",
+              identifier: "ouput1",
               label: "Minute"
             },
             {
-              identifier: "second",
+              identifier: "ouput2",
               label: "Second"
             }
           ]
         },
-        script: "const time = new Date();\nhour = time.getHours();\nminute = time.getMinutes();\nsecond = time.getSeconds();"
-      }
-    },
-    {
-      type: "script",
-      id: "script-d_6iiv",
-      name: "Daylight Calculator",
-      x: 3752.6666870117188,
-      y: 2910.6666870117188,
-      inputs: [
-        {
-          id: "input-W8yr42",
-          output: "output-LmkUuh"
-        },
-        {
-          id: "input-HklVPx",
-          output: "output-MENMA4"
-        },
-        {
-          id: "input-5V11EJ",
-          output: "output-iaIULo"
-        }
-      ],
-      outputs: [
-        {
-          id: "output-RFJ_Jz",
-          inputs: []
-        },
-        {
-          id: "output-Csesgz",
-          inputs: []
-        }
-      ],
-      behavior: {
-        metadata: {
-          inputs: [
-            {
-              identifier: "hour",
-              label: "Hour"
-            },
-            {
-              identifier: "minute",
-              label: "Minute"
-            },
-            {
-              identifier: "second",
-              label: "Second"
-            }
-          ],
-          outputs: [
-            {
-              identifier: "daylight",
-              label: "Daylight"
-            },
-            {
-              identifier: "fourTwenty",
-              label: "Is 4:20?"
-            }
-          ]
-        },
-        script: "daylight = 6 < hour && (hour < 19 && 30 < minute);\nfourTwenty = hour === 16 && minute === 20;"
+        script: 'this._title("Clock");\n\nconst time = new Date();\n\nlet hour = this._output("Hour");\nhour.update(time.getHours());\nlet minute = this._output("Minute");\nminute.update(time.getMinutes());\nlet second = this._output("Second");\nsecond.update(time.getSeconds());'
       }
     }
   ]

@@ -362,31 +362,31 @@ export class Workarea extends HTMLElement {
     url.hash = compressed;
     console.info(url.toString());
   }
-  import(compressedSnapshot) {
+  async import(compressedSnapshot) {
     const short = LZString.decompressFromBase64(compressedSnapshot);
     if (short === null) {
       throw new Error("Unable to decompress snapshot!");
     }
     const parsed = JSON.parse(short);
-    this.deserialize(parsed);
+    await this.deserialize(parsed);
   }
   storeSnapshot() {
     const snapshot2 = this.serialize();
     localStorage.setItem("snapshot", JSON.stringify(snapshot2));
     console.debug("Snapshot updated.");
   }
-  restoreSnapshot() {
+  async restoreSnapshot() {
     const snapshotItem = localStorage.getItem("snapshot");
     if (snapshotItem === null) {
       return;
     }
     const snapshot2 = JSON.parse(snapshotItem);
-    this.deserialize(snapshot2);
+    await this.deserialize(snapshot2);
   }
-  restoreSnapshotDemo() {
-    this.deserialize(snapshot);
+  async restoreSnapshotDemo() {
+    await this.deserialize(snapshot);
   }
-  deserialize(workarea) {
+  async deserialize(workarea) {
     this.clear();
     const nodes = new Map();
     const inputs = new Map();
@@ -409,6 +409,7 @@ export class Workarea extends HTMLElement {
       }
     }
     for (const node of this.nodes) {
+      await node.update();
       for (const input of node.inputs) {
         input.update();
         input.updateUi();
