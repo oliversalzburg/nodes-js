@@ -9,6 +9,7 @@ import { Decoy } from "./Decoy";
 import { Input } from "./Input";
 import { Coordinates, Locator } from "./Locator";
 import { Node } from "./Node";
+import stylesNode from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor";
 import { NodeNoop } from "./NodeNoop";
 import { NodeRow } from "./NodeRow";
@@ -206,6 +207,7 @@ export class Workarea extends HTMLElement {
             y: newPosition.top,
           })
         );
+        this.#endDragOperation();
       },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
         this.#beginSynchronizedDragOperation(editor);
@@ -329,6 +331,7 @@ export class Workarea extends HTMLElement {
     const locator = Locator.forWorkarea(this, this.#scrollableContainer ?? undefined);
     for (const node of [...this.selectedNodes, ...this.#selectedEditors] as Iterable<Node>) {
       this.#dragOperationSource.set(node, locator.absoluteToDraggable({ x: node.x, y: node.y }));
+      node.classList.add(stylesNode.dragging);
     }
   }
   #synchronizeDragOperation(dragRoot: Node, newPosition: NewPosition) {
@@ -358,6 +361,11 @@ export class Workarea extends HTMLElement {
       node.y = positionAbsolute.y;
 
       node.updateUi();
+    }
+  }
+  #endDragOperation() {
+    for (const node of [...this.selectedNodes, ...this.#selectedEditors] as Iterable<Node>) {
+      node.classList.remove(stylesNode.dragging);
     }
   }
 
@@ -503,6 +511,7 @@ export class Workarea extends HTMLElement {
             y: newPosition.top,
           })
         );
+        this.#endDragOperation();
 
         console.debug(
           `Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${Math.round(
@@ -512,6 +521,7 @@ export class Workarea extends HTMLElement {
         this.storeSnapshot();
       },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
+        node.select();
         this.#beginSynchronizedDragOperation(node);
       },
       onMove: newPosition => {

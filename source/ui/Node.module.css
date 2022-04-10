@@ -9,6 +9,11 @@
   color: #222;
 }
 
+.dragging {
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+  /*left: -0.75rem;
+  top: -0.75rem;*/
+}
 .selected {
   outline: 2px dashed #333;
 }
