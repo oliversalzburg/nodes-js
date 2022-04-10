@@ -225,7 +225,7 @@ export abstract class Node extends HTMLElement {
       try {
         let inputsRequested = 0;
         let outputsRequested = 0;
-        const context = Object.assign(this, {
+        const context = Object.assign({}, this, {
           _command: Function.prototype,
           _input: () => {
             const inputPointer = inputsRequested++;
@@ -240,7 +240,7 @@ export abstract class Node extends HTMLElement {
           },
           _title: Function.prototype,
         });
-        await this.behaviorCompiled.bind(this)();
+        await this.behaviorCompiled.bind(context)();
       } catch (error) {
         console.error(
           `  Execution of ${this.nodeId} failed!`,
