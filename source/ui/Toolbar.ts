@@ -20,12 +20,26 @@ export class Toolbar extends HTMLElement {
     }
     this.#workarea = mustExist(document.getElementById(forWorkarea)) as Workarea;
 
+    const addScriptButton = document.createElement("button");
+    addScriptButton.classList.add(styles.button, styles.highlightedButton);
+    addScriptButton.textContent = "📜 Script";
+    addScriptButton.title = "3";
+    addScriptButton.addEventListener("click", () => mustExist(this.#workarea).createNode("script"));
+    this.appendChild(addScriptButton);
+
     const addRowButton = document.createElement("button");
     addRowButton.classList.add(styles.button);
-    addRowButton.textContent = "➕ Row";
+    addRowButton.textContent = "📜 Row";
     addRowButton.title = "4";
     addRowButton.addEventListener("click", () => mustExist(this.#workarea).createNode("row"));
     this.appendChild(addRowButton);
+
+    const addNoopButton = document.createElement("button");
+    addNoopButton.classList.add(styles.button);
+    addNoopButton.textContent = "📜 Noop";
+    addNoopButton.title = "2";
+    addNoopButton.addEventListener("click", () => mustExist(this.#workarea).createNode("noop"));
+    this.appendChild(addNoopButton);
 
     const addSeedButton = document.createElement("button");
     addSeedButton.classList.add(styles.button);
@@ -33,20 +47,6 @@ export class Toolbar extends HTMLElement {
     addSeedButton.title = "1";
     addSeedButton.addEventListener("click", () => mustExist(this.#workarea).createNode("seed"));
     this.appendChild(addSeedButton);
-
-    const addNoopButton = document.createElement("button");
-    addNoopButton.classList.add(styles.button);
-    addNoopButton.textContent = "➕ Noop";
-    addNoopButton.title = "2";
-    addNoopButton.addEventListener("click", () => mustExist(this.#workarea).createNode("noop"));
-    this.appendChild(addNoopButton);
-
-    const addScriptButton = document.createElement("button");
-    addScriptButton.classList.add(styles.button);
-    addScriptButton.textContent = "➕ Script";
-    addScriptButton.title = "3";
-    addScriptButton.addEventListener("click", () => mustExist(this.#workarea).createNode("script"));
-    this.appendChild(addScriptButton);
 
     const addFileButton = document.createElement("button");
     addFileButton.classList.add(styles.button);

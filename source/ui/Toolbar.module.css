@@ -1,6 +1,6 @@
 .toolbar {
   display: block;
-  
+
   height: 50px;
 
   padding: 0;
@@ -24,6 +24,15 @@
 }
 .toolbar .button:hover {
   background-color: #ddd;
+}
+.toolbar .highlightedButton {
+  color: #eee;
+  background-color: #0078d7;
+  border: 1px solid #111;
+}
+.toolbar .highlightedButton:hover {
+  color: #0078d7;
+  border-color: #0078d7;
 }
 
 .toolbar .divider {
