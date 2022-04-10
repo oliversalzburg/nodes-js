@@ -1,48 +1,31 @@
-import {mustExist} from "../Maybe.js";
-export const MatchTitleMarkup = /^\/\/ @title\nconst title = "(?<title>[^"]+)";$/gm;
-export const MatchInputMarkup = /^\/\/ @input "(?<label>[^"]+)"\nconst (?<identifier>[^ ]+) = .+;$/gm;
-export const MatchOutputMarkup = /^\/\/ @output "(?<label>[^"]+)"\nlet (?<identifier>[^ ]+) = .+;$/gm;
-export class BehaviorMetadata {
-  constructor(title = "", inputs = new Array(), outputs = new Array()) {
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateMethod = (obj, member, method) => {
+  __accessCheck(obj, member, "access private method");
+  return method;
+};
+var _executeScriptMeta, executeScriptMeta_fn;
+const _BehaviorMetadata = class {
+  constructor(title = "", inputs = new Array(), outputs = new Array(), commands = new Array()) {
     this.title = title;
+    this.commands = commands;
     this.inputs = inputs;
     this.outputs = outputs;
   }
   serialize() {
-    const meta = new Array();
-    meta.push("// @title");
-    meta.push(`const title = "${this.title}";`);
-    meta.push("");
-    let inputIndex = 0;
-    for (const input of this.inputs) {
-      meta.push(`// @input "${input.label}"`);
-      meta.push(`const ${input.identifier} = this.inputs[${inputIndex++}].value;`);
-    }
-    if (0 < inputIndex) {
-      meta.push("");
-    }
-    for (const output of this.outputs) {
-      meta.push(`// @output "${output.label}"`);
-      meta.push(`let ${output.identifier} = undefined;`);
-    }
-    return meta.join("\n");
+    return "";
   }
-  wrapExecutable(executable) {
-    const inputsInit = this.inputs.map((input, index) => `const ${input.identifier} = this.inputs[${index}].value;`).join("\n");
-    const outputsInit = this.outputs.map((output, index) => `let ${output.identifier} = undefined;`).join("\n");
-    const outputsWrite = this.outputs.map((output, index) => `this.outputs[${index}].value = ${output.identifier};`).join("\n");
+  static wrapExecutable(executable) {
     return `
 return (async () => {
-${inputsInit}
-${outputsInit}
 ${executable}
-
-${outputsWrite}
 })();
     `.trim();
   }
   static fromNode(node) {
-    const meta = new BehaviorMetadata();
+    const meta = new _BehaviorMetadata();
     meta.title = node.name;
     let inputIndex = 0;
     for (const input of node.inputs) {
@@ -54,29 +37,42 @@ ${outputsWrite}
     }
     return meta;
   }
-  static parse(script) {
-    const meta = new BehaviorMetadata();
-    const titleMatches = script.matchAll(MatchTitleMarkup);
-    for (const titleMatch of titleMatches) {
-      meta.title = mustExist(titleMatch.groups)["title"];
-    }
-    const inputMatches = script.matchAll(MatchInputMarkup);
-    const outputMatches = script.matchAll(MatchOutputMarkup);
-    for (const inputMatch of inputMatches) {
-      meta.inputs.push({
-        identifier: mustExist(inputMatch.groups)["identifier"],
-        label: mustExist(inputMatch.groups)["label"]
-      });
-    }
-    for (const outputMatch of outputMatches) {
-      meta.outputs.push({
-        identifier: mustExist(outputMatch.groups)["identifier"],
-        label: mustExist(outputMatch.groups)["label"]
-      });
-    }
-    return meta;
+  static async parse(script, nodeConstructor) {
+    return __privateMethod(_BehaviorMetadata, _executeScriptMeta, executeScriptMeta_fn).call(_BehaviorMetadata, _BehaviorMetadata.wrapExecutable(script), nodeConstructor);
   }
   static stripMetadataFromBehaviorScript(behavior) {
-    return behavior.replaceAll(MatchTitleMarkup, "").replaceAll(MatchInputMarkup, "").replaceAll(MatchOutputMarkup, "").trim();
+    return behavior;
   }
-}
+};
+export let BehaviorMetadata = _BehaviorMetadata;
+_executeScriptMeta = new WeakSet();
+executeScriptMeta_fn = async function(script, nodeConstructor) {
+  const meta = new _BehaviorMetadata();
+  const executionSink = Object.assign(new nodeConstructor(), {
+    _command: (label, callback) => {
+      meta.commands.push({
+        identifier: `command${meta.commands.length}`,
+        label,
+        entrypoint: callback
+      });
+    },
+    _input: (label) => {
+      meta.inputs.push({identifier: `input${meta.inputs.length}`, label});
+    },
+    _output: (label) => {
+      meta.outputs.push({identifier: `ouput${meta.outputs.length}`, label});
+      return {
+        update: Function.prototype
+      };
+    },
+    _title: (title) => meta.title = title
+  });
+  const executable = new Function(script).bind(executionSink);
+  try {
+    await executable();
+  } catch (error) {
+    console.error(script, error);
+  }
+  return meta;
+};
+_executeScriptMeta.add(BehaviorMetadata);

@@ -1,6 +1,5 @@
 import arbit from "../../_snowpack/pkg/arbit.js";
 import {Behavior} from "../behavior/Behavior.js";
-import {BehaviorMetadata} from "../behavior/BehaviorMetadata.js";
 import {mustExist} from "../Maybe.js";
 import {Node} from "./Node.js";
 export class NodeSeed extends Node {
@@ -9,16 +8,22 @@ export class NodeSeed extends Node {
     this.hasBehavior = true;
     this.random = arbit(this.nodeId);
   }
-  connectedCallback() {
+  getFactory() {
+    return NodeSeed;
+  }
+  async connectedCallback() {
     super.connectedCallback();
-    this.updateBehavior(Behavior.fromCodeFragment("float = this.random();\nint = this.random.nextInt(256);", new BehaviorMetadata("Seed", [], [
-      {identifier: "float", label: "Float"},
-      {identifier: "int", label: "Integer"}
-    ])));
+    await this.updateBehavior(await Behavior.fromCodeFragment(`this._title("Seed");
+
+let float = this._output("Float");
+let int = this._output("Int");
+
+float.update(this.random());
+int.update(this.random.nextInt(256));`, NodeSeed));
     this.rebuildFromMetadata();
   }
-  init(initParameters) {
-    super.init(initParameters);
+  async init(initParameters) {
+    await super.init(initParameters);
     this.random = arbit(mustExist(this.nodeId));
     this.updateUi();
   }

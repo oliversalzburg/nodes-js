@@ -15,7 +15,7 @@ var __privateMethod = (obj, member, method) => {
   __accessCheck(obj, member, "access private method");
   return method;
 };
-var _currentConnectionSource, _currentDecoy, _currentDecoyLine, _draggables, _dragOperationSource, _openEditors, _scrollableContainer, _selectedEditors, selectedEditors_get, _updateDecoy, updateDecoy_fn, _clearDecoy, clearDecoy_fn, _panning, _panInitMouse, _panInitWorkarea, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn, _synchronizeDragOperation, synchronizeDragOperation_fn, _initNode, initNode_fn;
+var _currentConnectionSource, _currentDecoy, _currentDecoyLine, _draggables, _dragOperationSource, _openEditors, _scrollableContainer, _selectedEditors, selectedEditors_get, _updateDecoy, updateDecoy_fn, _clearDecoy, clearDecoy_fn, _panning, _panInitMouse, _panInitWorkarea, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn, _synchronizeDragOperation, synchronizeDragOperation_fn, _endDragOperation, endDragOperation_fn, _initNode, initNode_fn;
 import "../../_snowpack/pkg/leader-line.js";
 import LZString from "../../_snowpack/pkg/lz-string.js";
 import PlainDraggable from "../../_snowpack/pkg/plain-draggable.js";
@@ -24,6 +24,7 @@ import {Execution} from "../execution/Execution.js";
 import {isNil, mustExist} from "../Maybe.js";
 import {Connection} from "./Connection.js";
 import {Locator} from "./Locator.js";
+import stylesNode from "./Node.module.css.proxy.js";
 import {NodeEditor} from "./NodeEditor.js";
 import {snapshot} from "./snapshot.js";
 import styles from "./Workarea.module.css.proxy.js";
@@ -35,6 +36,7 @@ export class Workarea extends HTMLElement {
     _clearDecoy.add(this);
     _beginSynchronizedDragOperation.add(this);
     _synchronizeDragOperation.add(this);
+    _endDragOperation.add(this);
     _initNode.add(this);
     _currentConnectionSource.set(this, void 0);
     _currentDecoy.set(this, void 0);
@@ -163,6 +165,7 @@ export class Workarea extends HTMLElement {
           x: newPosition.left,
           y: newPosition.top
         }));
+        __privateMethod(this, _endDragOperation, endDragOperation_fn).call(this);
       },
       onDragStart: (event2) => {
         __privateMethod(this, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn).call(this, editor);
@@ -193,11 +196,11 @@ export class Workarea extends HTMLElement {
     node.behaviorEditor = null;
     node.updateUi();
   }
-  closeBehaviorEditor(node, event) {
+  async closeBehaviorEditor(node, event) {
     if (!node.behaviorEditor) {
       return;
     }
-    node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
+    await node.updateBehavior(await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory()));
     node.update();
     this.cancelBehaviorEditor(node, event);
   }
@@ -288,6 +291,11 @@ export class Workarea extends HTMLElement {
     switch (type) {
       case "script": {
         node = document.createElement("dt-node-script");
+        __privateMethod(this, _initNode, initNode_fn).call(this, node, shouldUpdateSnapshot, initParameters);
+        break;
+      }
+      case "file": {
+        node = document.createElement("dt-node-file");
         __privateMethod(this, _initNode, initNode_fn).call(this, node, shouldUpdateSnapshot, initParameters);
         break;
       }
@@ -455,10 +463,11 @@ _panInitWorkarea = new WeakMap();
 _beginSynchronizedDragOperation = new WeakSet();
 beginSynchronizedDragOperation_fn = function(dragRoot) {
   __privateGet(this, _dragOperationSource).clear();
-  __privateGet(this, _dragOperationSource).set(dragRoot, {x: dragRoot.x, y: dragRoot.y});
   const locator = Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0);
+  __privateGet(this, _dragOperationSource).set(dragRoot, locator.absoluteToDraggable({x: dragRoot.x, y: dragRoot.y}));
   for (const node of [...this.selectedNodes, ...__privateGet(this, _selectedEditors, selectedEditors_get)]) {
     __privateGet(this, _dragOperationSource).set(node, locator.absoluteToDraggable({x: node.x, y: node.y}));
+    node.classList.add(stylesNode.dragging);
   }
 };
 _synchronizeDragOperation = new WeakSet();
@@ -484,10 +493,16 @@ synchronizeDragOperation_fn = function(dragRoot, newPosition) {
     node.updateUi();
   }
 };
+_endDragOperation = new WeakSet();
+endDragOperation_fn = function() {
+  for (const node of [...this.selectedNodes, ...__privateGet(this, _selectedEditors, selectedEditors_get)]) {
+    node.classList.remove(stylesNode.dragging);
+  }
+};
 _initNode = new WeakSet();
-initNode_fn = function(node, shouldUpdateSnapshot = true, initParameters) {
+initNode_fn = async function(node, shouldUpdateSnapshot = true, initParameters) {
   this.appendChild(node);
-  node.init(initParameters);
+  await node.init(initParameters);
   this.nodes.push(node);
   const containerBounds = __privateGet(this, _scrollableContainer) ? {
     width: __privateGet(this, _scrollableContainer).clientWidth,
@@ -514,10 +529,12 @@ initNode_fn = function(node, shouldUpdateSnapshot = true, initParameters) {
         x: newPosition.left,
         y: newPosition.top
       }));
+      __privateMethod(this, _endDragOperation, endDragOperation_fn).call(this);
       console.debug(`Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${Math.round(newPosition.left)}x${Math.round(newPosition.top)}).`);
       this.storeSnapshot();
     },
     onDragStart: (event) => {
+      node.select();
       __privateMethod(this, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn).call(this, node);
     },
     onMove: (newPosition) => {
@@ -528,7 +545,7 @@ initNode_fn = function(node, shouldUpdateSnapshot = true, initParameters) {
   });
   __privateGet(this, _draggables).set(node, draggable);
   const coords = Locator.forWorkarea(this, __privateGet(this, _scrollableContainer) ?? void 0).draggableToAbsolute(position);
-  node.update();
+  await node.update();
   node.updateUi(coords);
   console.debug(`Created node ${node.nodeId} at ${Math.round(node.x)}x${Math.round(node.y)}.`);
   if (shouldUpdateSnapshot) {

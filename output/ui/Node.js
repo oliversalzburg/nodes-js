@@ -14,7 +14,6 @@ var __privateSet = (obj, member, value, setter) => {
 var _selected, _titleElement, _editElement, _deleteElement, _inputSectionElement, _outputSectionElement;
 import {nanoid} from "../../_snowpack/pkg/nanoid.js";
 import {Behavior} from "../behavior/Behavior.js";
-import {BehaviorMetadata} from "../behavior/BehaviorMetadata.js";
 import {mustExist} from "../Maybe.js";
 import styles from "./Node.module.css.proxy.js";
 const _Node = class extends HTMLElement {
@@ -38,6 +37,7 @@ const _Node = class extends HTMLElement {
     __privateSet(this, _titleElement, null);
     __privateSet(this, _editElement, null);
     __privateSet(this, _deleteElement, null);
+    this.commands = new Array();
     this.inputs = new Array();
     this.outputs = new Array();
     __privateSet(this, _inputSectionElement, null);
@@ -104,13 +104,13 @@ const _Node = class extends HTMLElement {
       this.appendChild(__privateGet(this, _outputSectionElement));
     }
   }
-  init(initParameters) {
+  async init(initParameters) {
     this.nodeId = initParameters?.id ?? this.nodeId;
     this.name = initParameters?.name ?? this.name;
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
     if (initParameters?.behavior) {
-      this.updateBehavior(Behavior.fromCodeFragment(initParameters.behavior.script, new BehaviorMetadata(this.name, initParameters.behavior.metadata.inputs, initParameters.behavior.metadata.outputs)));
+      await this.updateBehavior(await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory()));
       for (let inputIndex = 0; inputIndex < initParameters.behavior.metadata.inputs.length; ++inputIndex) {
         this.inputs[inputIndex].label = mustExist(initParameters?.behavior?.metadata.inputs[inputIndex].label);
       }
@@ -177,7 +177,24 @@ const _Node = class extends HTMLElement {
     if (this.behaviorCompiled) {
       console.debug("  Executing compiled behavior...");
       try {
-        await this.behaviorCompiled();
+        let inputsRequested = 0;
+        let outputsRequested = 0;
+        const context = Object.assign(this, {
+          _command: Function.prototype,
+          _input: () => {
+            const inputPointer = inputsRequested++;
+            return this.inputs[inputPointer].value;
+          },
+          _output: () => {
+            const outputPointer = outputsRequested++;
+            const update = (value) => this.outputs[outputPointer].value = value;
+            return {
+              update
+            };
+          },
+          _title: Function.prototype
+        });
+        await this.behaviorCompiled.bind(this)();
       } catch (error) {
         console.error(`  Execution of ${this.nodeId} failed!`, this.behavior?.toExecutableBehavior(), error);
       }
@@ -188,6 +205,9 @@ const _Node = class extends HTMLElement {
     mustExist(this.titleElement).title = this.nodeId;
     this.x = newPosition?.x ?? this.x;
     this.y = newPosition?.y ?? this.y;
+    for (const command of this.commands) {
+      command.updateUi();
+    }
     for (const input of this.inputs) {
       input.updateUi();
     }
@@ -198,17 +218,28 @@ const _Node = class extends HTMLElement {
       this.behaviorEditor.updateUi();
     }
   }
-  updateBehavior(behavior = this.behavior) {
+  async updateBehavior(behavior = this.behavior) {
     this.behavior = behavior;
     if (this.behavior === null) {
       this.behaviorCompiled = null;
       return;
     }
     const script = this.behavior.toExecutableBehavior();
-    this.rebuildFromMetadata();
-    this.behaviorCompiled = new Function(script).bind(this);
+    await this.rebuildFromMetadata();
+    this.behaviorCompiled = new Function(script);
   }
-  addInput(initParameters) {
+  async addCommand(initParameters) {
+    const command = document.createElement("dt-command");
+    mustExist(__privateGet(this, _inputSectionElement)).appendChild(command);
+    await command.init(initParameters);
+    this.commands.push(command);
+    return command;
+  }
+  removeCommand(command) {
+    mustExist(__privateGet(this, _inputSectionElement)).removeChild(command);
+    this.commands.splice(this.commands.indexOf(command), 1);
+  }
+  async addInput(initParameters) {
     const input = document.createElement("dt-input");
     mustExist(__privateGet(this, _inputSectionElement)).appendChild(input);
     input.init(initParameters);
@@ -238,9 +269,18 @@ const _Node = class extends HTMLElement {
     }
     this.outputs.splice(this.outputs.indexOf(output), 1);
   }
-  rebuildFromMetadata() {
+  async rebuildFromMetadata() {
     const behavior = mustExist(this.behavior);
     this.name = behavior.metadata.title;
+    const excessCommandCount = this.commands.length - behavior.metadata.commands.length;
+    const excessCommands = this.commands.splice(behavior.metadata.commands.length, excessCommandCount);
+    for (let commandIndex = 0; commandIndex < behavior.metadata.commands.length; ++commandIndex) {
+      if (this.commands.length <= commandIndex) {
+        await this.addCommand();
+      }
+      await this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
+    }
+    excessCommands.forEach((command) => this.removeCommand(command));
     const excessInputCount = this.inputs.length - behavior.metadata.inputs.length;
     const excessInputs = this.inputs.splice(behavior.metadata.inputs.length, excessInputCount);
     for (let inputIndex = 0; inputIndex < behavior.metadata.inputs.length; ++inputIndex) {

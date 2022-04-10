@@ -1,19 +1,21 @@
 import {Behavior} from "../behavior/Behavior.js";
-import {BehaviorMetadata} from "../behavior/BehaviorMetadata.js";
 import {Node} from "./Node.js";
 export class NodeNoop extends Node {
   constructor() {
     super("noop", "Noop");
     this.hasBehavior = true;
   }
-  connectedCallback() {
+  getFactory() {
+    return NodeNoop;
+  }
+  async connectedCallback() {
     super.connectedCallback();
-    this.updateBehavior(Behavior.fromCodeFragment("", new BehaviorMetadata("Noop", [{identifier: "sink", label: "Sink"}], [])));
+    await this.updateBehavior(await Behavior.fromCodeFragment(`this._title("Noop");
+this._input("Sink")`, NodeNoop));
     this.rebuildFromMetadata();
   }
-  init(initParameters) {
-    super.init(initParameters);
-    this.inputs[0].init(initParameters?.inputs[0]);
+  async init(initParameters) {
+    await super.init(initParameters);
     this.updateUi();
   }
 }

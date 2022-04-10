@@ -9,31 +9,31 @@ var __privateSet = (obj, member, value, setter) => {
 };
 var _outputIntElements;
 import {Behavior} from "../behavior/Behavior.js";
-import {BehaviorMetadata} from "../behavior/BehaviorMetadata.js";
-import {mustExist} from "../Maybe.js";
 import {Node} from "./Node.js";
-export class NodeRow extends Node {
+const _NodeRow = class extends Node {
   constructor() {
     super("row", "Row");
     _outputIntElements.set(this, void 0);
     __privateSet(this, _outputIntElements, new Array());
     this.hasBehavior = true;
   }
-  connectedCallback() {
+  getFactory() {
+    return _NodeRow;
+  }
+  async connectedCallback() {
     super.connectedCallback();
-    this.updateBehavior(Behavior.fromCodeFragment(`
-while(this.outputs.length < 5) { 
-  const output = this.addOutput();
-  output.label = \`Output \${this.outputs.length}\`;
-  output.value = this.outputs.length * 2;
-}
-`, new BehaviorMetadata("Row", [], [])));
+    await this.updateBehavior(await Behavior.fromCodeFragment(`this._title("Row");
+for(let inputIndex = 0; inputIndex < 5; ++inputIndex) { 
+  const output = this._output(\`Output \${inputIndex}\`);
+  output.update(inputIndex * 2);
+}`, _NodeRow));
     this.rebuildFromMetadata();
   }
-  rebuildFromMetadata() {
-    const behavior = mustExist(this.behavior);
-    this.name = behavior.metadata.title;
+  async init(initParameters) {
+    await super.init(initParameters);
+    this.updateUi();
   }
-}
+};
+export let NodeRow = _NodeRow;
 _outputIntElements = new WeakMap();
 customElements.define("dt-node-row", NodeRow);

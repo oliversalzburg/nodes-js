@@ -23,7 +23,7 @@ import "../../_snowpack/pkg/codemirror/theme/mdn-like.css.proxy.js";
 import {mustExist} from "../Maybe.js";
 import {Confirm} from "./Confirm.js";
 import {Node} from "./Node.js";
-export class NodeEditor extends Node {
+const _NodeEditor = class extends Node {
   constructor() {
     super("_editor", "Behavior Editor");
     _textarea.set(this, void 0);
@@ -35,6 +35,9 @@ export class NodeEditor extends Node {
     this.target = null;
     this.line = null;
     this.hasIo = false;
+  }
+  getFactory() {
+    return _NodeEditor;
   }
   get behaviorSource() {
     return __privateGet(this, _codeMirror)?.getValue() ?? "";
@@ -79,8 +82,8 @@ export class NodeEditor extends Node {
     }
     super.onClickDelete(event);
   }
-  init(initParameters) {
-    super.init(initParameters);
+  async init(initParameters) {
+    await super.init(initParameters);
     this.updateUi();
   }
   updateUi(newPosition) {
@@ -92,7 +95,8 @@ export class NodeEditor extends Node {
   serialize() {
     throw new Error("Node can not be serialized.");
   }
-}
+};
+export let NodeEditor = _NodeEditor;
 _textarea = new WeakMap();
 _resizeObserver = new WeakMap();
 _codeMirror = new WeakMap();

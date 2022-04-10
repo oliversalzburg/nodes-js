@@ -53,6 +53,11 @@ export class Toolbar extends HTMLElement {
     addScriptButton.title = "3";
     addScriptButton.addEventListener("click", () => mustExist(__privateGet(this, _workarea)).createNode("script"));
     this.appendChild(addScriptButton);
+    const addFileButton = document.createElement("button");
+    addFileButton.classList.add(styles.button);
+    addFileButton.textContent = "➕ File";
+    addFileButton.addEventListener("click", () => mustExist(__privateGet(this, _workarea)).createNode("file"));
+    this.appendChild(addFileButton);
     const divider1 = document.createElement("span");
     divider1.classList.add(styles.divider);
     this.appendChild(divider1);

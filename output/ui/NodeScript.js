@@ -1,21 +1,24 @@
 import {Behavior} from "../behavior/Behavior.js";
-import {BehaviorMetadata} from "../behavior/BehaviorMetadata.js";
 import {Node} from "./Node.js";
 export class NodeScript extends Node {
   constructor() {
     super("script", "Script");
     this.hasBehavior = true;
   }
-  connectedCallback() {
+  getFactory() {
+    return NodeScript;
+  }
+  async connectedCallback() {
     super.connectedCallback();
-    this.updateBehavior(Behavior.fromCodeFragment("sum = Number(a) + Number(b);", new BehaviorMetadata("Sum", [
-      {identifier: "a", label: "A"},
-      {identifier: "b", label: "B"}
-    ], [{identifier: "sum", label: "Sum"}])));
+    await this.updateBehavior(await Behavior.fromCodeFragment(`this._title("Sum");
+const a = this._input("A");
+const b = this._input("B");
+let sum = this._output("Sum");
+sum.update( Number(a) + Number(b));`, NodeScript));
     this.rebuildFromMetadata();
   }
-  init(initParameters) {
-    super.init(initParameters);
+  async init(initParameters) {
+    await super.init(initParameters);
     this.updateUi();
   }
 }

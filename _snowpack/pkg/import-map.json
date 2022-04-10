@@ -1,6 +1,7 @@
 {
   "imports": {
     "arbit": "./arbit.js",
+    "browser-fs-access": "./browser-fs-access.js",
     "codemirror": "./codemirror.js",
     "codemirror/addon/hint/javascript-hint": "./codemirror/addon/hint/javascript-hint.js",
     "codemirror/addon/hint/show-hint": "./codemirror/addon/hint/show-hint.js",

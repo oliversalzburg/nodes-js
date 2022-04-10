@@ -24,21 +24,22 @@ const _Behavior = class {
     return __privateGet(this, _metadata);
   }
   toExecutableBehavior() {
-    return __privateGet(this, _metadata).wrapExecutable(__privateGet(this, _script));
+    return BehaviorMetadata.wrapExecutable(__privateGet(this, _script));
   }
   toEditableScript() {
-    return __privateGet(this, _metadata).serialize() + "\n\n" + __privateGet(this, _script);
+    const metadata = __privateGet(this, _metadata).serialize();
+    return (metadata !== "" ? metadata + "\n\n" : "") + __privateGet(this, _script);
   }
   toCodeFragment() {
     return __privateGet(this, _script);
   }
-  static fromEditableScript(editable) {
-    const metadata = BehaviorMetadata.parse(editable);
+  static async fromEditableScript(editable, nodeConstructor) {
+    const metadata = await BehaviorMetadata.parse(editable, nodeConstructor);
     const script = BehaviorMetadata.stripMetadataFromBehaviorScript(editable);
     return new _Behavior(script, metadata);
   }
-  static fromCodeFragment(executable, metadata) {
-    return new _Behavior(executable, metadata);
+  static async fromCodeFragment(executable, nodeConstructor, metadata) {
+    return new _Behavior(executable, metadata ?? await BehaviorMetadata.parse(executable, nodeConstructor));
   }
   static fromCodeFragmentForNode(executable, node) {
     return new _Behavior(executable, BehaviorMetadata.fromNode(node));

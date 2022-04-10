@@ -1,4 +1,4 @@
-._node_11kd9_1 {
+._node_19rl7_1 {
   display: inline-block;
   position: absolute;
   min-width: 200px;
@@ -6,10 +6,13 @@
   border: 1px solid #111;
   color: #222;
 }
-._selected_11kd9_12 {
+._dragging_19rl7_12 {
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+}
+._selected_19rl7_17 {
   outline: 2px dashed #333;
 }
-._node_11kd9_1 ._title_11kd9_16 {
+._node_19rl7_1 ._title_19rl7_21 {
   display: block;
   height: 20px;
   padding: 0 2px;
@@ -17,7 +20,7 @@
   font-size: 14px;
   line-height: 20px;
 }
-._node_11kd9_1 ._edit_11kd9_26 {
+._node_19rl7_1 ._edit_19rl7_31 {
   display: inline-block;
   position: absolute;
   top: 0;
@@ -29,7 +32,7 @@
   font-family: monospace;
   line-height: 20px;
 }
-._node_11kd9_1 ._delete_11kd9_41 {
+._node_19rl7_1 ._delete_19rl7_46 {
   display: inline-block;
   position: absolute;
   top: 0;
@@ -41,11 +44,11 @@
   font-family: monospace;
   line-height: 20px;
 }
-._node_11kd9_1 ._inputSection_11kd9_56,
-._node_11kd9_1 ._outputSection_11kd9_57 {
+._node_19rl7_1 ._inputSection_19rl7_61,
+._node_19rl7_1 ._outputSection_19rl7_62 {
   border-top: 1px solid #111;
 }
-._node_11kd9_1 textarea {
+._node_19rl7_1 textarea {
   position: relative;
   box-sizing: border-box;
   width: 100%;
