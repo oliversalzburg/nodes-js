@@ -7,6 +7,7 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/theme/mdn-like.css";
 import { mustExist } from "../Maybe";
+import { ConstructorOf } from "../Mixins";
 import { Confirm } from "./Confirm";
 import { Coordinates } from "./Locator";
 import { Node } from "./Node";
@@ -19,6 +20,10 @@ export class NodeEditor extends Node {
 
   target: Node | null = null;
   line: LeaderLine | null = null;
+
+  getFactory(): ConstructorOf<Node> {
+    return NodeEditor;
+  }
 
   get behaviorSource(): string {
     return this.#codeMirror?.getValue() ?? "";
@@ -81,8 +86,8 @@ export class NodeEditor extends Node {
     super.onClickDelete(event);
   }
 
-  init(initParameters?: SerializedNode) {
-    super.init(initParameters);
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
     this.updateUi();
   }
 

@@ -1,4 +1,5 @@
 import { Behavior } from "../behavior/Behavior";
+import { ConstructorOf } from "../Mixins";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -9,24 +10,29 @@ export class NodeScript extends Node {
     this.hasBehavior = true;
   }
 
-  connectedCallback(): void {
+  getFactory(): ConstructorOf<Node> {
+    return NodeScript;
+  }
+
+  async connectedCallback() {
     super.connectedCallback();
 
-    this.updateBehavior(
-      Behavior.fromCodeFragment(
+    await this.updateBehavior(
+      await Behavior.fromCodeFragment(
         `this._title("Sum");
 const a = this._input("A");
 const b = this._input("B");
 let sum = this._output("Sum");
-sum.update( Number(a) + Number(b));`
+sum.update( Number(a) + Number(b));`,
+        NodeScript
       )
     );
 
     this.rebuildFromMetadata();
   }
 
-  init(initParameters?: SerializedNode) {
-    super.init(initParameters);
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
 
     this.updateUi();
   }

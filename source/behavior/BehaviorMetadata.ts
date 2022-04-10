@@ -1,10 +1,11 @@
+import { ConstructorOf } from "../Mixins";
+import { Command } from "../ui/Command";
 import { Node } from "../ui/Node";
-import { NodeSeed } from "../ui/NodeSeed";
 
 export type CommandMetadata = {
   identifier: string;
   label: string;
-  code: string;
+  entrypoint: (command: Command) => Promise<unknown>;
 };
 export type InputMetadata = {
   identifier: string;
@@ -34,17 +35,10 @@ export class BehaviorMetadata {
   }
 
   serialize() {
-    const meta = new Array<string>();
-
-    for (const command of this.commands) {
-      meta.push(`// @command ${command.identifier} "${command.label}"`);
-      meta.push(`${command.code}`);
-    }
-
-    return meta.join("\n");
+    return "";
   }
 
-  wrapExecutable(executable: string) {
+  static wrapExecutable(executable: string) {
     return `
 return (async () => {
 ${executable}
@@ -68,14 +62,27 @@ ${executable}
     return meta;
   }
 
-  static parse(script: string) {
-    return this.#executeScriptMeta(script);
+  static async parse<TNode extends Node>(script: string, nodeConstructor: ConstructorOf<TNode>) {
+    return BehaviorMetadata.#executeScriptMeta(
+      BehaviorMetadata.wrapExecutable(script),
+      nodeConstructor
+    );
   }
 
-  static #executeScriptMeta(script: string) {
+  static async #executeScriptMeta<TNode extends Node>(
+    script: string,
+    nodeConstructor: ConstructorOf<TNode>
+  ) {
     const meta = new BehaviorMetadata();
 
-    const executionSink = Object.assign(new NodeSeed(), {
+    const executionSink = Object.assign(new nodeConstructor(), {
+      _command: (label: string, callback: (command: Command) => Promise<unknown>) => {
+        meta.commands.push({
+          identifier: `command${meta.commands.length}`,
+          label,
+          entrypoint: callback,
+        });
+      },
       _input: (label: string) => {
         meta.inputs.push({ identifier: `input${meta.inputs.length}`, label });
       },
@@ -89,7 +96,11 @@ ${executable}
     });
 
     const executable = new Function(script).bind(executionSink);
-    executable();
+    try {
+      await executable();
+    } catch (error) {
+      console.error(script, error);
+    }
     return meta;
   }
 

@@ -4,6 +4,7 @@ import PlainDraggable, { NewPosition } from "plain-draggable";
 import { Behavior } from "../behavior/Behavior";
 import { Execution } from "../execution/Execution";
 import { isNil, mustExist } from "../Maybe";
+import { Command } from "./Command";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
 import { Input } from "./Input";
@@ -31,8 +32,7 @@ export type SerializedConnection = {
 export type CommandDescription = {
   id: string;
   label: string;
-  callback: () => Promise<unknown>;
-  code: string;
+  entrypoint: (command: Command) => Promise<unknown>;
 };
 
 export type SerializedInput = {
@@ -250,12 +250,14 @@ export class Workarea extends HTMLElement {
     node.behaviorEditor = null;
     node.updateUi();
   }
-  closeBehaviorEditor(node: Node, event?: MouseEvent) {
+  async closeBehaviorEditor(node: Node, event?: MouseEvent) {
     if (!node.behaviorEditor) {
       return;
     }
 
-    node.updateBehavior(Behavior.fromEditableScript(node.behaviorEditor.behaviorSource));
+    await node.updateBehavior(
+      await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory())
+    );
     node.update();
 
     this.cancelBehaviorEditor(node, event);
@@ -488,9 +490,9 @@ export class Workarea extends HTMLElement {
     return node;
   }
 
-  #initNode(node: Node, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
+  async #initNode(node: Node, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
     this.appendChild(node);
-    node.init(initParameters);
+    await node.init(initParameters);
     this.nodes.push(node);
 
     // Place new nodes at the center of the stage.
@@ -553,7 +555,7 @@ export class Workarea extends HTMLElement {
       this,
       this.#scrollableContainer ?? undefined
     ).draggableToAbsolute(position);
-    node.update();
+    await node.update();
     node.updateUi(coords);
 
     console.debug(`Created node ${node.nodeId} at ${Math.round(node.x)}x${Math.round(node.y)}.`);

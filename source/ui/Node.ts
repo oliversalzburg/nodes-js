@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { Behavior } from "../behavior/Behavior";
-import { BehaviorMetadata } from "../behavior/BehaviorMetadata";
 import { mustExist } from "../Maybe";
+import { ConstructorOf } from "../Mixins";
 import { Command } from "./Command";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
@@ -47,6 +47,8 @@ export abstract class Node extends HTMLElement {
 
   #inputSectionElement: HTMLDivElement | null = null;
   #outputSectionElement: HTMLDivElement | null = null;
+
+  abstract getFactory(): ConstructorOf<Node>;
 
   get selected() {
     return this.#selected;
@@ -124,22 +126,15 @@ export abstract class Node extends HTMLElement {
     }
   }
 
-  init(initParameters?: SerializedNode): void {
+  async init(initParameters?: SerializedNode) {
     this.nodeId = initParameters?.id ?? this.nodeId;
     this.name = initParameters?.name ?? this.name;
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
 
     if (initParameters?.behavior) {
-      this.updateBehavior(
-        Behavior.fromCodeFragment(
-          initParameters.behavior.script,
-          new BehaviorMetadata(
-            this.name,
-            initParameters.behavior.metadata.inputs,
-            initParameters.behavior.metadata.outputs
-          )
-        )
+      await this.updateBehavior(
+        await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory())
       );
       for (
         let inputIndex = 0;
@@ -230,7 +225,8 @@ export abstract class Node extends HTMLElement {
       try {
         let inputsRequested = 0;
         let outputsRequested = 0;
-        const context = Object.assign({}, this, {
+        const context = Object.assign(this, {
+          _command: Function.prototype,
           _input: () => {
             const inputPointer = inputsRequested++;
             return this.inputs[inputPointer].value;
@@ -244,7 +240,7 @@ export abstract class Node extends HTMLElement {
           },
           _title: Function.prototype,
         });
-        await this.behaviorCompiled.bind(context)();
+        await this.behaviorCompiled.bind(this)();
       } catch (error) {
         console.error(
           `  Execution of ${this.nodeId} failed!`,
@@ -275,7 +271,7 @@ export abstract class Node extends HTMLElement {
       this.behaviorEditor.updateUi();
     }
   }
-  updateBehavior(behavior = this.behavior) {
+  async updateBehavior(behavior = this.behavior) {
     this.behavior = behavior;
     if (this.behavior === null) {
       this.behaviorCompiled = null;
@@ -283,14 +279,14 @@ export abstract class Node extends HTMLElement {
     }
 
     const script = this.behavior.toExecutableBehavior();
-    this.rebuildFromMetadata();
+    await this.rebuildFromMetadata();
     this.behaviorCompiled = new Function(script) as CompiledBehavior;
   }
 
-  protected addCommand(initParameters?: Partial<CommandDescription>) {
+  protected async addCommand(initParameters?: Partial<CommandDescription>) {
     const command = document.createElement("dt-command") as Command;
     mustExist(this.#inputSectionElement).appendChild(command);
-    command.init(initParameters);
+    await command.init(initParameters);
     this.commands.push(command);
     return command;
   }
@@ -298,7 +294,7 @@ export abstract class Node extends HTMLElement {
     mustExist(this.#inputSectionElement).removeChild(command);
     this.commands.splice(this.commands.indexOf(command), 1);
   }
-  protected addInput(initParameters?: Partial<SerializedInput>) {
+  protected async addInput(initParameters?: Partial<SerializedInput>) {
     const input = document.createElement("dt-input") as Input;
     mustExist(this.#inputSectionElement).appendChild(input);
     input.init(initParameters);
@@ -328,7 +324,7 @@ export abstract class Node extends HTMLElement {
     }
     this.outputs.splice(this.outputs.indexOf(output), 1);
   }
-  protected rebuildFromMetadata() {
+  protected async rebuildFromMetadata() {
     const behavior = mustExist(this.behavior);
 
     this.name = behavior.metadata.title;
@@ -340,9 +336,9 @@ export abstract class Node extends HTMLElement {
     );
     for (let commandIndex = 0; commandIndex < behavior.metadata.commands.length; ++commandIndex) {
       if (this.commands.length <= commandIndex) {
-        this.addCommand();
+        await this.addCommand();
       }
-      this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
+      await this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
     }
     excessCommands.forEach(command => this.removeCommand(command));
 

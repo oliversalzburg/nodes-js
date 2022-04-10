@@ -1,3 +1,4 @@
+import { ConstructorOf } from "../Mixins";
 import { Node } from "../ui/Node";
 import { BehaviorMetadata } from "./BehaviorMetadata";
 
@@ -15,7 +16,7 @@ export class Behavior {
   }
 
   toExecutableBehavior() {
-    return this.#metadata.wrapExecutable(this.#script);
+    return BehaviorMetadata.wrapExecutable(this.#script);
   }
 
   toEditableScript() {
@@ -26,13 +27,23 @@ export class Behavior {
     return this.#script;
   }
 
-  static fromEditableScript(editable: string) {
-    const metadata = BehaviorMetadata.parse(editable);
+  static async fromEditableScript<TNode extends Node>(
+    editable: string,
+    nodeConstructor: ConstructorOf<TNode>
+  ) {
+    const metadata = await BehaviorMetadata.parse(editable, nodeConstructor);
     const script = BehaviorMetadata.stripMetadataFromBehaviorScript(editable);
     return new Behavior(script, metadata);
   }
-  static fromCodeFragment(executable: string, metadata?: BehaviorMetadata) {
-    return new Behavior(executable, metadata ?? BehaviorMetadata.parse(executable));
+  static async fromCodeFragment<TNode extends Node>(
+    executable: string,
+    nodeConstructor: ConstructorOf<TNode>,
+    metadata?: BehaviorMetadata
+  ) {
+    return new Behavior(
+      executable,
+      metadata ?? (await BehaviorMetadata.parse(executable, nodeConstructor))
+    );
   }
   static fromCodeFragmentForNode(executable: string, node: Node) {
     return new Behavior(executable, BehaviorMetadata.fromNode(node));

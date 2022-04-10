@@ -1,4 +1,5 @@
 import { Behavior } from "../behavior/Behavior";
+import { ConstructorOf } from "../Mixins";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -9,23 +10,26 @@ export class NodeNoop extends Node {
     this.hasBehavior = true;
   }
 
-  connectedCallback() {
+  getFactory(): ConstructorOf<Node> {
+    return NodeNoop;
+  }
+
+  async connectedCallback() {
     super.connectedCallback();
 
-    this.updateBehavior(
-      Behavior.fromCodeFragment(
+    await this.updateBehavior(
+      await Behavior.fromCodeFragment(
         `this._title("Noop");
-this._input("Sink")`
+this._input("Sink")`,
+        NodeNoop
       )
     );
 
     this.rebuildFromMetadata();
   }
 
-  init(initParameters?: SerializedNode) {
-    super.init(initParameters);
-
-    this.inputs[0].init(initParameters?.inputs[0]);
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
 
     this.updateUi();
   }

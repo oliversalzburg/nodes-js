@@ -5,7 +5,7 @@ import { Node } from "./Node";
 import { CommandDescription } from "./Workarea";
 
 export class Command extends Column {
-  callback: ((command: Command) => Promise<unknown>) | null = null;
+  entrypoint: ((command: Command) => Promise<unknown>) | null = null;
 
   constructor() {
     super();
@@ -25,15 +25,8 @@ export class Command extends Column {
   async init(initParameters?: Partial<CommandDescription>): Promise<void> {
     super.init(initParameters);
 
-    const instruction = initParameters?.callback ?? initParameters?.code ?? null;
-
     this.label = initParameters?.label ?? "";
-    this.callback =
-      typeof instruction === "function"
-        ? instruction
-        : typeof instruction === "string"
-        ? new Function(instruction).bind(this.parent)
-        : null;
+    this.entrypoint = initParameters?.entrypoint ?? null;
   }
 
   update(): void {
@@ -53,8 +46,8 @@ export class Command extends Column {
 
   async onMouseUp(event: MouseEvent) {
     // Always disconnect on click.
-    if (!isNil(this.callback)) {
-      await this.callback(this);
+    if (!isNil(this.entrypoint)) {
+      await this.entrypoint.bind(this.parent)(this);
     }
 
     await mustExist(this.parent).update();

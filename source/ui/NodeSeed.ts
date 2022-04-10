@@ -1,6 +1,7 @@
 import arbit, { ArbitGenerator } from "arbit";
 import { Behavior } from "../behavior/Behavior";
 import { mustExist } from "../Maybe";
+import { ConstructorOf } from "../Mixins";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 
@@ -14,28 +15,31 @@ export class NodeSeed extends Node {
     this.random = arbit(this.nodeId);
   }
 
-  connectedCallback() {
+  getFactory(): ConstructorOf<Node> {
+    return NodeSeed;
+  }
+
+  async connectedCallback() {
     super.connectedCallback();
 
-    this.updateBehavior(
-      Behavior.fromCodeFragment(
-        'this._title("Seed");' +
-          "\n" +
-          'let float = this._output("Float");' +
-          "\n" +
-          'let int = this._output("Int");' +
-          "\n" +
-          "float.update(this.random());" +
-          "\n" +
-          "int.update(this.random.nextInt(256));"
+    await this.updateBehavior(
+      await Behavior.fromCodeFragment(
+        `this._title("Seed");
+
+let float = this._output("Float");
+let int = this._output("Int");
+
+float.update(this.random());
+int.update(this.random.nextInt(256));`,
+        NodeSeed
       )
     );
 
     this.rebuildFromMetadata();
   }
 
-  init(initParameters?: SerializedNode) {
-    super.init(initParameters);
+  async init(initParameters?: SerializedNode) {
+    await super.init(initParameters);
 
     this.random = arbit(mustExist(this.nodeId));
 
