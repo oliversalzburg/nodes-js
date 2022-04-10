@@ -1,4 +1,4 @@
-._toolbar_1u7av_1 {
+._toolbar_18bcn_1 {
   display: block;
   height: 50px;
   padding: 0;
@@ -7,7 +7,7 @@
   border: 1px solid #111;
   z-index: 2;
 }
-._toolbar_1u7av_1 ._button_1u7av_15 {
+._toolbar_18bcn_1 ._button_18bcn_15 {
   display: inline-block;
   height: 40px;
   margin: 5px;
@@ -15,10 +15,19 @@
   background-color: #eee;
   border: 1px solid #111;
 }
-._toolbar_1u7av_1 ._button_1u7av_15:hover {
+._toolbar_18bcn_1 ._button_18bcn_15:hover {
   background-color: #ddd;
 }
-._toolbar_1u7av_1 ._divider_1u7av_29 {
+._toolbar_18bcn_1 ._highlightedButton_18bcn_28 {
+  color: #eee;
+  background-color: #0078d7;
+  border: 1px solid #111;
+}
+._toolbar_18bcn_1 ._highlightedButton_18bcn_28:hover {
+  color: #0078d7;
+  border-color: #0078d7;
+}
+._toolbar_18bcn_1 ._divider_18bcn_38 {
   display: inline-block;
   width: 20px;
 }
