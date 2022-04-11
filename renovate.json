@@ -7,5 +7,6 @@
       "automerge": true
     }
   ],
-  "postUpdateOptions": ["yarnDedupeHighest"]
+  "postUpdateOptions": ["yarnDedupeHighest"],
+  "prConcurrentLimit": 0
 }
