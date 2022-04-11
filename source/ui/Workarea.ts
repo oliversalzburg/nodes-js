@@ -545,7 +545,6 @@ export class Workarea extends HTMLElement {
         this.storeSnapshot();
       },
       onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
-        node.select();
         this.#beginSynchronizedDragOperation(node);
       },
       onMove: newPosition => {
