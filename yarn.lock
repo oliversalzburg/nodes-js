@@ -3370,16 +3370,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:*, nanoid@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "nanoid@npm:3.3.1"
-  bin:
-    nanoid: bin/nanoid.cjs
-  checksum: 4ef0969e1bbe866fc223eb32276cbccb0961900bfe79104fa5abe34361979dead8d0e061410a5c03bc3d47455685adf32c09d6f27790f4a6898fb51f7df7ec86
-  languageName: node
-  linkType: hard
-
-"nanoid@npm:3.3.2":
+"nanoid@npm:*, nanoid@npm:3.3.2, nanoid@npm:^3.3.1":
   version: 3.3.2
   resolution: "nanoid@npm:3.3.2"
   bin:
@@ -3476,7 +3467,7 @@ __metadata:
     m-class-list: 1.1.10
     nanoid: 3.3.2
     plain-draggable: 2.5.14
-    pointer-event: 1.1.0
+    pointer-event: 1.2.0
     prettier: 2.6.2
     prettier-package-json: 2.6.3
     prettier-plugin-organize-imports: 2.3.4
@@ -3975,10 +3966,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pointer-event@npm:1.1.0":
-  version: 1.1.0
-  resolution: "pointer-event@npm:1.1.0"
-  checksum: 6e42e84de574a41aa30e8e49ea9e45e0c55f3ad96a0649017187f0ece134470ae56a5cd3c7a29c3ce774e36fab427437396962132dbb23979364b05bf6b2af8e
+"pointer-event@npm:1.2.0":
+  version: 1.2.0
+  resolution: "pointer-event@npm:1.2.0"
+  checksum: 489cfd12685a44b1600b130a0347c098fe14825bac34a92df3bd6cf6e02315657d9254793d5995425ec5f7cf9b8960f01cbdd558d2550714b4e18262a7c3567e
   languageName: node
   linkType: hard
 
