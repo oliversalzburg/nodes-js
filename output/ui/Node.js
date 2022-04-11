@@ -87,7 +87,9 @@ const _Node = class extends HTMLElement {
       this.editElement = document.createElement("button");
       this.editElement.classList.add(styles.edit);
       this.editElement.textContent = "⬤";
-      this.editElement.addEventListener("click", (event) => this.onClickEdit(event));
+      this.editElement.addEventListener("click", (event) => {
+        this.onClickEdit(event).catch(console.error);
+      });
       this.appendChild(this.editElement);
     }
     this.deleteElement = document.createElement("button");
@@ -110,7 +112,7 @@ const _Node = class extends HTMLElement {
     this.x = initParameters?.x ?? this.x;
     this.y = initParameters?.y ?? this.y;
     if (initParameters?.behavior) {
-      await this.updateBehavior(await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory()));
+      this.updateBehavior(await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory()));
       for (let inputIndex = 0; inputIndex < initParameters.behavior.metadata.inputs.length; ++inputIndex) {
         this.inputs[inputIndex].label = mustExist(initParameters?.behavior?.metadata.inputs[inputIndex].label);
       }
@@ -133,8 +135,8 @@ const _Node = class extends HTMLElement {
   finalizeConnection(columnTarget) {
     mustExist(this.workarea).finalizeConnection(columnTarget);
   }
-  onConnect(connection) {
-    this.update();
+  async onConnect(connection) {
+    await this.update();
     this.updateUi();
   }
   onClickTitle(event) {
@@ -147,8 +149,8 @@ const _Node = class extends HTMLElement {
       this.deselect();
     }
   }
-  onClickEdit(event) {
-    mustExist(this.workarea).editNodeBehavior(this, event);
+  async onClickEdit(event) {
+    await mustExist(this.workarea).editNodeBehavior(this, event);
   }
   onClickDelete(event) {
     mustExist(this.workarea).deleteNode(this);
@@ -218,20 +220,20 @@ const _Node = class extends HTMLElement {
       this.behaviorEditor.updateUi();
     }
   }
-  async updateBehavior(behavior = this.behavior) {
+  updateBehavior(behavior = this.behavior) {
     this.behavior = behavior;
     if (this.behavior === null) {
       this.behaviorCompiled = null;
       return;
     }
     const script = this.behavior.toExecutableBehavior();
-    await this.rebuildFromMetadata();
+    this.rebuildFromMetadata();
     this.behaviorCompiled = new Function(script);
   }
-  async addCommand(initParameters) {
+  addCommand(initParameters) {
     const command = document.createElement("dt-command");
     mustExist(__privateGet(this, _inputSectionElement)).appendChild(command);
-    await command.init(initParameters);
+    command.init(initParameters);
     this.commands.push(command);
     return command;
   }
@@ -239,7 +241,7 @@ const _Node = class extends HTMLElement {
     mustExist(__privateGet(this, _inputSectionElement)).removeChild(command);
     this.commands.splice(this.commands.indexOf(command), 1);
   }
-  async addInput(initParameters) {
+  addInput(initParameters) {
     const input = document.createElement("dt-input");
     mustExist(__privateGet(this, _inputSectionElement)).appendChild(input);
     input.init(initParameters);
@@ -269,16 +271,16 @@ const _Node = class extends HTMLElement {
     }
     this.outputs.splice(this.outputs.indexOf(output), 1);
   }
-  async rebuildFromMetadata() {
+  rebuildFromMetadata() {
     const behavior = mustExist(this.behavior);
     this.name = behavior.metadata.title;
     const excessCommandCount = this.commands.length - behavior.metadata.commands.length;
     const excessCommands = this.commands.splice(behavior.metadata.commands.length, excessCommandCount);
     for (let commandIndex = 0; commandIndex < behavior.metadata.commands.length; ++commandIndex) {
       if (this.commands.length <= commandIndex) {
-        await this.addCommand();
+        this.addCommand();
       }
-      await this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
+      this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
     }
     excessCommands.forEach((command) => this.removeCommand(command));
     const excessInputCount = this.inputs.length - behavior.metadata.inputs.length;

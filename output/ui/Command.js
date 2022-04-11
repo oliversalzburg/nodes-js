@@ -12,9 +12,11 @@ export class Command extends Column {
   connectedCallback() {
     super.connectedCallback();
     this.classList.add(styles.command);
-    this.addEventListener("mouseup", (event) => this.onMouseUp(event));
+    this.addEventListener("mouseup", (event) => {
+      this.onMouseUp(event).catch(console.error);
+    });
   }
-  async init(initParameters) {
+  init(initParameters) {
     super.init(initParameters);
     this.label = initParameters?.label ?? "";
     this.entrypoint = initParameters?.entrypoint ?? null;
