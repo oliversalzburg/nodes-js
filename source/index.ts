@@ -5,6 +5,7 @@ export * from "./ui/Command";
 export * from "./ui/Connection";
 export * from "./ui/Decoy";
 export * from "./ui/Input";
+export * from "./ui/MiniMap";
 export * from "./ui/Node";
 export * from "./ui/NodeEditor";
 export * from "./ui/NodeFile";

@@ -46,6 +46,13 @@ export class Locator {
     };
   }
 
+  absoluteToMiniMap(position: Coordinates, miniMapCanvas: HTMLCanvasElement): Coordinates {
+    return {
+      x: (position.x / this.workarea.scrollWidth) * miniMapCanvas.width,
+      y: (position.y / this.workarea.scrollHeight) * miniMapCanvas.height,
+    };
+  }
+
   static forWorkarea(workarea: Workarea, scrollable?: Scrollable) {
     return new Locator(workarea, scrollable);
   }
