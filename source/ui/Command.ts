@@ -19,10 +19,12 @@ export class Command extends Column {
 
     this.classList.add(styles.command);
 
-    this.addEventListener("mouseup", event => this.onMouseUp(event));
+    this.addEventListener("mouseup", event => {
+      this.onMouseUp(event).catch(console.error);
+    });
   }
 
-  async init(initParameters?: Partial<CommandDescription>): Promise<void> {
+  init(initParameters?: Partial<CommandDescription>) {
     super.init(initParameters);
 
     this.label = initParameters?.label ?? "";

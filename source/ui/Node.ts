@@ -106,7 +106,9 @@ export abstract class Node extends HTMLElement {
       this.editElement = document.createElement("button");
       this.editElement.classList.add(styles.edit);
       this.editElement.textContent = "⬤";
-      this.editElement.addEventListener("click", event => this.onClickEdit(event));
+      this.editElement.addEventListener("click", event => {
+        this.onClickEdit(event).catch(console.error);
+      });
       this.appendChild(this.editElement);
     }
 
@@ -133,7 +135,7 @@ export abstract class Node extends HTMLElement {
     this.y = initParameters?.y ?? this.y;
 
     if (initParameters?.behavior) {
-      await this.updateBehavior(
+      this.updateBehavior(
         await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory())
       );
       for (
@@ -173,8 +175,8 @@ export abstract class Node extends HTMLElement {
     mustExist(this.workarea).finalizeConnection(columnTarget);
   }
 
-  onConnect(connection: Connection) {
-    this.update();
+  async onConnect(connection: Connection) {
+    await this.update();
     this.updateUi();
   }
   onClickTitle(event: MouseEvent) {
@@ -188,8 +190,8 @@ export abstract class Node extends HTMLElement {
       this.deselect();
     }
   }
-  onClickEdit(event: MouseEvent) {
-    mustExist(this.workarea).editNodeBehavior(this, event);
+  async onClickEdit(event: MouseEvent) {
+    await mustExist(this.workarea).editNodeBehavior(this, event);
   }
   onClickDelete(event?: MouseEvent) {
     mustExist(this.workarea).deleteNode(this);
@@ -271,7 +273,7 @@ export abstract class Node extends HTMLElement {
       this.behaviorEditor.updateUi();
     }
   }
-  async updateBehavior(behavior = this.behavior) {
+  updateBehavior(behavior = this.behavior) {
     this.behavior = behavior;
     if (this.behavior === null) {
       this.behaviorCompiled = null;
@@ -279,14 +281,14 @@ export abstract class Node extends HTMLElement {
     }
 
     const script = this.behavior.toExecutableBehavior();
-    await this.rebuildFromMetadata();
+    this.rebuildFromMetadata();
     this.behaviorCompiled = new Function(script) as CompiledBehavior;
   }
 
-  protected async addCommand(initParameters?: Partial<CommandDescription>) {
+  protected addCommand(initParameters?: Partial<CommandDescription>) {
     const command = document.createElement("dt-command") as Command;
     mustExist(this.#inputSectionElement).appendChild(command);
-    await command.init(initParameters);
+    command.init(initParameters);
     this.commands.push(command);
     return command;
   }
@@ -294,7 +296,7 @@ export abstract class Node extends HTMLElement {
     mustExist(this.#inputSectionElement).removeChild(command);
     this.commands.splice(this.commands.indexOf(command), 1);
   }
-  protected async addInput(initParameters?: Partial<SerializedInput>) {
+  protected addInput(initParameters?: Partial<SerializedInput>) {
     const input = document.createElement("dt-input") as Input;
     mustExist(this.#inputSectionElement).appendChild(input);
     input.init(initParameters);
@@ -324,7 +326,7 @@ export abstract class Node extends HTMLElement {
     }
     this.outputs.splice(this.outputs.indexOf(output), 1);
   }
-  protected async rebuildFromMetadata() {
+  protected rebuildFromMetadata() {
     const behavior = mustExist(this.behavior);
 
     this.name = behavior.metadata.title;
@@ -336,9 +338,9 @@ export abstract class Node extends HTMLElement {
     );
     for (let commandIndex = 0; commandIndex < behavior.metadata.commands.length; ++commandIndex) {
       if (this.commands.length <= commandIndex) {
-        await this.addCommand();
+        this.addCommand();
       }
-      await this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
+      this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
     }
     excessCommands.forEach(command => this.removeCommand(command));
 
