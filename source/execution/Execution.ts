@@ -1,3 +1,4 @@
+import ElapsedTime from "elapsed-time";
 import { isNil, mustExist } from "../Maybe";
 import { Node } from "../ui/Node";
 
@@ -13,6 +14,8 @@ export class Execution {
   }
 
   plan() {
+    const entry = ElapsedTime.new().start();
+
     const roots = new Set<Node>();
     for (const node of this.nodes) {
       if (node.inputs.length === 0) {
@@ -33,9 +36,13 @@ export class Execution {
         this.stages.push(stage);
       }
     }
+
+    console.log(`Execution planned in ${entry.getValue()}.`);
   }
 
   async execute(withUpdateUi = true) {
+    const entry = ElapsedTime.new().start();
+
     if (isNil(this.stages)) {
       return;
     }
@@ -54,6 +61,8 @@ export class Execution {
         }
       }
     }
+
+    console.log(`Executed in ${entry.getValue()}.`);
   }
 
   #consumersToStage(roots: Iterable<Node>) {

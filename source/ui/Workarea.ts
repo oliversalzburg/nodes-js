@@ -303,8 +303,8 @@ export class Workarea extends HTMLElement {
   #panInitWorkarea: [number, number] = [0, 0];
 
   onMouseDown(event: MouseEvent) {
-    // Middle mouse button.
-    if (this.#scrollableContainer && event.button === 1) {
+    // Left or middle mouse button.
+    if (this.#scrollableContainer && (event.button === 0 || event.button === 1)) {
       this.#panning = true;
       this.#panInitMouse = [event.x, event.y];
       this.#panInitWorkarea = [
