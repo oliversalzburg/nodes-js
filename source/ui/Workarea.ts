@@ -104,8 +104,12 @@ export class Workarea extends HTMLElement {
     this.addEventListener("mousemove", event => this.onMouseMove(event));
     this.addEventListener("mouseup", event => this.onMouseUp(event));
 
-    document.addEventListener("keydown", event => this.onKeyDown(event));
-    document.addEventListener("keyup", event => this.onKeyUp(event));
+    document.addEventListener("keydown", event => {
+      this.onKeyDown(event).catch(console.error);
+    });
+    document.addEventListener("keyup", event => {
+      this.onKeyUp(event).catch(console.error);
+    });
 
     console.debug("Workarea connected.");
   }
@@ -182,16 +186,16 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  editNodeBehavior(node: Node, event?: MouseEvent) {
+  async editNodeBehavior(node: Node, event?: MouseEvent) {
     if (node.behaviorEditor) {
-      node.behaviorEditor.onClickDelete(event);
+      await node.behaviorEditor.onClickDelete(event);
       return;
     }
 
     const editor = document.createElement("dt-node-editor") as NodeEditor;
     this.#openEditors.add(editor);
     this.appendChild(editor);
-    editor.init();
+    await editor.init();
     editor.editNodeBehavior(node);
     editor.updateUi();
 
@@ -259,7 +263,7 @@ export class Workarea extends HTMLElement {
     await node.updateBehavior(
       await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory())
     );
-    node.update();
+    await node.update();
 
     this.cancelBehaviorEditor(node, event);
   }
@@ -383,10 +387,10 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  onKeyDown(event: KeyboardEvent) {
+  async onKeyDown(event: KeyboardEvent) {
     // intentionally left blank
   }
-  onKeyUp(event: KeyboardEvent) {
+  async onKeyUp(event: KeyboardEvent) {
     if (event.target !== document.body) {
       return;
     }
@@ -394,25 +398,25 @@ export class Workarea extends HTMLElement {
     switch (event.keyCode) {
       case 49: {
         // 1
-        this.createNode("seed");
+        await this.createNode("seed");
         break;
       }
 
       case 50: {
         // 2
-        this.createNode("noop");
+        await this.createNode("noop");
         break;
       }
 
       case 51: {
         // 3
-        this.createNode("script");
+        await this.createNode("script");
         break;
       }
 
       case 52: {
         // 4
-        this.createNode("row");
+        await this.createNode("row");
         break;
       }
 
@@ -423,7 +427,7 @@ export class Workarea extends HTMLElement {
 
       case 82:
         // r
-        this.restoreSnapshot();
+        await this.restoreSnapshot();
         break;
 
       case 88:
@@ -452,36 +456,36 @@ export class Workarea extends HTMLElement {
     this.#scrollableContainer = scrollable;
   }
 
-  createNode(type: NodeTypes, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
+  async createNode(type: NodeTypes, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
     let node: Node | null = null;
     switch (type) {
       case "script": {
         node = document.createElement("dt-node-script") as NodeScript;
-        this.#initNode(node, shouldUpdateSnapshot, initParameters);
+        await this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "file": {
         node = document.createElement("dt-node-file") as NodeFile;
-        this.#initNode(node, shouldUpdateSnapshot, initParameters);
+        await this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "noop": {
         node = document.createElement("dt-node-noop") as NodeNoop;
-        this.#initNode(node, shouldUpdateSnapshot, initParameters);
+        await this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "row": {
         node = document.createElement("dt-node-row") as NodeRow;
-        this.#initNode(node, shouldUpdateSnapshot, initParameters);
+        await this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
       case "seed": {
         node = document.createElement("dt-node-seed") as NodeSeed;
-        this.#initNode(node, shouldUpdateSnapshot, initParameters);
+        await this.#initNode(node, shouldUpdateSnapshot, initParameters);
         break;
       }
 
@@ -651,7 +655,7 @@ export class Workarea extends HTMLElement {
 
     // Create nodes
     for (const node of workarea.nodes) {
-      const createdNode = this.createNode(node.type, false, node);
+      const createdNode = await this.createNode(node.type, false, node);
       nodes.set(mustExist(createdNode.nodeId), createdNode);
       for (const input of createdNode.inputs) {
         inputs.set(mustExist(input.columnId), input);

@@ -1,3 +1,4 @@
 {
+  "eslint.packageManager": "yarn",
   "typescript.preferences.importModuleSpecifier": "relative"
 }

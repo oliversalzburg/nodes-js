@@ -89,7 +89,7 @@ ${executable}
       _title: (title: string) => (meta.title = title),
     });
 
-    const executable = new Function(script).bind(executionSink);
+    const executable = new Function(script).bind(executionSink) as () => Promise<unknown>;
     try {
       await executable();
     } catch (error) {
