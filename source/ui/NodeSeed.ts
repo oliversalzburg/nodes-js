@@ -24,7 +24,7 @@ export class NodeSeed extends Node {
 
     this.random = arbit(mustExist(this.nodeId));
 
-    await this.updateBehavior(
+    this.updateBehavior(
       await Behavior.fromCodeFragment(
         initParameters?.behavior?.script ??
           `this._title("Seed");

@@ -50,7 +50,7 @@ export class Execution {
     } else {
       for (const stage of this.stages) {
         for (const node of stage) {
-          node.update();
+          await node.update();
         }
       }
     }

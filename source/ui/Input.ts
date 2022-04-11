@@ -22,7 +22,7 @@ export class Input extends Column {
     this.addEventListener("mouseup", event => this.onMouseUp(event));
   }
 
-  connect(connection: Connection) {
+  async connect(connection: Connection) {
     if (this.output) {
       this.output.disconnect();
     }
@@ -30,11 +30,7 @@ export class Input extends Column {
     this.output = connection;
     this.update();
 
-    super.connect(connection);
-
-    console.log(
-      `${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`
-    );
+    await super.connect(connection);
   }
   disconnect(connection?: Connection): void {
     super.disconnect(connection);

@@ -24,7 +24,7 @@ export class NodeFile extends Node {
   async init(initParameters?: SerializedNode) {
     await super.init(initParameters);
 
-    await this.updateBehavior(
+    this.updateBehavior(
       await Behavior.fromCodeFragment(
         initParameters?.behavior?.script ??
           `this._title("File");

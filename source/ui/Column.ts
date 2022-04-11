@@ -39,8 +39,8 @@ export abstract class Column extends HTMLElement {
     this.columnId = initParameters?.id ?? this.columnId;
   }
 
-  connect(connection: Connection) {
-    mustExist(this.parent).onConnect(connection);
+  async connect(connection: Connection) {
+    await mustExist(this.parent).onConnect(connection);
     this.classList.add(styles.connected);
   }
   disconnect(connection?: Connection) {
