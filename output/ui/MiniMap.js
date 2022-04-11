@@ -39,6 +39,7 @@ export class MiniMap extends HTMLElement {
     __privateGet(this, _canvas).width = this.clientWidth * devicePixelRatio;
     __privateGet(this, _canvas).height = this.clientHeight * devicePixelRatio;
     this.appendChild(__privateGet(this, _canvas));
+    this.addEventListener("click", (event) => this.onClick(event));
     __privateSet(this, _intervalHandle, setInterval(() => this.update(), 1e3));
   }
   disconnectedCallback() {
@@ -73,6 +74,15 @@ export class MiniMap extends HTMLElement {
     context.strokeStyle = "#111";
     context.stroke();
     context.closePath();
+  }
+  onClick(event) {
+    if (isNil(__privateGet(this, _canvas)) || isNil(__privateGet(this, _scrollableContainer)) || isNil(__privateGet(this, _workarea))) {
+      return;
+    }
+    const locator = Locator.forWorkarea(__privateGet(this, _workarea));
+    const position = locator.miniMapToAbsolute({x: event.offsetX, y: event.offsetY}, this);
+    __privateGet(this, _scrollableContainer).scrollLeft = position.x;
+    __privateGet(this, _scrollableContainer).scrollTop = position.y;
   }
 }
 _scrollableContainer = new WeakMap();

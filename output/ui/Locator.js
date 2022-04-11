@@ -35,6 +35,12 @@ export class Locator {
       y: position.y / this.workarea.scrollHeight * miniMapCanvas.height
     };
   }
+  miniMapToAbsolute(position, miniMap) {
+    return {
+      x: position.x / miniMap.clientWidth * this.workarea.scrollWidth,
+      y: position.y / miniMap.clientHeight * this.workarea.scrollHeight
+    };
+  }
   static forWorkarea(workarea, scrollable) {
     return new Locator(workarea, scrollable);
   }
