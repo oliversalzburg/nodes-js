@@ -5,6 +5,7 @@ export * from "./ui/Command.js";
 export * from "./ui/Connection.js";
 export * from "./ui/Decoy.js";
 export * from "./ui/Input.js";
+export * from "./ui/MiniMap.js";
 export * from "./ui/Node.js";
 export * from "./ui/NodeEditor.js";
 export * from "./ui/NodeFile.js";

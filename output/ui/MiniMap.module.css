@@ -1,0 +1,17 @@
+._minimap_ixhva_1 {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  background-color: transparent;
+  border: 1px solid #111;
+}
+._minimap_ixhva_1 canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
