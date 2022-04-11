@@ -21,6 +21,6 @@ window.addEventListener("load", () => {
   if (url.hash) {
     const payload = url.hash.substring(1);
     const workarea = document.getElementById("workarea");
-    workarea.import(payload);
+    workarea.import(payload).catch(console.error);
   }
 });

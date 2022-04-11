@@ -13,14 +13,13 @@ export class Input extends Column {
     this.classList.add(styles.input);
     this.addEventListener("mouseup", (event) => this.onMouseUp(event));
   }
-  connect(connection) {
+  async connect(connection) {
     if (this.output) {
       this.output.disconnect();
     }
     this.output = connection;
     this.update();
-    super.connect(connection);
-    console.log(`${connection.source.parent?.nodeId}::${connection.source.columnId} → ${this.parent?.nodeId}::${this.columnId}`);
+    await super.connect(connection);
   }
   disconnect(connection) {
     super.disconnect(connection);

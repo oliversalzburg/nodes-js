@@ -74,7 +74,7 @@ const _NodeEditor = class extends Node {
     if (this.behaviorSource !== this.target?.behavior?.toEditableScript()) {
       const shouldApply = await Confirm.yesNoCancel("Apply new behavior?");
       if (shouldApply === Confirm.YES) {
-        this.workarea?.closeBehaviorEditor(mustExist(this.target));
+        await this.workarea?.closeBehaviorEditor(mustExist(this.target));
         return;
       } else if (shouldApply === Confirm.CANCEL) {
         return;

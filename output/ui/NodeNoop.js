@@ -10,7 +10,7 @@ export class NodeNoop extends Node {
   }
   async init(initParameters) {
     await super.init(initParameters);
-    await this.updateBehavior(await Behavior.fromCodeFragment(initParameters?.behavior?.script ?? `this._title("Noop");
+    this.updateBehavior(await Behavior.fromCodeFragment(initParameters?.behavior?.script ?? `this._title("Noop");
 this._input("Sink")`, NodeNoop));
     this.rebuildFromMetadata();
     this.updateUi();

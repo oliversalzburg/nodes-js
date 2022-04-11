@@ -23,8 +23,8 @@ export class Column extends HTMLElement {
   init(initParameters) {
     this.columnId = initParameters?.id ?? this.columnId;
   }
-  connect(connection) {
-    mustExist(this.parent).onConnect(connection);
+  async connect(connection) {
+    await mustExist(this.parent).onConnect(connection);
     this.classList.add(styles.connected);
   }
   disconnect(connection) {

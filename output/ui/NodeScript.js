@@ -10,7 +10,7 @@ export class NodeScript extends Node {
   }
   async init(initParameters) {
     await super.init(initParameters);
-    await this.updateBehavior(await Behavior.fromCodeFragment(initParameters?.behavior?.script ?? `this._title("Sum");
+    this.updateBehavior(await Behavior.fromCodeFragment(initParameters?.behavior?.script ?? `this._title("Sum");
 const a = this._input("A");
 const b = this._input("B");
 let sum = this._output("Sum");

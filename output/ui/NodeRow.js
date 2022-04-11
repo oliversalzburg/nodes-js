@@ -10,7 +10,7 @@ export class NodeRow extends Node {
   }
   async init(initParameters) {
     await super.init(initParameters);
-    await this.updateBehavior(await Behavior.fromCodeFragment(initParameters?.behavior?.script ?? `this._title("Row");
+    this.updateBehavior(await Behavior.fromCodeFragment(initParameters?.behavior?.script ?? `this._title("Row");
 for(let inputIndex = 0; inputIndex < 5; ++inputIndex) { 
   const output = this._output(\`Output \${inputIndex}\`);
   output.update(inputIndex * 2);
