@@ -9,6 +9,7 @@
     "codemirror/lib/codemirror.css": "./codemirror/lib/codemirror.css",
     "codemirror/mode/javascript/javascript": "./codemirror/mode/javascript/javascript.js",
     "codemirror/theme/mdn-like.css": "./codemirror/theme/mdn-like.css",
+    "elapsed-time": "./elapsed-time.js",
     "leader-line": "./leader-line.js",
     "lz-string": "./lz-string.js",
     "nanoid": "./nanoid.js",

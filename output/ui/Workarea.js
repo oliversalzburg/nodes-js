@@ -214,7 +214,7 @@ export class Workarea extends HTMLElement {
     }
   }
   onMouseDown(event) {
-    if (__privateGet(this, _scrollableContainer) && event.button === 1) {
+    if (__privateGet(this, _scrollableContainer) && (event.button === 0 || event.button === 1)) {
       __privateSet(this, _panning, true);
       __privateSet(this, _panInitMouse, [event.x, event.y]);
       __privateSet(this, _panInitWorkarea, [
@@ -539,7 +539,6 @@ initNode_fn = async function(node, shouldUpdateSnapshot = true, initParameters) 
       this.storeSnapshot();
     },
     onDragStart: (event) => {
-      node.select();
       __privateMethod(this, _beginSynchronizedDragOperation, beginSynchronizedDragOperation_fn).call(this, node);
     },
     onMove: (newPosition) => {

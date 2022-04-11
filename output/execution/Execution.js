@@ -7,6 +7,7 @@ var __privateMethod = (obj, member, method) => {
   return method;
 };
 var _consumersToStage, consumersToStage_fn;
+import ElapsedTime from "../../_snowpack/pkg/elapsed-time.js";
 import {isNil, mustExist} from "../Maybe.js";
 const _Execution = class {
   constructor(nodes) {
@@ -15,6 +16,7 @@ const _Execution = class {
     this.nodes = nodes;
   }
   plan() {
+    const entry = ElapsedTime.new().start();
     const roots = new Set();
     for (const node of this.nodes) {
       if (node.inputs.length === 0) {
@@ -33,8 +35,10 @@ const _Execution = class {
         this.stages.push(stage);
       }
     }
+    console.log(`Execution planned in ${entry.getValue()}.`);
   }
   async execute(withUpdateUi = true) {
+    const entry = ElapsedTime.new().start();
     if (isNil(this.stages)) {
       return;
     }
@@ -52,6 +56,7 @@ const _Execution = class {
         }
       }
     }
+    console.log(`Executed in ${entry.getValue()}.`);
   }
   static fromNodes(nodes) {
     const execution = new _Execution([...nodes]);
