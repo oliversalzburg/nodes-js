@@ -28,7 +28,7 @@
     "m-class-list": "1.1.10",
     "nanoid": "3.3.2",
     "pointer-event": "1.1.0",
-    "prettier": "2.6.1",
+    "prettier": "2.6.2",
     "prettier-package-json": "2.6.3",
     "prettier-plugin-organize-imports": "2.3.4",
     "snowpack": "3.8.8",
