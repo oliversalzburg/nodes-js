@@ -26,6 +26,8 @@ export class MiniMap extends HTMLElement {
     this.#canvas.height = this.clientHeight * devicePixelRatio;
     this.appendChild(this.#canvas);
 
+    this.addEventListener("click", (event: MouseEvent) => this.onClick(event));
+
     this.#intervalHandle = setInterval(() => this.update(), 1000);
   }
 
@@ -72,6 +74,19 @@ export class MiniMap extends HTMLElement {
     context.strokeStyle = "#111";
     context.stroke();
     context.closePath();
+  }
+
+  onClick(event: MouseEvent) {
+    if (isNil(this.#canvas) || isNil(this.#scrollableContainer) || isNil(this.#workarea)) {
+      return;
+    }
+
+    const locator = Locator.forWorkarea(this.#workarea);
+
+    const position = locator.miniMapToAbsolute({ x: event.offsetX, y: event.offsetY }, this);
+
+    this.#scrollableContainer.scrollLeft = position.x;
+    this.#scrollableContainer.scrollTop = position.y;
   }
 }
 

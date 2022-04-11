@@ -1,3 +1,4 @@
+import { MiniMap } from "./MiniMap";
 import { Scrollable } from "./Scrollable";
 import { Workarea } from "./Workarea";
 
@@ -50,6 +51,13 @@ export class Locator {
     return {
       x: (position.x / this.workarea.scrollWidth) * miniMapCanvas.width,
       y: (position.y / this.workarea.scrollHeight) * miniMapCanvas.height,
+    };
+  }
+
+  miniMapToAbsolute(position: Coordinates, miniMap: MiniMap): Coordinates {
+    return {
+      x: (position.x / miniMap.clientWidth) * this.workarea.scrollWidth,
+      y: (position.y / miniMap.clientHeight) * this.workarea.scrollHeight,
     };
   }
 
