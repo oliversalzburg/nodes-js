@@ -133,7 +133,7 @@ const _Node = class extends HTMLElement {
     mustExist(this.workarea).initConnectionFrom(columnSource, event);
   }
   finalizeConnection(columnTarget) {
-    mustExist(this.workarea).finalizeConnection(columnTarget);
+    return mustExist(this.workarea).finalizeConnection(columnTarget);
   }
   async onConnect(connection) {
     await this.update();

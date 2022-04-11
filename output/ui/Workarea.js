@@ -92,11 +92,11 @@ export class Workarea extends HTMLElement {
     }));
     __privateMethod(this, _updateDecoy, updateDecoy_fn).call(this, event);
   }
-  finalizeConnection(columnTarget) {
+  async finalizeConnection(columnTarget) {
     if (!__privateGet(this, _currentConnectionSource)) {
       return;
     }
-    this.connect(__privateGet(this, _currentConnectionSource), columnTarget);
+    await this.connect(__privateGet(this, _currentConnectionSource), columnTarget);
   }
   updateConnections() {
     for (const connection of this.connections) {
@@ -108,10 +108,10 @@ export class Workarea extends HTMLElement {
       }
     }
   }
-  connect(columnSource, columnTarget) {
+  async connect(columnSource, columnTarget) {
     const connection = new Connection(columnSource, columnTarget);
-    columnSource.connect(connection);
-    columnTarget.connect(connection);
+    await columnSource.connect(connection);
+    await columnTarget.connect(connection);
     this.connections.add(connection);
     this.storeSnapshot();
   }
@@ -204,7 +204,7 @@ export class Workarea extends HTMLElement {
     if (!node.behaviorEditor) {
       return;
     }
-    await node.updateBehavior(await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory()));
+    node.updateBehavior(await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory()));
     await node.update();
     this.cancelBehaviorEditor(node, event);
   }
@@ -408,7 +408,7 @@ export class Workarea extends HTMLElement {
     for (const node of workarea.nodes) {
       for (const output of node.outputs) {
         for (const inputId of output.inputs) {
-          this.connect(mustExist(outputs.get(output.id)), mustExist(inputs.get(inputId)));
+          await this.connect(mustExist(outputs.get(output.id)), mustExist(inputs.get(inputId)));
         }
       }
     }

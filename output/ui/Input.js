@@ -1,3 +1,4 @@
+import {asyncEventHandler} from "../Async.js";
 import {isNil} from "../Maybe.js";
 import {Column} from "./Column.js";
 import styles from "./Input.module.css.proxy.js";
@@ -11,7 +12,7 @@ export class Input extends Column {
   connectedCallback() {
     super.connectedCallback();
     this.classList.add(styles.input);
-    this.addEventListener("mouseup", (event) => this.onMouseUp(event));
+    this.addEventListener("mouseup", asyncEventHandler(async (event) => this.onMouseUp(event)));
   }
   async connect(connection) {
     if (this.output) {
@@ -19,7 +20,7 @@ export class Input extends Column {
     }
     this.output = connection;
     this.update();
-    await super.connect(connection);
+    return super.connect(connection);
   }
   disconnect(connection) {
     super.disconnect(connection);
@@ -48,11 +49,11 @@ export class Input extends Column {
       this.output.line.dash = false;
     }
   }
-  onMouseUp(event) {
+  async onMouseUp(event) {
     if (this.output) {
       this.parent?.workarea?.disconnect(this.output);
     }
-    this.parent?.finalizeConnection(this);
+    await this.parent?.finalizeConnection(this);
     this.update();
   }
 }

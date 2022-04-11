@@ -12,7 +12,7 @@ var __privateSet = (obj, member, value, setter) => {
   return value;
 };
 var _workarea;
-import {asyncEventListener as asyncEventHandler} from "../Async.js";
+import {asyncEventHandler} from "../Async.js";
 import {isNil, mustExist} from "../Maybe.js";
 import {Confirm} from "./Confirm.js";
 import styles from "./Toolbar.module.css.proxy.js";
@@ -76,7 +76,7 @@ export class Toolbar extends HTMLElement {
     deleteButton.classList.add(styles.button);
     deleteButton.textContent = "✖ Delete";
     deleteButton.title = "D";
-    deleteButton.addEventListener("click", asyncEventHandler(async () => {
+    deleteButton.addEventListener("click", asyncEventHandler(async (event) => {
       const choice = await Confirm.yesNo("Delete selected nodes?");
       if (choice === Confirm.YES) {
         mustExist(__privateGet(this, _workarea)).deleteSelectedNodes();
