@@ -130,12 +130,12 @@ export class Workarea extends HTMLElement {
 
     this.#updateDecoy(event);
   }
-  finalizeConnection(columnTarget: Input) {
+  async finalizeConnection(columnTarget: Input) {
     if (!this.#currentConnectionSource) {
       return;
     }
 
-    this.connect(this.#currentConnectionSource, columnTarget);
+    await this.connect(this.#currentConnectionSource, columnTarget);
   }
 
   updateConnections() {
@@ -149,10 +149,10 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  connect(columnSource: Output, columnTarget: Input) {
+  async connect(columnSource: Output, columnTarget: Input) {
     const connection = new Connection(columnSource, columnTarget);
-    columnSource.connect(connection);
-    columnTarget.connect(connection);
+    await columnSource.connect(connection);
+    await columnTarget.connect(connection);
     this.connections.add(connection);
     this.storeSnapshot();
   }
@@ -260,7 +260,7 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    await node.updateBehavior(
+    node.updateBehavior(
       await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory())
     );
     await node.update();
@@ -669,7 +669,7 @@ export class Workarea extends HTMLElement {
     for (const node of workarea.nodes) {
       for (const output of node.outputs) {
         for (const inputId of output.inputs) {
-          this.connect(mustExist(outputs.get(output.id)), mustExist(inputs.get(inputId)));
+          await this.connect(mustExist(outputs.get(output.id)), mustExist(inputs.get(inputId)));
         }
       }
     }

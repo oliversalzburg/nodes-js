@@ -43,8 +43,15 @@ export const snapshot = {
             },
           ],
         },
-        script:
-          'this._title("Clock");\n\nconst time = new Date();\n\nlet hour = this._output("Hour");\nhour.update(time.getHours());\nlet minute = this._output("Minute");\nminute.update(time.getMinutes());\nlet second = this._output("Second");\nsecond.update(time.getSeconds());',
+        script: `this._title("Clock");
+          const time = new Date();
+          
+          let hour = this._output("Hour");
+          hour.update(time.getHours());
+          let minute = this._output("Minute");
+          minute.update(time.getMinutes());
+          let second = this._output("Second");
+          second.update(time.getSeconds());`,
       },
     },
   ],

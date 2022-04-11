@@ -1,3 +1,4 @@
+import { asyncEventHandler } from "../Async";
 import { isNil } from "../Maybe";
 import { Column } from "./Column";
 import { Connection } from "./Connection";
@@ -19,7 +20,10 @@ export class Input extends Column {
 
     this.classList.add(styles.input);
 
-    this.addEventListener("mouseup", event => this.onMouseUp(event));
+    this.addEventListener(
+      "mouseup",
+      asyncEventHandler<MouseEvent>(async (event: MouseEvent) => this.onMouseUp(event))
+    );
   }
 
   async connect(connection: Connection) {
@@ -30,7 +34,7 @@ export class Input extends Column {
     this.output = connection;
     this.update();
 
-    await super.connect(connection);
+    return super.connect(connection);
   }
   disconnect(connection?: Connection): void {
     super.disconnect(connection);
@@ -65,14 +69,14 @@ export class Input extends Column {
     }
   }
 
-  onMouseUp(event: MouseEvent) {
+  async onMouseUp(event: MouseEvent) {
     // Always disconnect on click.
     if (this.output) {
       this.parent?.workarea?.disconnect(this.output);
     }
 
     // Create new connection, in case this was the end of a connect operation.
-    this.parent?.finalizeConnection(this);
+    await this.parent?.finalizeConnection(this);
 
     this.update();
   }

@@ -1,4 +1,4 @@
-import { asyncEventListener as asyncEventHandler } from "../Async";
+import { asyncEventHandler } from "../Async";
 import { isNil, mustExist } from "../Maybe";
 import { Confirm } from "./Confirm";
 import styles from "./Toolbar.module.css";
@@ -75,7 +75,7 @@ export class Toolbar extends HTMLElement {
     deleteButton.title = "D";
     deleteButton.addEventListener(
       "click",
-      asyncEventHandler(async () => {
+      asyncEventHandler(async event => {
         const choice = await Confirm.yesNo("Delete selected nodes?");
         if (choice === Confirm.YES) {
           mustExist(this.#workarea).deleteSelectedNodes();

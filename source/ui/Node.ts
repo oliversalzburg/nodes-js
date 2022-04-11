@@ -172,7 +172,7 @@ export abstract class Node extends HTMLElement {
     mustExist(this.workarea).initConnectionFrom(columnSource, event);
   }
   finalizeConnection(columnTarget: Input) {
-    mustExist(this.workarea).finalizeConnection(columnTarget);
+    return mustExist(this.workarea).finalizeConnection(columnTarget);
   }
 
   async onConnect(connection: Connection) {

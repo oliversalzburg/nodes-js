@@ -24,7 +24,7 @@ export class Output extends Column {
   connect(connection: Connection) {
     this.inputs.push(connection);
 
-    super.connect(connection);
+    return super.connect(connection);
   }
   disconnect(connection: Connection): void {
     this.inputs.splice(this.inputs.indexOf(connection), 1);
