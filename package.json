@@ -5,6 +5,11 @@
   "license": "MIT",
   "author": "Oliver Salzburg <oliver.salzburg@gmail.com>",
   "main": "index.html",
+  "scripts": {
+    "build": "snowpack build",
+    "lint:eslint": "eslint source",
+    "lint:tsc": "tsc --noEmit"
+  },
   "dependencies": {
     "arbit": "0.1.1",
     "browser-fs-access": "0.26.1",

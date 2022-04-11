@@ -1,0 +1,35 @@
+name: QA
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  qa:
+    name: Run QA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Select NodeJS version
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint ESLint
+        run: yarn lint:eslint
+      - name: Lint TSC
+        run: yarn lint:tsc
+      - name: Build
+        run: yarn build
