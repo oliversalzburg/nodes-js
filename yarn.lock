@@ -1007,10 +1007,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browser-fs-access@npm:0.27.0":
-  version: 0.27.0
-  resolution: "browser-fs-access@npm:0.27.0"
-  checksum: 506bfcca94e303edc38d61c422aa845c35044f22f21789547e72cbff48b451e1d108ca4b0c5d59e3f0cdb18691c868c87271285d6bc073f2e7f0f32cf602b185
+"browser-fs-access@npm:0.28.0":
+  version: 0.28.0
+  resolution: "browser-fs-access@npm:0.28.0"
+  checksum: 48f1c2beaf8b47f170e2b20c014cbc8ad11dc4c16eded948678a5d41b5325f2f9f051181e9b894a782af56fcd02d83ca2d7a9bf02ffc4306560366d6e1a4f2f9
   languageName: node
   linkType: hard
 
@@ -3490,7 +3490,7 @@ __metadata:
     "@typescript-eslint/parser": 5.19.0
     anim-event: 1.0.17
     arbit: 0.1.1
-    browser-fs-access: 0.27.0
+    browser-fs-access: 0.28.0
     codemirror: 5.65.2
     cssprefix: 2.0.17
     elapsed-time: 0.0.1
