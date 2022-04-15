@@ -13,14 +13,13 @@ var e = async (e2, t = [{}], a = null, i = false, n = null) => {
       if (a = null, i)
         throw e3;
     }
-  console.log({suggestedName: t[0].fileName, id: t[0].id, startIn: t[0].startIn, types: s, excludeAcceptAllOption: t[0].excludeAcceptAllOption || false});
   const l = a || await window.showSaveFilePicker({suggestedName: t[0].fileName, id: t[0].id, startIn: t[0].startIn, types: s, excludeAcceptAllOption: t[0].excludeAcceptAllOption || false});
   !a && n && n();
-  const o = await l.createWritable();
+  const r = await l.createWritable();
   if ("stream" in e2) {
     const t2 = e2.stream();
-    return await t2.pipeTo(o), l;
+    return await t2.pipeTo(r), l;
   }
-  return "body" in e2 ? (await e2.body.pipeTo(o), l) : (await o.write(blob), await o.close(), l);
+  return "body" in e2 ? (await e2.body.pipeTo(r), l) : (await r.write(blob), await r.close(), l);
 };
 export default e;
