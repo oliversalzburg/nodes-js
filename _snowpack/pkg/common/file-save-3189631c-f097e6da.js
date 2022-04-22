@@ -9,9 +9,9 @@ var e = async (e2, t = {}) => {
           return e4.enqueue(a3), t3();
         e4.close();
       });
-    }()}), r2 = new Response(a2);
-    return n2.releaseLock(), new Blob([await r2.blob()], {type: t2});
-  }(e2.body, e2.headers.get("content-type"))), n.download = t.fileName || "Untitled", n.href = URL.createObjectURL(a);
+    }()}), r2 = new Response(a2), c2 = await r2.blob();
+    return n2.releaseLock(), new Blob([c2], {type: t2});
+  }(e2.body, e2.headers.get("content-type"))), n.download = t.fileName || "Untitled", n.href = URL.createObjectURL(await a);
   const r = () => {
     typeof c == "function" && c();
   }, c = t.legacySetup && t.legacySetup(r, () => c(reject), n);
