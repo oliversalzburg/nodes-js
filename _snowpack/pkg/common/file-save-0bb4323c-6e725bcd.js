@@ -14,7 +14,7 @@ var e = async (e2, t = {}) => {
   }(e2.body, e2.headers.get("content-type"))), n.download = t.fileName || "Untitled", n.href = URL.createObjectURL(await a);
   const r = () => {
     typeof c == "function" && c();
-  }, c = t.legacySetup && t.legacySetup(r, () => c(reject), n);
+  }, c = t.legacySetup && t.legacySetup(r, () => c(), n);
   return n.addEventListener("click", () => {
     setTimeout(() => URL.revokeObjectURL(n.href), 3e4), r();
   }), n.click(), null;
