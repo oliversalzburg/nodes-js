@@ -519,10 +519,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web@npm:0.0.62":
-  version: 0.0.62
-  resolution: "@types/web@npm:0.0.62"
-  checksum: 795b65bbaba97dd2d1bc4ebe26d40dca2bd53b4e2aeb6cf15dbe8d8d1cf311d7ab168430edbd145f5fdba506415a0c0a51228a9c35733e304f21b4559fd32b3b
+"@types/web@npm:0.0.63":
+  version: 0.0.63
+  resolution: "@types/web@npm:0.0.63"
+  checksum: 44cd04b1055f83f44b5c40bdc9ca13fb773786f4c188cdc4f699f98be202c71ef152c0a6b7f8f5345f6e6f8d95929251f8bc4a3abb527ac8f7db6f5ecfef07e5
   languageName: node
   linkType: hard
 
@@ -3485,7 +3485,7 @@ __metadata:
     "@types/eslint": 8.4.1
     "@types/lz-string": 1.3.34
     "@types/nanoid": 3.0.0
-    "@types/web": 0.0.62
+    "@types/web": 0.0.63
     "@typescript-eslint/eslint-plugin": 5.21.0
     "@typescript-eslint/parser": 5.21.0
     anim-event: 1.0.17
