@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "arbit": "0.1.1",
-    "browser-fs-access": "0.29.4",
+    "browser-fs-access": "0.29.5",
     "elapsed-time": "0.0.1",
     "leader-line": "1.0.7",
     "lz-string": "1.4.4",
