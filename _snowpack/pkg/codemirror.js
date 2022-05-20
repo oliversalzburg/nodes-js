@@ -8739,7 +8739,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
       var pasted = e.clipboardData && e.clipboardData.getData("Text");
       if (pasted) {
         e.preventDefault();
-        if (!cm.isReadOnly() && !cm.options.disableInput) {
+        if (!cm.isReadOnly() && !cm.options.disableInput && cm.hasFocus()) {
           runInOp(cm, function() {
             return applyTextInput(cm, pasted, 0, null, "paste");
           });
@@ -10509,7 +10509,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
     };
     CodeMirror.fromTextArea = fromTextArea;
     addLegacyProps(CodeMirror);
-    CodeMirror.version = "5.65.3";
+    CodeMirror.version = "5.65.4";
     return CodeMirror;
   });
 });
