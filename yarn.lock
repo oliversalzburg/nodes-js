@@ -1290,10 +1290,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"codemirror@npm:5.65.3":
-  version: 5.65.3
-  resolution: "codemirror@npm:5.65.3"
-  checksum: 89bc7f99c15a021bfd3671a943e58589cd5108f08738882d79458a4f432a05ff1d50bb664e7d0c02c639ec98241c9840f1fd9de5f458a7b0e15628892839aef0
+"codemirror@npm:5.65.4":
+  version: 5.65.4
+  resolution: "codemirror@npm:5.65.4"
+  checksum: 1335f3ea80d85bdfe5b15e173058db6040df00f2d33d45c63b0bc366fff88d8cbcfa7c8d52007ad641bd2c21e49007df3aa442ea56c376fef6a886a0fdcbef1b
   languageName: node
   linkType: hard
 
@@ -3491,7 +3491,7 @@ __metadata:
     anim-event: 1.0.17
     arbit: 0.1.1
     browser-fs-access: 0.29.5
-    codemirror: 5.65.3
+    codemirror: 5.65.4
     cssprefix: 2.0.17
     elapsed-time: 0.0.1
     eslint: 8.15.0
