@@ -27,7 +27,7 @@
     "@typescript-eslint/eslint-plugin": "5.26.0",
     "@typescript-eslint/parser": "5.26.0",
     "anim-event": "1.0.17",
-    "codemirror": "5.65.4",
+    "codemirror": "5.65.5",
     "cssprefix": "2.0.17",
     "eslint": "8.16.0",
     "lint-staged": "12.4.2",
