@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "branchConcurrentLimit": 0,
-  "extends": ["config:js-app", ":disableDependencyDashboard"],
+  "extends": ["config:best-practices", "config:js-app"],
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
