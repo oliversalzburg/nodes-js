@@ -399,12 +399,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/codemirror@npm:5.60.5":
-  version: 5.60.5
-  resolution: "@types/codemirror@npm:5.60.5"
+"@types/codemirror@npm:5.60.12":
+  version: 5.60.12
+  resolution: "@types/codemirror@npm:5.60.12"
   dependencies:
     "@types/tern": "*"
-  checksum: 423b6378b6415b626d9f54d37d69477f96940b30a695d4ec36402feb59a96f7ab42d1c17b8472fbb222a0966f6061deee234e37bcd3e34c75836e989dc95929d
+  checksum: dff22f32ea42ccd3f9bfcf408631f94a11ffb4614ff4fa8cc55adf7da6e7ba96650533b8dd27d037242747bdaa85141e93520f84409db7bc394862a174a10e1e
   languageName: node
   linkType: hard
 
@@ -1290,10 +1290,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"codemirror@npm:5.65.5":
-  version: 5.65.5
-  resolution: "codemirror@npm:5.65.5"
-  checksum: 7d9e50b0e9ca4504f262f4ffa368c28c7df2551ccea4dd91ad833b71f360c0c5864b6b182b605bfb053145a5f6ba55f56a61b6980739c24322be7f862994cfe5
+"codemirror@npm:5.65.15":
+  version: 5.65.15
+  resolution: "codemirror@npm:5.65.15"
+  checksum: 30e0cff9bfb2265b94fa6766e13975cb71db228e114d6d8cdcc160b495e32b0ff921ac09959715e3fef30a48c5a9d0655ffd0ff6c5fe7024656add438bb2b058
   languageName: node
   linkType: hard
 
@@ -3481,7 +3481,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nodes-js@workspace:."
   dependencies:
-    "@types/codemirror": 5.60.5
+    "@types/codemirror": 5.60.12
     "@types/eslint": 8.4.2
     "@types/lz-string": 1.3.34
     "@types/nanoid": 3.0.0
@@ -3491,7 +3491,7 @@ __metadata:
     anim-event: 1.0.17
     arbit: 0.1.1
     browser-fs-access: 0.29.5
-    codemirror: 5.65.5
+    codemirror: 5.65.15
     cssprefix: 2.0.17
     elapsed-time: 0.0.1
     eslint: 8.16.0
