@@ -15,6 +15,7 @@
   font-family: monospace;
   max-height: 20em;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 .CodeMirror-hint {
   margin: 0;

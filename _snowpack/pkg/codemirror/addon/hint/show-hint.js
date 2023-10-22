@@ -291,19 +291,14 @@ var showHint = createCommonjsModule(function(module, exports) {
       });
       var overlapY = box.bottom - winH;
       if (overlapY > 0) {
-        var height = box.bottom - box.top, curTop = pos.top - (pos.bottom - box.top);
-        if (curTop - height > 0) {
-          hints.style.top = (top = pos.top - height - offsetTop) + "px";
+        var height = box.bottom - box.top, spaceAbove = box.top - (pos.bottom - pos.top) - 2;
+        if (winH - box.top < spaceAbove) {
+          if (height > spaceAbove)
+            hints.style.height = (height = spaceAbove) + "px";
+          hints.style.top = (top = pos.top - height) + offsetTop + "px";
           below = false;
-        } else if (height > winH) {
-          hints.style.height = winH - 5 + "px";
-          hints.style.top = (top = pos.bottom - box.top - offsetTop) + "px";
-          var cursor = cm.getCursor();
-          if (data.from.ch != cursor.ch) {
-            pos = cm.cursorCoords(cursor);
-            hints.style.left = (left = pos.left - offsetLeft) + "px";
-            box = hints.getBoundingClientRect();
-          }
+        } else {
+          hints.style.height = winH - box.top - 2 + "px";
         }
       }
       var overlapX = box.right - winW;
@@ -314,7 +309,7 @@ var showHint = createCommonjsModule(function(module, exports) {
           hints.style.width = winW - 5 + "px";
           overlapX -= box.right - box.left - winW;
         }
-        hints.style.left = (left = pos.left - overlapX - offsetLeft) + "px";
+        hints.style.left = (left = Math.max(pos.left - overlapX - offsetLeft, 0)) + "px";
       }
       if (scrolls)
         for (var node = hints.firstChild; node; node = node.nextSibling)

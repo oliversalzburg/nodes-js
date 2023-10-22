@@ -974,7 +974,7 @@ var javascript = createCommonjsModule(function(module, exports) {
           return cont(pushlex("}"), classBody, poplex);
       }
       function classBody(type2, value) {
-        if (type2 == "async" || type2 == "variable" && (value == "static" || value == "get" || value == "set" || isTS && isModifier(value)) && cx.stream.match(/^\s+[\w$\xa1-\uffff]/, false)) {
+        if (type2 == "async" || type2 == "variable" && (value == "static" || value == "get" || value == "set" || isTS && isModifier(value)) && cx.stream.match(/^\s+#?[\w$\xa1-\uffff]/, false)) {
           cx.marked = "keyword";
           return cont(classBody);
         }
