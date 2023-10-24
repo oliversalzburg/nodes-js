@@ -3157,12 +3157,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lz-string@npm:1.4.4":
-  version: 1.4.4
-  resolution: "lz-string@npm:1.4.4"
+"lz-string@npm:1.5.0":
+  version: 1.5.0
+  resolution: "lz-string@npm:1.5.0"
   bin:
     lz-string: bin/bin.js
-  checksum: 8c0/683d2d01607444605bee9902b05851415ae54e4de75ff14971c7e070d0fab53a7f1f82e659f24e6ccdc63080832b937418e278a611ed4a354bf2e7ad6f0b874b
+  checksum: 36128e4de34791838abe979b19927c26e67201ca5acf00880377af7d765b38d1c60847e01c5ec61b1a260c48029084ab3893a3925fd6e48a04011364b089991b
   languageName: node
   linkType: hard
 
@@ -3553,7 +3553,7 @@ __metadata:
     eslint: "npm:8.52.0"
     leader-line: "npm:1.0.7"
     lint-staged: "npm:12.4.3"
-    lz-string: "npm:1.4.4"
+    lz-string: "npm:1.5.0"
     m-class-list: "npm:1.1.10"
     nanoid: "npm:3.3.6"
     plain-draggable: "npm:2.5.14"
