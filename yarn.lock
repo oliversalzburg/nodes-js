@@ -3038,9 +3038,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:12.4.3":
-  version: 12.4.3
-  resolution: "lint-staged@npm:12.4.3"
+"lint-staged@npm:12.5.0":
+  version: 12.5.0
+  resolution: "lint-staged@npm:12.5.0"
   dependencies:
     cli-truncate: "npm:^3.1.0"
     colorette: "npm:^2.0.16"
@@ -3058,7 +3058,7 @@ __metadata:
     yaml: "npm:^1.10.2"
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 8c0/ba420b476a1d49e7e1cb0a853c7f2e5c933a87fdd2906e7ff57aa88744619c25990a9b3e35a57dbced571c2df50c1688f474fec466c84a6e93a6c87e08bfd5e3
+  checksum: be813853b25f670a49af5ed0a89d7bc25e6117a73d1d2e671f08ac90a553f79c8d1252c62a245073997b6c3b77f8a9636b6c27206667767c34a12340b74509d3
   languageName: node
   linkType: hard
 
@@ -3552,7 +3552,7 @@ __metadata:
     elapsed-time: "npm:0.0.1"
     eslint: "npm:8.52.0"
     leader-line: "npm:1.0.7"
-    lint-staged: "npm:12.4.3"
+    lint-staged: "npm:12.5.0"
     lz-string: "npm:1.5.0"
     m-class-list: "npm:1.1.10"
     nanoid: "npm:3.3.6"
