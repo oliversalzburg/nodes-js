@@ -3562,7 +3562,7 @@ __metadata:
     prettier-package-json: "npm:2.6.3"
     prettier-plugin-organize-imports: "npm:3.2.3"
     snowpack: "npm:3.8.8"
-    typescript: "npm:4.7.2"
+    typescript: "npm:4.9.5"
   languageName: unknown
   linkType: soft
 
@@ -5101,23 +5101,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.7.2":
-  version: 4.7.2
-  resolution: "typescript@npm:4.7.2"
+"typescript@npm:4.9.5":
+  version: 4.9.5
+  resolution: "typescript@npm:4.9.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: c458df58a52f1cb1c954109dbc3477abfeb632644bc6552a9ac2152bce86e377afe11bf661466926bc4dcdc945f1e053d492c347ae377f1cba7051226b930ea3
+  checksum: 5f6cad2e728a8a063521328e612d7876e12f0d8a8390d3b3aaa452a6a65e24e9ac8ea22beb72a924fd96ea0a49ea63bb4e251fb922b12eedfb7f7a26475e5c56
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A4.7.2#optional!builtin<compat/typescript>":
-  version: 4.7.2
-  resolution: "typescript@patch:typescript@npm%3A4.7.2#optional!builtin<compat/typescript>::version=4.7.2&hash=65a307"
+"typescript@patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>":
+  version: 4.9.5
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f454730aef4a8cef2ad5650ce769f38ed4460583fe5867d4f93592282afdbd9b5142b75d448b647e4984edf23575ac1f2adafb2db8614f253f700721d3eb439a
+  checksum: e3333f887c6829dfe0ab6c1dbe0dd1e3e2aeb56c66460cb85c5440c566f900c833d370ca34eb47558c0c69e78ced4bfe09b8f4f98b6de7afed9b84b8d1dd06a1
   languageName: node
   linkType: hard
 
