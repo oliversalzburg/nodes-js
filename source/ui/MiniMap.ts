@@ -59,14 +59,14 @@ export class MiniMap extends HTMLElement {
 
     const position = locator.absoluteToMiniMap(
       { x: this.#scrollableContainer.scrollLeft, y: this.#scrollableContainer.scrollTop },
-      this.#canvas
+      this.#canvas,
     );
     const size = locator.absoluteToMiniMap(
       {
         x: this.#scrollableContainer.clientWidth,
         y: this.#scrollableContainer.clientHeight,
       },
-      this.#canvas
+      this.#canvas,
     );
     context.beginPath();
     context.rect(position.x, position.y, size.x, size.y);

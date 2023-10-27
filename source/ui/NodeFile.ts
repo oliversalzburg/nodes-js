@@ -41,8 +41,8 @@ if(this.file !== null) {
   const fileContent = await this.file.text();
   text.update(fileContent);
 }`,
-        NodeFile
-      )
+        NodeFile,
+      ),
     );
 
     this.rebuildFromMetadata();

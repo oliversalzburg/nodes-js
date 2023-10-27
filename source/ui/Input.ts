@@ -22,7 +22,7 @@ export class Input extends Column {
 
     this.addEventListener(
       "mouseup",
-      asyncEventHandler<MouseEvent>(async (event: MouseEvent) => this.onMouseUp(event))
+      asyncEventHandler<MouseEvent>(async (event: MouseEvent) => this.onMouseUp(event)),
     );
   }
 

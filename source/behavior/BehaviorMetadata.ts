@@ -23,7 +23,7 @@ export class BehaviorMetadata {
     title = "",
     inputs = new Array<InputMetadata>(),
     outputs = new Array<OutputMetadata>(),
-    commands = new Array<CommandMetadata>()
+    commands = new Array<CommandMetadata>(),
   ) {
     this.title = title;
     this.commands = commands;
@@ -60,13 +60,13 @@ ${executable}
   static async parse<TNode extends Node>(script: string, nodeConstructor: ConstructorOf<TNode>) {
     return BehaviorMetadata.#executeScriptMeta(
       BehaviorMetadata.wrapExecutable(script),
-      nodeConstructor
+      nodeConstructor,
     );
   }
 
   static async #executeScriptMeta<TNode extends Node>(
     script: string,
-    nodeConstructor: ConstructorOf<TNode>
+    nodeConstructor: ConstructorOf<TNode>,
   ) {
     const meta = new BehaviorMetadata();
 

@@ -25,8 +25,8 @@ const a = this._input("A");
 const b = this._input("B");
 let sum = this._output("Sum");
 sum.update( Number(a) + Number(b));`,
-        NodeScript
-      )
+        NodeScript,
+      ),
     );
 
     this.rebuildFromMetadata();

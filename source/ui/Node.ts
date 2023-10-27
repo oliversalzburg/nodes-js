@@ -136,7 +136,7 @@ export abstract class Node extends HTMLElement {
 
     if (initParameters?.behavior) {
       this.updateBehavior(
-        await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory())
+        await Behavior.fromCodeFragment(initParameters.behavior.script, this.getFactory()),
       );
       for (
         let inputIndex = 0;
@@ -144,7 +144,7 @@ export abstract class Node extends HTMLElement {
         ++inputIndex
       ) {
         this.inputs[inputIndex].label = mustExist(
-          initParameters?.behavior?.metadata.inputs[inputIndex].label
+          initParameters?.behavior?.metadata.inputs[inputIndex].label,
         );
       }
       for (
@@ -153,7 +153,7 @@ export abstract class Node extends HTMLElement {
         ++outputIndex
       ) {
         this.outputs[outputIndex].label = mustExist(
-          initParameters?.behavior?.metadata.outputs[outputIndex].label
+          initParameters?.behavior?.metadata.outputs[outputIndex].label,
         );
       }
     }
@@ -247,7 +247,7 @@ export abstract class Node extends HTMLElement {
         console.error(
           `  Execution of ${this.nodeId} failed!`,
           this.behavior?.toExecutableBehavior(),
-          error
+          error,
         );
       }
     }
@@ -334,7 +334,7 @@ export abstract class Node extends HTMLElement {
     const excessCommandCount = this.commands.length - behavior.metadata.commands.length;
     const excessCommands = this.commands.splice(
       behavior.metadata.commands.length,
-      excessCommandCount
+      excessCommandCount,
     );
     for (let commandIndex = 0; commandIndex < behavior.metadata.commands.length; ++commandIndex) {
       if (this.commands.length <= commandIndex) {

@@ -29,7 +29,7 @@ export class Behavior {
 
   static async fromEditableScript<TNode extends Node>(
     editable: string,
-    nodeConstructor: ConstructorOf<TNode>
+    nodeConstructor: ConstructorOf<TNode>,
   ) {
     const metadata = await BehaviorMetadata.parse(editable, nodeConstructor);
     const script = BehaviorMetadata.stripMetadataFromBehaviorScript(editable);
@@ -38,11 +38,11 @@ export class Behavior {
   static async fromCodeFragment<TNode extends Node>(
     executable: string,
     nodeConstructor: ConstructorOf<TNode>,
-    metadata?: BehaviorMetadata
+    metadata?: BehaviorMetadata,
   ) {
     return new Behavior(
       executable,
-      metadata ?? (await BehaviorMetadata.parse(executable, nodeConstructor))
+      metadata ?? (await BehaviorMetadata.parse(executable, nodeConstructor)),
     );
   }
   static fromCodeFragmentForNode(executable: string, node: Node) {

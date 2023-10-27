@@ -22,8 +22,8 @@ export class NodeNoop extends Node {
         initParameters?.behavior?.script ??
           `this._title("Noop");
 this._input("Sink")`,
-        NodeNoop
-      )
+        NodeNoop,
+      ),
     );
 
     this.rebuildFromMetadata();

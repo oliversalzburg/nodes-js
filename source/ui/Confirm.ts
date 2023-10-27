@@ -55,7 +55,7 @@ export class Confirm {
     parent: HTMLElement,
     dialog: HTMLDialogElement,
     section: HTMLElement,
-    resolve: (choice: Choice) => void
+    resolve: (choice: Choice) => void,
   ) {
     const button = document.createElement("button");
     button.textContent = "Cancel";
@@ -71,7 +71,7 @@ export class Confirm {
     parent: HTMLElement,
     dialog: HTMLDialogElement,
     section: HTMLElement,
-    resolve: (choice: Choice) => void
+    resolve: (choice: Choice) => void,
   ) {
     const button = document.createElement("button");
     button.textContent = "No";
@@ -87,7 +87,7 @@ export class Confirm {
     parent: HTMLElement,
     dialog: HTMLDialogElement,
     section: HTMLElement,
-    resolve: (choice: Choice) => void
+    resolve: (choice: Choice) => void,
   ) {
     const button = document.createElement("button");
     button.textContent = "Yes";
