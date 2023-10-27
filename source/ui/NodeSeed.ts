@@ -1,7 +1,7 @@
 import arbit, { ArbitGenerator } from "arbit";
-import { Behavior } from "../behavior/Behavior";
 import { mustExist } from "../Maybe";
 import { ConstructorOf } from "../Mixins";
+import { Behavior } from "../behavior/Behavior";
 import { Node } from "./Node";
 import { SerializedNode } from "./Workarea";
 

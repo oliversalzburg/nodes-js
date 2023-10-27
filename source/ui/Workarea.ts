@@ -1,10 +1,10 @@
 import "leader-line";
 import LZString from "lz-string";
 import PlainDraggable, { NewPosition } from "plain-draggable";
+import { isNil, mustExist } from "../Maybe";
 import { Behavior } from "../behavior/Behavior";
 import { InputMetadata, OutputMetadata } from "../behavior/BehaviorMetadata";
 import { Execution } from "../execution/Execution";
-import { isNil, mustExist } from "../Maybe";
 import { Command } from "./Command";
 import { Connection } from "./Connection";
 import { Decoy } from "./Decoy";
@@ -20,8 +20,8 @@ import { NodeScript } from "./NodeScript";
 import { NodeSeed } from "./NodeSeed";
 import { Output } from "./Output";
 import { Scrollable } from "./Scrollable";
-import { snapshot } from "./snapshot";
 import styles from "./Workarea.module.css";
+import { snapshot } from "./snapshot";
 
 export type NodeTypes = "_editor" | "file" | "noop" | "row" | "script" | "seed";
 
