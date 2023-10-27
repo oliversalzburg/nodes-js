@@ -8,6 +8,7 @@
   "scripts": {
     "build": "snowpack build",
     "lint:eslint": "eslint source",
+    "lint:prettier": "prettier --check source",
     "lint:tsc": "tsc --noEmit"
   },
   "dependencies": {
