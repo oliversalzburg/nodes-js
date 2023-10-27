@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
-import { Behavior } from "../behavior/Behavior";
 import { mustExist } from "../Maybe";
 import { ConstructorOf } from "../Mixins";
+import { Behavior } from "../behavior/Behavior";
 import { Command } from "./Command";
 import { Connection } from "./Connection";
 import { Input } from "./Input";
