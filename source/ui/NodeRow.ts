@@ -25,8 +25,8 @@ for(let inputIndex = 0; inputIndex < 5; ++inputIndex) {
   const output = this._output(\`Output \${inputIndex}\`);
   output.update(inputIndex * 2);
 }`,
-        NodeRow
-      )
+        NodeRow,
+      ),
     );
 
     this.rebuildFromMetadata();

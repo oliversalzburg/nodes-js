@@ -34,8 +34,8 @@ let int = this._output("Int");
 
 float.update(this.random());
 int.update(this.random.nextInt(256));`,
-        NodeSeed
-      )
+        NodeSeed,
+      ),
     );
 
     this.rebuildFromMetadata();

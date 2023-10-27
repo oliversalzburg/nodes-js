@@ -203,7 +203,7 @@ export class Workarea extends HTMLElement {
     editor.y = node.y - 250;
     const position = Locator.forWorkarea(
       this,
-      this.#scrollableContainer ?? undefined
+      this.#scrollableContainer ?? undefined,
     ).absoluteToDraggable({
       x: editor.x,
       y: editor.y,
@@ -218,7 +218,7 @@ export class Workarea extends HTMLElement {
           Locator.forWorkarea(this, this.#scrollableContainer ?? undefined).draggableToAbsolute({
             x: newPosition.left,
             y: newPosition.top,
-          })
+          }),
         );
         this.#endDragOperation();
       },
@@ -261,7 +261,7 @@ export class Workarea extends HTMLElement {
     }
 
     node.updateBehavior(
-      await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory())
+      await Behavior.fromEditableScript(node.behaviorEditor.behaviorSource, node.getFactory()),
     );
     await node.update();
 
@@ -349,7 +349,7 @@ export class Workarea extends HTMLElement {
     const locator = Locator.forWorkarea(this, this.#scrollableContainer ?? undefined);
     this.#dragOperationSource.set(
       dragRoot,
-      locator.absoluteToDraggable({ x: dragRoot.x, y: dragRoot.y })
+      locator.absoluteToDraggable({ x: dragRoot.x, y: dragRoot.y }),
     );
     for (const node of [...this.selectedNodes, ...this.#selectedEditors] as Iterable<Node>) {
       this.#dragOperationSource.set(node, locator.absoluteToDraggable({ x: node.x, y: node.y }));
@@ -377,7 +377,7 @@ export class Workarea extends HTMLElement {
 
       const positionAbsolute = Locator.forWorkarea(
         this,
-        this.#scrollableContainer ?? undefined
+        this.#scrollableContainer ?? undefined,
       ).draggableToAbsolute(position);
       node.x = positionAbsolute.x;
       node.y = positionAbsolute.y;
@@ -519,7 +519,7 @@ export class Workarea extends HTMLElement {
     if (!isNil(initParameters) && !isNil(initParameters.x) && !isNil(initParameters.y)) {
       position = Locator.forWorkarea(
         this,
-        this.#scrollableContainer ?? undefined
+        this.#scrollableContainer ?? undefined,
       ).absoluteToDraggable(initParameters);
     } else {
       position = {
@@ -537,14 +537,14 @@ export class Workarea extends HTMLElement {
           Locator.forWorkarea(this, this.#scrollableContainer ?? undefined).draggableToAbsolute({
             x: newPosition.left,
             y: newPosition.top,
-          })
+          }),
         );
         this.#endDragOperation();
 
         console.debug(
           `Node ${node.nodeId} moved to ${node.x}x${node.y} (movement was ${Math.round(
-            newPosition.left
-          )}x${Math.round(newPosition.top)}).`
+            newPosition.left,
+          )}x${Math.round(newPosition.top)}).`,
         );
         this.storeSnapshot();
       },
@@ -561,7 +561,7 @@ export class Workarea extends HTMLElement {
 
     const coords = Locator.forWorkarea(
       this,
-      this.#scrollableContainer ?? undefined
+      this.#scrollableContainer ?? undefined,
     ).draggableToAbsolute(position);
     await node.update();
     node.updateUi(coords);

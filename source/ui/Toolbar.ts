@@ -80,7 +80,7 @@ export class Toolbar extends HTMLElement {
         if (choice === Confirm.YES) {
           mustExist(this.#workarea).deleteSelectedNodes();
         }
-      })
+      }),
     );
     this.appendChild(deleteButton);
 
@@ -95,7 +95,7 @@ export class Toolbar extends HTMLElement {
         if (choice === Confirm.YES) {
           mustExist(this.#workarea).clear();
         }
-      })
+      }),
     );
     this.appendChild(clearButton);
 
