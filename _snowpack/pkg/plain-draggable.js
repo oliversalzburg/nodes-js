@@ -89,7 +89,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     _defineProperties(Constructor, staticProps);
   return Constructor;
 }
-var MOUSE_EMU_INTERVAL = 400;
+var MOUSE_EMU_INTERVAL = 400, CLICK_EMULATOR_ELEMENTS = [], DBLCLICK_EMULATOR_ELEMENTS = [];
 var passiveSupported = false;
 try {
   window.addEventListener("test", null, Object.defineProperty({}, "passive", {
@@ -101,6 +101,10 @@ try {
 }
 function addEventListenerWithOptions(target, type, listener, options) {
   target.addEventListener(type, listener, passiveSupported ? options : options.capture);
+}
+function getPointsLength(p0, p1) {
+  var lx = p0.x - p1.x, ly = p0.y - p1.y;
+  return Math.sqrt(lx * lx + ly * ly);
 }
 function getTouchById(touches, id) {
   if (touches != null && id != null) {
@@ -342,6 +346,10 @@ var PointerEvent = /* @__PURE__ */ function() {
   }, {
     key: "initClickEmulator",
     value: function initClickEmulator(element, moveTolerance, timeTolerance) {
+      if (CLICK_EMULATOR_ELEMENTS.includes(element)) {
+        return element;
+      }
+      CLICK_EMULATOR_ELEMENTS.push(element);
       var DEFAULT_MOVE_TOLERANCE = 16, DEFAULT_TIME_TOLERANCE = 400;
       var startX, startY, touchId, startMs;
       if (moveTolerance == null) {
@@ -350,29 +358,18 @@ var PointerEvent = /* @__PURE__ */ function() {
       if (timeTolerance == null) {
         timeTolerance = DEFAULT_TIME_TOLERANCE;
       }
-      function getTouchById2(touches, id) {
-        if (touches != null && id != null) {
-          for (var i = 0; i < touches.length; i++) {
-            if (touches[i].identifier === id) {
-              return touches[i];
-            }
-          }
-        }
-        return null;
-      }
-      function getPointsLength(p0, p1) {
-        var lx = p0.x - p1.x, ly = p0.y - p1.y;
-        return Math.sqrt(lx * lx + ly * ly);
-      }
-      element.addEventListener("touchstart", function(event) {
+      addEventListenerWithOptions(element, "touchstart", function(event) {
         var touch = event.changedTouches[0];
         startX = touch.clientX;
         startY = touch.clientY;
         touchId = touch.identifier;
         startMs = performance.now();
+      }, {
+        capture: false,
+        passive: false
       });
-      element.addEventListener("touchend", function(event) {
-        var touch = getTouchById2(event.changedTouches, touchId);
+      addEventListenerWithOptions(element, "touchend", function(event) {
+        var touch = getTouchById(event.changedTouches, touchId);
         if (typeof startX === "number" && typeof startY === "number" && typeof startMs === "number" && touch && typeof touch.clientX === "number" && typeof touch.clientY === "number" && getPointsLength({
           x: startX,
           y: startY
@@ -381,16 +378,71 @@ var PointerEvent = /* @__PURE__ */ function() {
           y: touch.clientY
         }) <= moveTolerance && performance.now() - startMs <= timeTolerance) {
           setTimeout(function() {
-            element.dispatchEvent(new MouseEvent("click", {
+            var newEvent = new MouseEvent("click", {
               clientX: touch.clientX,
               clientY: touch.clientY
-            }));
+            });
+            newEvent.emulated = true;
+            element.dispatchEvent(newEvent);
           }, 0);
         }
         startX = startY = touchId = startMs = null;
+      }, {
+        capture: false,
+        passive: false
       });
-      element.addEventListener("touchcancel", function() {
+      addEventListenerWithOptions(element, "touchcancel", function() {
         startX = startY = touchId = startMs = null;
+      }, {
+        capture: false,
+        passive: false
+      });
+      return element;
+    }
+  }, {
+    key: "initDblClickEmulator",
+    value: function initDblClickEmulator(element, moveTolerance, timeTolerance) {
+      if (DBLCLICK_EMULATOR_ELEMENTS.includes(element)) {
+        return element;
+      }
+      DBLCLICK_EMULATOR_ELEMENTS.push(element);
+      var DEFAULT_MOVE_TOLERANCE = 16, DEFAULT_TIME_TOLERANCE = 400;
+      var startX, startY, startMs;
+      if (moveTolerance == null) {
+        moveTolerance = DEFAULT_MOVE_TOLERANCE;
+      }
+      if (timeTolerance == null) {
+        timeTolerance = DEFAULT_TIME_TOLERANCE;
+      }
+      PointerEvent2.initClickEmulator(element, moveTolerance, timeTolerance);
+      addEventListenerWithOptions(element, "click", function(event) {
+        if (!event.emulated || typeof event.clientX !== "number" || typeof event.clientY !== "number") {
+          return;
+        }
+        if (typeof startX === "number" && getPointsLength({
+          x: startX,
+          y: startY
+        }, {
+          x: event.clientX,
+          y: event.clientY
+        }) <= moveTolerance && performance.now() - startMs <= timeTolerance * 2) {
+          setTimeout(function() {
+            var newEvent = new MouseEvent("dblclick", {
+              clientX: event.clientX,
+              clientY: event.clientY
+            });
+            newEvent.emulated = true;
+            element.dispatchEvent(newEvent);
+          }, 0);
+          startX = startY = startMs = null;
+        } else {
+          startX = event.clientX;
+          startY = event.clientY;
+          startMs = performance.now();
+        }
+      }, {
+        capture: false,
+        passive: false
       });
       return element;
     }
