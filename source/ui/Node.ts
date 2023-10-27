@@ -397,7 +397,7 @@ export abstract class Node extends HTMLElement {
     return serialized;
   }
 
-  static makeId(type: NodeTypes | string) {
+  static makeId(type: string) {
     return `${type}-${nanoid(6)}`;
   }
 }
