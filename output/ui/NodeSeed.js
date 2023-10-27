@@ -1,6 +1,6 @@
 import arbit from "../../_snowpack/pkg/arbit.js";
-import {Behavior} from "../behavior/Behavior.js";
 import {mustExist} from "../Maybe.js";
+import {Behavior} from "../behavior/Behavior.js";
 import {Node} from "./Node.js";
 export class NodeSeed extends Node {
   constructor() {

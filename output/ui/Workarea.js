@@ -19,15 +19,15 @@ var _currentConnectionSource, _currentDecoy, _currentDecoyLine, _draggables, _dr
 import "../../_snowpack/pkg/leader-line.js";
 import LZString from "../../_snowpack/pkg/lz-string.js";
 import PlainDraggable from "../../_snowpack/pkg/plain-draggable.js";
+import {isNil, mustExist} from "../Maybe.js";
 import {Behavior} from "../behavior/Behavior.js";
 import {Execution} from "../execution/Execution.js";
-import {isNil, mustExist} from "../Maybe.js";
 import {Connection} from "./Connection.js";
 import {Locator} from "./Locator.js";
 import stylesNode from "./Node.module.css.proxy.js";
 import {NodeEditor} from "./NodeEditor.js";
-import {snapshot} from "./snapshot.js";
 import styles from "./Workarea.module.css.proxy.js";
+import {snapshot} from "./snapshot.js";
 export class Workarea extends HTMLElement {
   constructor() {
     super();

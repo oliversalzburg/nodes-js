@@ -13,8 +13,8 @@ var __privateSet = (obj, member, value, setter) => {
 };
 var _selected, _titleElement, _editElement, _deleteElement, _inputSectionElement, _outputSectionElement;
 import {nanoid} from "../../_snowpack/pkg/nanoid.js";
-import {Behavior} from "../behavior/Behavior.js";
 import {mustExist} from "../Maybe.js";
+import {Behavior} from "../behavior/Behavior.js";
 import styles from "./Node.module.css.proxy.js";
 const _Node = class extends HTMLElement {
   constructor(typeIdentifier, namePrefix) {
