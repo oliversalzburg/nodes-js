@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "private": true,
   "name": "nodes-js",
   "version": "1.0.0",
