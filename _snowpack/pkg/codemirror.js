@@ -115,10 +115,11 @@ var codemirror = createCommonjsModule(function(module, exports) {
         }
       } while (child = child.parentNode);
     }
-    function activeElt(doc2) {
+    function activeElt(rootNode2) {
+      var doc2 = rootNode2.ownerDocument || rootNode2;
       var activeElement;
       try {
-        activeElement = doc2.activeElement;
+        activeElement = rootNode2.activeElement;
       } catch (e) {
         activeElement = doc2.body || null;
       }
@@ -160,6 +161,12 @@ var codemirror = createCommonjsModule(function(module, exports) {
     }
     function doc(cm) {
       return cm.display.wrapper.ownerDocument;
+    }
+    function root(cm) {
+      return rootNode(cm.display.wrapper);
+    }
+    function rootNode(element) {
+      return element.getRootNode ? element.getRootNode() : element.ownerDocument;
     }
     function win(cm) {
       return doc(cm).defaultView;
@@ -4040,7 +4047,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
         }
         cm.display.maxLineChanged = false;
       }
-      var takeFocus = op.focus && op.focus == activeElt(doc(cm));
+      var takeFocus = op.focus && op.focus == activeElt(root(cm));
       if (op.preparedSelection) {
         cm.display.input.showSelection(op.preparedSelection, takeFocus);
       }
@@ -4249,7 +4256,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
       if (cm.hasFocus()) {
         return null;
       }
-      var active = activeElt(doc(cm));
+      var active = activeElt(root(cm));
       if (!active || !contains(cm.display.lineDiv, active)) {
         return null;
       }
@@ -4266,7 +4273,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
       return result;
     }
     function restoreSelection(snapshot) {
-      if (!snapshot || !snapshot.activeElt || snapshot.activeElt == activeElt(snapshot.activeElt.ownerDocument)) {
+      if (!snapshot || !snapshot.activeElt || snapshot.activeElt == activeElt(rootNode(snapshot.activeElt))) {
         return;
       }
       snapshot.activeElt.focus();
@@ -7697,7 +7704,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
       if (e.target && e.target != cm.display.input.getField()) {
         return;
       }
-      cm.curOp.focus = activeElt(doc(cm));
+      cm.curOp.focus = activeElt(root(cm));
       if (signalDOMEvent(cm, e)) {
         return;
       }
@@ -7887,7 +7894,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
       if (ie) {
         setTimeout(bind(ensureFocus, cm), 0);
       } else {
-        cm.curOp.focus = activeElt(doc(cm));
+        cm.curOp.focus = activeElt(root(cm));
       }
       var behavior = configureMouse(cm, repeat, event);
       var sel = cm.doc.sel, contained;
@@ -7970,19 +7977,19 @@ var codemirror = createCommonjsModule(function(module, exports) {
       if (ie) {
         delayBlurEvent(cm);
       }
-      var display = cm.display, doc$1 = cm.doc;
+      var display = cm.display, doc2 = cm.doc;
       e_preventDefault(event);
-      var ourRange, ourIndex, startSel = doc$1.sel, ranges = startSel.ranges;
+      var ourRange, ourIndex, startSel = doc2.sel, ranges = startSel.ranges;
       if (behavior.addNew && !behavior.extend) {
-        ourIndex = doc$1.sel.contains(start);
+        ourIndex = doc2.sel.contains(start);
         if (ourIndex > -1) {
           ourRange = ranges[ourIndex];
         } else {
           ourRange = new Range(start, start);
         }
       } else {
-        ourRange = doc$1.sel.primary();
-        ourIndex = doc$1.sel.primIndex;
+        ourRange = doc2.sel.primary();
+        ourIndex = doc2.sel.primIndex;
       }
       if (behavior.unit == "rectangle") {
         if (!behavior.addNew) {
@@ -8000,16 +8007,16 @@ var codemirror = createCommonjsModule(function(module, exports) {
       }
       if (!behavior.addNew) {
         ourIndex = 0;
-        setSelection(doc$1, new Selection([ourRange], 0), sel_mouse);
-        startSel = doc$1.sel;
+        setSelection(doc2, new Selection([ourRange], 0), sel_mouse);
+        startSel = doc2.sel;
       } else if (ourIndex == -1) {
         ourIndex = ranges.length;
-        setSelection(doc$1, normalizeSelection(cm, ranges.concat([ourRange]), ourIndex), {scroll: false, origin: "*mouse"});
+        setSelection(doc2, normalizeSelection(cm, ranges.concat([ourRange]), ourIndex), {scroll: false, origin: "*mouse"});
       } else if (ranges.length > 1 && ranges[ourIndex].empty() && behavior.unit == "char" && !behavior.extend) {
-        setSelection(doc$1, normalizeSelection(cm, ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)), 0), {scroll: false, origin: "*mouse"});
-        startSel = doc$1.sel;
+        setSelection(doc2, normalizeSelection(cm, ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)), 0), {scroll: false, origin: "*mouse"});
+        startSel = doc2.sel;
       } else {
-        replaceOneSelection(doc$1, ourIndex, ourRange, sel_mouse);
+        replaceOneSelection(doc2, ourIndex, ourRange, sel_mouse);
       }
       var lastPos = start;
       function extendTo(pos) {
@@ -8019,11 +8026,11 @@ var codemirror = createCommonjsModule(function(module, exports) {
         lastPos = pos;
         if (behavior.unit == "rectangle") {
           var ranges2 = [], tabSize = cm.options.tabSize;
-          var startCol = countColumn(getLine(doc$1, start.line).text, start.ch, tabSize);
-          var posCol = countColumn(getLine(doc$1, pos.line).text, pos.ch, tabSize);
+          var startCol = countColumn(getLine(doc2, start.line).text, start.ch, tabSize);
+          var posCol = countColumn(getLine(doc2, pos.line).text, pos.ch, tabSize);
           var left = Math.min(startCol, posCol), right = Math.max(startCol, posCol);
           for (var line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++) {
-            var text = getLine(doc$1, line).text, leftPos = findColumn(text, left, tabSize);
+            var text = getLine(doc2, line).text, leftPos = findColumn(text, left, tabSize);
             if (left == right) {
               ranges2.push(new Range(Pos(line, leftPos), Pos(line, leftPos)));
             } else if (text.length > leftPos) {
@@ -8033,7 +8040,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
           if (!ranges2.length) {
             ranges2.push(new Range(start, start));
           }
-          setSelection(doc$1, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges2), ourIndex), {origin: "*mouse", scroll: false});
+          setSelection(doc2, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges2), ourIndex), {origin: "*mouse", scroll: false});
           cm.scrollIntoView(pos);
         } else {
           var oldRange = ourRange;
@@ -8047,8 +8054,8 @@ var codemirror = createCommonjsModule(function(module, exports) {
             anchor = maxPos(oldRange.to(), range3.head);
           }
           var ranges$1 = startSel.ranges.slice(0);
-          ranges$1[ourIndex] = bidiSimplify(cm, new Range(clipPos(doc$1, anchor), head));
-          setSelection(doc$1, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
+          ranges$1[ourIndex] = bidiSimplify(cm, new Range(clipPos(doc2, anchor), head));
+          setSelection(doc2, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
         }
       }
       var editorSize = display.wrapper.getBoundingClientRect();
@@ -8060,9 +8067,9 @@ var codemirror = createCommonjsModule(function(module, exports) {
           return;
         }
         if (cmp(cur, lastPos) != 0) {
-          cm.curOp.focus = activeElt(doc(cm));
+          cm.curOp.focus = activeElt(root(cm));
           extendTo(cur);
-          var visible = visibleLines(display, doc$1);
+          var visible = visibleLines(display, doc2);
           if (cur.line >= visible.to || cur.line < visible.from) {
             setTimeout(operation(cm, function() {
               if (counter == curCount) {
@@ -8092,7 +8099,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
         }
         off(display.wrapper.ownerDocument, "mousemove", move);
         off(display.wrapper.ownerDocument, "mouseup", up);
-        doc$1.history.lastSelOrigin = null;
+        doc2.history.lastSelOrigin = null;
       }
       var move = operation(cm, function(e) {
         if (e.buttons === 0 || !e_button(e)) {
@@ -9221,7 +9228,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
           signal(this, "overwriteToggle", this, this.state.overwrite);
         },
         hasFocus: function() {
-          return this.display.input.getField() == activeElt(doc(this));
+          return this.display.input.getField() == activeElt(root(this));
         },
         isReadOnly: function() {
           return !!(this.options.readOnly || this.doc.cantEdit);
@@ -9547,7 +9554,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
         disableBrowserMagic(te);
         cm.display.lineSpace.insertBefore(kludge, cm.display.lineSpace.firstChild);
         te.value = lastCopied.text.join("\n");
-        var hadFocus = activeElt(div.ownerDocument);
+        var hadFocus = activeElt(rootNode(div));
         selectInput(te);
         setTimeout(function() {
           cm.display.lineSpace.removeChild(kludge);
@@ -9569,7 +9576,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
     };
     ContentEditableInput.prototype.prepareSelection = function() {
       var result = prepareSelection(this.cm, false);
-      result.focus = activeElt(this.div.ownerDocument) == this.div;
+      result.focus = activeElt(rootNode(this.div)) == this.div;
       return result;
     };
     ContentEditableInput.prototype.showSelection = function(info, takeFocus) {
@@ -9665,7 +9672,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
     };
     ContentEditableInput.prototype.focus = function() {
       if (this.cm.options.readOnly != "nocursor") {
-        if (!this.selectionInEditor() || activeElt(this.div.ownerDocument) != this.div) {
+        if (!this.selectionInEditor() || activeElt(rootNode(this.div)) != this.div) {
           this.showSelection(this.prepareSelection(), true);
         }
         this.div.focus();
@@ -10211,7 +10218,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
       return false;
     };
     TextareaInput.prototype.focus = function() {
-      if (this.cm.options.readOnly != "nocursor" && (!mobile || activeElt(this.textarea.ownerDocument) != this.textarea)) {
+      if (this.cm.options.readOnly != "nocursor" && (!mobile || activeElt(rootNode(this.textarea)) != this.textarea)) {
         try {
           this.textarea.focus();
         } catch (e) {
@@ -10412,7 +10419,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
         options.placeholder = textarea.placeholder;
       }
       if (options.autofocus == null) {
-        var hasFocus = activeElt(textarea.ownerDocument);
+        var hasFocus = activeElt(rootNode(textarea));
         options.autofocus = hasFocus == textarea || textarea.getAttribute("autofocus") != null && hasFocus == document.body;
       }
       function save() {
@@ -10537,7 +10544,7 @@ var codemirror = createCommonjsModule(function(module, exports) {
     };
     CodeMirror.fromTextArea = fromTextArea;
     addLegacyProps(CodeMirror);
-    CodeMirror.version = "5.65.15";
+    CodeMirror.version = "5.65.16";
     return CodeMirror;
   });
 });
