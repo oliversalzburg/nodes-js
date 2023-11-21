@@ -465,12 +465,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/codemirror@npm:5.60.13":
-  version: 5.60.13
-  resolution: "@types/codemirror@npm:5.60.13"
+"@types/codemirror@npm:5.60.14":
+  version: 5.60.14
+  resolution: "@types/codemirror@npm:5.60.14"
   dependencies:
     "@types/tern": "npm:*"
-  checksum: 061ea4420e6f30ee674419fd6d0278ad4e624e5c41e98e4cf25f1601d7c40d68acb6a84ebdafba539cce9aa4089b983221f22fdafb74678162db62c8ca98e525
+  checksum: 7b78b57e9ca5daa0590ade944a13f7b60b30b8d32271be8768f82b5c39582997da3a4335f66507e53296ab3708dd058be7027311c919c4b457d2f3823b66fad4
   languageName: node
   linkType: hard
 
@@ -3707,7 +3707,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nodes-js@workspace:."
   dependencies:
-    "@types/codemirror": "npm:5.60.13"
+    "@types/codemirror": "npm:5.60.14"
     "@types/eslint": "npm:8.44.7"
     "@types/lz-string": "npm:1.3.34"
     "@types/nanoid": "npm:3.0.0"
