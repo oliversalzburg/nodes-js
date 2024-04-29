@@ -31,7 +31,7 @@
     "anim-event": "1.0.17",
     "codemirror": "5.65.16",
     "cssprefix": "2.0.17",
-    "eslint": "8.57.0",
+    "eslint": "9.1.1",
     "lint-staged": "15.2.2",
     "m-class-list": "1.1.10",
     "nanoid": "5.0.7",
