@@ -1,19 +1,38 @@
+import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
 import ElapsedTime from "elapsed-time";
-import { isNil, mustExist } from "../Maybe";
-import { Node } from "../ui/Node";
+import { Node } from "../ui/Node.js";
 
+/**
+ * A set of nodes to be executed at a given stage.
+ */
 export type ExecutionStage = Set<Node>;
 
+/**
+ * Executes a workflow.
+ */
 export class Execution {
+  /**
+   * The nodes that take part in the execution.
+   */
   nodes: Array<Node>;
 
+  /**
+   * The stages of the execution.
+   */
   stages: Array<ExecutionStage> | null = null;
 
+  /**
+   * Constructs a new execution.
+   * @param nodes - The nodes that should be executed.
+   */
   constructor(nodes: Array<Node>) {
     this.nodes = nodes;
   }
 
-  plan() {
+  /**
+   * Plans the execution.
+   */
+  plan(): void {
     const entry = ElapsedTime.new().start();
 
     const roots = new Set<Node>();
@@ -40,7 +59,11 @@ export class Execution {
     console.log(`Execution planned in ${entry.getValue()}.`);
   }
 
-  async execute(withUpdateUi = true) {
+  /**
+   * Execute the execution plan.
+   * @param withUpdateUi - Should we update the UI during the execution?
+   */
+  async execute(withUpdateUi = true): Promise<void> {
     const entry = ElapsedTime.new().start();
 
     if (isNil(this.stages)) {
@@ -77,6 +100,11 @@ export class Execution {
     return consumers;
   }
 
+  /**
+   * Constructs an execution for the given nodes.
+   * @param nodes - The nodes to execute.
+   * @returns The execution for the given nodes.
+   */
   static fromNodes(nodes: Iterable<Node>): Execution {
     const execution = new Execution([...nodes]);
     return execution;

@@ -1,17 +1,27 @@
-import { asyncEventHandler } from "../Async";
-import { isNil, mustExist } from "../Maybe";
-import { Confirm } from "./Confirm";
+import { prepareAsyncContext } from "@oliversalzburg/js-utils";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { Confirm } from "./Confirm.js";
 import styles from "./Toolbar.module.css";
-import { Workarea } from "./Workarea";
+import { Workarea } from "./Workarea.js";
 
+/**
+ * The toolbar of the application.
+ */
 export class Toolbar extends HTMLElement {
   #workarea: Workarea | null = null;
 
+  /**
+   * Constructs a new toolbar.
+   */
   constructor() {
     super();
     console.debug("Toolbar constructed.");
   }
 
+  /**
+   * Invoked when the DOM element is connected.
+   */
   connectedCallback() {
     this.classList.add(styles.toolbar);
 
@@ -26,7 +36,7 @@ export class Toolbar extends HTMLElement {
     addScriptButton.textContent = "📜 Script";
     addScriptButton.title = "3";
     addScriptButton.addEventListener("click", () => {
-      mustExist(this.#workarea).createNode("script").catch(console.error);
+      mustExist(this.#workarea).createNode("script").catch(redirectErrorsToConsole(console));
     });
     this.appendChild(addScriptButton);
 
@@ -35,7 +45,7 @@ export class Toolbar extends HTMLElement {
     addRowButton.textContent = "📜 Row";
     addRowButton.title = "4";
     addRowButton.addEventListener("click", () => {
-      mustExist(this.#workarea).createNode("row").catch(console.error);
+      mustExist(this.#workarea).createNode("row").catch(redirectErrorsToConsole(console));
     });
     this.appendChild(addRowButton);
 
@@ -44,7 +54,7 @@ export class Toolbar extends HTMLElement {
     addNoopButton.textContent = "📜 Noop";
     addNoopButton.title = "2";
     addNoopButton.addEventListener("click", () => {
-      mustExist(this.#workarea).createNode("noop").catch(console.error);
+      mustExist(this.#workarea).createNode("noop").catch(redirectErrorsToConsole(console));
     });
     this.appendChild(addNoopButton);
 
@@ -53,7 +63,7 @@ export class Toolbar extends HTMLElement {
     addSeedButton.textContent = "➕ Seed";
     addSeedButton.title = "1";
     addSeedButton.addEventListener("click", () => {
-      mustExist(this.#workarea).createNode("seed").catch(console.error);
+      mustExist(this.#workarea).createNode("seed").catch(redirectErrorsToConsole(console));
     });
     this.appendChild(addSeedButton);
 
@@ -61,7 +71,7 @@ export class Toolbar extends HTMLElement {
     addFileButton.classList.add(styles.button);
     addFileButton.textContent = "➕ File";
     addFileButton.addEventListener("click", () => {
-      mustExist(this.#workarea).createNode("file").catch(console.error);
+      mustExist(this.#workarea).createNode("file").catch(redirectErrorsToConsole(console));
     });
     this.appendChild(addFileButton);
 
@@ -75,9 +85,9 @@ export class Toolbar extends HTMLElement {
     deleteButton.title = "D";
     deleteButton.addEventListener(
       "click",
-      asyncEventHandler(async event => {
+      prepareAsyncContext(async (_event: unknown) => {
         const choice = await Confirm.yesNo("Delete selected nodes?");
-        if (choice === Confirm.YES) {
+        if (choice === "yes") {
           mustExist(this.#workarea).deleteSelectedNodes();
         }
       }),
@@ -90,9 +100,9 @@ export class Toolbar extends HTMLElement {
     clearButton.title = "X";
     clearButton.addEventListener(
       "click",
-      asyncEventHandler(async () => {
+      prepareAsyncContext(async () => {
         const choice = await Confirm.yesNo("Clear all nodes?");
-        if (choice === Confirm.YES) {
+        if (choice === "yes") {
           mustExist(this.#workarea).clear();
         }
       }),
@@ -107,7 +117,9 @@ export class Toolbar extends HTMLElement {
     exportButton.classList.add(styles.button);
     exportButton.textContent = "🔽 Export";
     exportButton.title = "E";
-    exportButton.addEventListener("click", () => mustExist(this.#workarea).export());
+    exportButton.addEventListener("click", () => {
+      mustExist(this.#workarea).export();
+    });
     this.appendChild(exportButton);
 
     const restoreButton = document.createElement("button");
@@ -115,7 +127,7 @@ export class Toolbar extends HTMLElement {
     restoreButton.textContent = "🔃 Restore snapshot";
     restoreButton.title = "R";
     restoreButton.addEventListener("click", () => {
-      mustExist(this.#workarea).restoreSnapshot().catch(console.error);
+      mustExist(this.#workarea).restoreSnapshot().catch(redirectErrorsToConsole(console));
     });
     this.appendChild(restoreButton);
 
@@ -123,7 +135,7 @@ export class Toolbar extends HTMLElement {
     demoButton.classList.add(styles.button);
     demoButton.textContent = "🎪 Demo";
     demoButton.addEventListener("click", () => {
-      mustExist(this.#workarea).restoreSnapshotDemo().catch(console.error);
+      mustExist(this.#workarea).restoreSnapshotDemo().catch(redirectErrorsToConsole(console));
     });
     this.appendChild(demoButton);
 
@@ -131,7 +143,7 @@ export class Toolbar extends HTMLElement {
     executeButton.classList.add(styles.button);
     executeButton.textContent = "▶ Execute";
     executeButton.addEventListener("click", () => {
-      mustExist(this.#workarea).execute().catch(console.error);
+      mustExist(this.#workarea).execute().catch(redirectErrorsToConsole(console));
     });
     this.appendChild(executeButton);
 

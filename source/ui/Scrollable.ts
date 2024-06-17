@@ -1,27 +1,42 @@
-import { mustExist } from "../Maybe";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
+import { mustExist } from "@oliversalzburg/js-utils/nil.js";
 import styles from "./Scrollable.module.css";
-import { Workarea } from "./Workarea";
+import { Workarea } from "./Workarea.js";
 
+/**
+ * A component with scrollbar.
+ */
 export class Scrollable extends HTMLElement {
   #workarea: Workarea | null = null;
 
+  /**
+   * Constructs a new scrollable.
+   */
   constructor() {
     super();
 
     console.debug("Scrollable constructed.");
   }
 
+  /**
+   * Invoked when the DOM element is connected.
+   */
   connectedCallback() {
     this.#workarea = this.querySelector("dt-workarea") as Workarea;
 
     this.classList.add(styles.scrollable);
-    this.addEventListener("scroll", event => this.onScroll(event));
+    this.addEventListener("scroll", event => {
+      this.onScroll(event);
+    });
 
     console.debug("Scrollable connected.");
 
-    this.waitForWorkarea().catch(console.error);
+    this.waitForWorkarea().catch(redirectErrorsToConsole(console));
   }
 
+  /**
+   * Waits for the `dt-workarea` component to be available.
+   */
   async waitForWorkarea() {
     await customElements.whenDefined("dt-workarea");
     mustExist(this.#workarea).registerScrollableContainer(this);
@@ -30,7 +45,11 @@ export class Scrollable extends HTMLElement {
     this.scroll(this.scrollHeight / 3, this.scrollWidth / 3);
   }
 
-  onScroll(event: Event) {
+  /**
+   * Invoked when the component was scrolled.
+   * @param _event - The event that triggered this operation.
+   */
+  onScroll(_event: Event): void {
     if (!this.#workarea) {
       return;
     }

@@ -1,13 +1,22 @@
-import { asyncEventHandler } from "../Async";
-import { isNil } from "../Maybe";
-import { Column } from "./Column";
-import { Connection } from "./Connection";
+import { prepareAsyncContext } from "@oliversalzburg/js-utils";
+import { isNil } from "@oliversalzburg/js-utils/nil.js";
+import { Column } from "./Column.js";
+import { Connection } from "./Connection.js";
 import styles from "./Input.module.css";
-import { Node } from "./Node";
+import { Node } from "./Node.js";
 
+/**
+ * An input column.
+ */
 export class Input extends Column {
+  /**
+   * The output this column is connected to.
+   */
   output?: Connection;
 
+  /**
+   * Constructs a new input.
+   */
   constructor() {
     super();
 
@@ -15,6 +24,9 @@ export class Input extends Column {
     this.label = "<unlabled input>";
   }
 
+  /**
+   * Invoked when the DOM element is connected.
+   */
   connectedCallback() {
     super.connectedCallback();
 
@@ -22,10 +34,15 @@ export class Input extends Column {
 
     this.addEventListener(
       "mouseup",
-      asyncEventHandler<MouseEvent>(async (event: MouseEvent) => this.onMouseUp(event)),
+      prepareAsyncContext(async (event: MouseEvent) => this.onMouseUp(event)),
     );
   }
 
+  /**
+   * Connect this input to an output.
+   * @param connection - The connection to create.
+   * @returns A promise that is resolved once the connection is finalized.
+   */
   async connect(connection: Connection) {
     if (this.output) {
       this.output.disconnect();
@@ -36,12 +53,19 @@ export class Input extends Column {
 
     return super.connect(connection);
   }
+  /**
+   * Disconnect the given connection.
+   * @param connection - The connection to disconnect.
+   */
   disconnect(connection?: Connection): void {
     super.disconnect(connection);
     this.output = undefined;
     this.value = undefined;
   }
 
+  /**
+   * Update the input.
+   */
   update(): void {
     if (isNil(this.output)) {
       return;
@@ -50,6 +74,9 @@ export class Input extends Column {
     this.value = this.output.source.value;
   }
 
+  /**
+   * Update the UI of the input.
+   */
   updateUi() {
     super.updateUi();
 
@@ -58,18 +85,30 @@ export class Input extends Column {
     }
   }
 
-  onMouseEnter(event: MouseEvent) {
+  /**
+   * Invoked when the mouse cursor enters the bounds of the input.
+   * @param _event - The mouse event that triggered the operation.
+   */
+  onMouseEnter(_event: MouseEvent) {
     if (!isNil(this.output)) {
       this.output.line.dash = { animation: true };
     }
   }
-  onMouseLeave(event: MouseEvent) {
+  /**
+   * Invoked when the mouse cursor leaves the bounds of the input.
+   * @param _event - The mouse event that triggered the operation.
+   */
+  onMouseLeave(_event: MouseEvent) {
     if (!isNil(this.output)) {
       this.output.line.dash = false;
     }
   }
 
-  async onMouseUp(event: MouseEvent) {
+  /**
+   * Triggered when the user releases a mouse button.
+   * @param _event - The mouse event that triggered the operation.
+   */
+  async onMouseUp(_event: MouseEvent) {
     // Always disconnect on click.
     if (this.output) {
       this.parent?.workarea?.disconnect(this.output);

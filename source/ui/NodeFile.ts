@@ -1,26 +1,47 @@
+import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
 import { fileOpen, FileWithHandle } from "browser-fs-access";
-import { Behavior } from "../behavior/Behavior";
-import { ConstructorOf } from "../Mixins";
-import { Node } from "./Node";
-import { SerializedNode } from "./Workarea";
+import { Behavior } from "../behavior/Behavior.js";
+import { Node } from "./Node.js";
+import { SerializedNode } from "./Workarea.js";
 
+/**
+ * A Node to interact with local files.
+ */
 export class NodeFile extends Node {
+  /**
+   * A handle to the file itself.
+   */
   file: FileWithHandle | null = null;
 
+  /**
+   * Constructs a new `NodeFile`.
+   */
   constructor() {
     super("file", "File");
 
     this.hasBehavior = true;
   }
 
+  /**
+   * Retrieves the constructor for this Node.
+   * @returns The constructor for this Node.
+   */
   getFactory(): ConstructorOf<Node> {
     return NodeFile;
   }
 
+  /**
+   * Opens a local file.
+   * @returns A promise for a file handle.
+   */
   openFile() {
     return fileOpen();
   }
 
+  /**
+   * Initializes a new instance of the Node.
+   * @param initParameters - The parameters for the Node.
+   */
   async init(initParameters?: SerializedNode) {
     await super.init(initParameters);
 

@@ -1,14 +1,15 @@
+import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
+import { mustExist } from "@oliversalzburg/js-utils/nil.js";
 import { nanoid } from "nanoid";
-import { mustExist } from "../Maybe";
-import { ConstructorOf } from "../Mixins";
-import { Behavior } from "../behavior/Behavior";
-import { Command } from "./Command";
-import { Connection } from "./Connection";
-import { Input } from "./Input";
-import { Coordinates } from "./Locator";
+import { Behavior } from "../behavior/Behavior.js";
+import { Command } from "./Command.js";
+import { Connection } from "./Connection.js";
+import { Input } from "./Input.js";
+import { Coordinates } from "./Locator.js";
 import styles from "./Node.module.css";
-import { NodeEditor } from "./NodeEditor";
-import { Output } from "./Output";
+import { NodeEditor } from "./NodeEditor.js";
+import { Output } from "./Output.js";
 import {
   CommandDescription,
   NodeTypes,
@@ -16,22 +17,62 @@ import {
   SerializedNode,
   SerializedOutput,
   Workarea,
-} from "./Workarea";
+} from "./Workarea.js";
 
+/**
+ * Describes a compiled behavior, which is a simple async function.
+ */
 export type CompiledBehavior = () => Promise<unknown>;
 
+/**
+ * Base class for all nodes.
+ */
 export abstract class Node extends HTMLElement {
+  /**
+   * The type of node this is.
+   */
   typeIdentifier: NodeTypes;
+
+  /**
+   * The ID of the node.
+   */
   nodeId: string;
+
+  /**
+   * The workarea this node appears in.
+   */
   workarea: Workarea | null = null;
 
+  /**
+   * The current instance of the behavior editor for this node.
+   */
   behaviorEditor: NodeEditor | null = null;
+
+  /**
+   * The behavior of this node.
+   */
   behavior: Behavior | null = null;
+
+  /**
+   * The compiled behavior of this node.
+   */
   behaviorCompiled: CompiledBehavior | null = null;
 
+  /**
+   * The name of this node.
+   */
   name: string;
+
+  /**
+   * The X-coordinate of this node.
+   */
   x = 0;
+
+  /**
+   * The Y-coordinate of this node.
+   */
   y = 0;
+
   protected hasBehavior = false;
   protected hasIo = true;
 
@@ -41,8 +82,19 @@ export abstract class Node extends HTMLElement {
   #editElement: HTMLButtonElement | null = null;
   #deleteElement: HTMLButtonElement | null = null;
 
+  /**
+   * The commands of this node.
+   */
   commands = new Array<Command>();
+
+  /**
+   * The inputs of this node.
+   */
   inputs = new Array<Input>();
+
+  /**
+   * The outputs of this node.
+   */
   outputs = new Array<Output>();
 
   #inputSectionElement: HTMLDivElement | null = null;
@@ -50,9 +102,17 @@ export abstract class Node extends HTMLElement {
 
   abstract getFactory(): ConstructorOf<Node>;
 
+  /**
+   * Is this node currently selected?
+   * @returns `true` if the node is selected; `false` otherwise.
+   */
   get selected() {
     return this.#selected;
   }
+
+  /**
+   * Select or deselect this node.
+   */
   set selected(value: boolean) {
     if (value) {
       this.select();
@@ -61,6 +121,10 @@ export abstract class Node extends HTMLElement {
     }
   }
 
+  /**
+   * Retrieve the DOM element that serves as this node's title.
+   * @returns The DOM element that serves as this node's title.
+   */
   get titleElement(): HTMLTitleElement | null {
     return this.#titleElement;
   }
@@ -68,6 +132,10 @@ export abstract class Node extends HTMLElement {
     this.#titleElement = value;
   }
 
+  /**
+   * Retrieve the DOM element that serves as this node's edit button.
+   * @returns The DOM element that serves as this node's edit button.
+   */
   get editElement(): HTMLButtonElement | null {
     return this.#editElement;
   }
@@ -75,6 +143,10 @@ export abstract class Node extends HTMLElement {
     this.#editElement = value;
   }
 
+  /**
+   * Retrieve the DOM element that serves as this node's delete button.
+   * @returns The DOM element that serves as this node's delete button.
+   */
   get deleteElement(): HTMLButtonElement | null {
     return this.#deleteElement;
   }
@@ -82,6 +154,11 @@ export abstract class Node extends HTMLElement {
     this.#deleteElement = value;
   }
 
+  /**
+   * Constructs a new node.
+   * @param typeIdentifier - The type of this node.
+   * @param namePrefix - A prefix for the node's name.
+   */
   constructor(typeIdentifier: NodeTypes, namePrefix: string) {
     super();
 
@@ -90,6 +167,9 @@ export abstract class Node extends HTMLElement {
     this.name = namePrefix;
   }
 
+  /**
+   * Invoked when the DOM element is connected.
+   */
   connectedCallback() {
     this.workarea = this.parentElement as Workarea;
 
@@ -99,7 +179,9 @@ export abstract class Node extends HTMLElement {
     this.titleElement.classList.add(styles.title);
     this.titleElement.textContent = this.name;
     this.titleElement.title = this.nodeId;
-    this.titleElement.addEventListener("click", (event: MouseEvent) => this.onClickTitle(event));
+    this.titleElement.addEventListener("click", (event: MouseEvent) => {
+      this.onClickTitle(event);
+    });
     this.appendChild(this.titleElement);
 
     if (this.hasBehavior) {
@@ -107,7 +189,7 @@ export abstract class Node extends HTMLElement {
       this.editElement.classList.add(styles.edit);
       this.editElement.textContent = "⬤";
       this.editElement.addEventListener("click", event => {
-        this.onClickEdit(event).catch(console.error);
+        this.onClickEdit(event).catch(redirectErrorsToConsole(console));
       });
       this.appendChild(this.editElement);
     }
@@ -115,7 +197,9 @@ export abstract class Node extends HTMLElement {
     this.deleteElement = document.createElement("button");
     this.deleteElement.classList.add(styles.delete);
     this.deleteElement.textContent = "✖";
-    this.deleteElement.addEventListener("click", (event: MouseEvent) => this.onClickDelete(event));
+    this.deleteElement.addEventListener("click", (event: MouseEvent) => {
+      this.onClickDelete(event);
+    });
     this.appendChild(this.deleteElement);
 
     if (this.hasIo) {
@@ -128,6 +212,10 @@ export abstract class Node extends HTMLElement {
     }
   }
 
+  /**
+   * Initializes a new instance of the Node.
+   * @param initParameters - The parameters for the Node.
+   */
   async init(initParameters?: SerializedNode) {
     this.nodeId = initParameters?.id ?? this.nodeId;
     this.name = initParameters?.name ?? this.name;
@@ -144,7 +232,7 @@ export abstract class Node extends HTMLElement {
         ++inputIndex
       ) {
         this.inputs[inputIndex].label = mustExist(
-          initParameters?.behavior?.metadata.inputs[inputIndex].label,
+          initParameters.behavior.metadata.inputs[inputIndex].label,
         );
       }
       for (
@@ -153,7 +241,7 @@ export abstract class Node extends HTMLElement {
         ++outputIndex
       ) {
         this.outputs[outputIndex].label = mustExist(
-          initParameters?.behavior?.metadata.outputs[outputIndex].label,
+          initParameters.behavior.metadata.outputs[outputIndex].label,
         );
       }
     }
@@ -168,18 +256,37 @@ export abstract class Node extends HTMLElement {
     }
   }
 
+  /**
+   * Creates a new in-progress connection operation.
+   * @param columnSource - The source column.
+   * @param event - The mouse event that triggered the connection.
+   */
   initConnectionFrom(columnSource: Output, event: MouseEvent) {
     mustExist(this.workarea).initConnectionFrom(columnSource, event);
   }
+  /**
+   * Finalizes a connection between two columns.
+   * @param columnTarget - The target column.
+   * @returns A promise that is resolved once the connection was finalized.
+   */
   finalizeConnection(columnTarget: Input) {
     return mustExist(this.workarea).finalizeConnection(columnTarget);
   }
 
-  async onConnect(connection: Connection) {
+  /**
+   * Invoked when this node was connected to another node.
+   * @param _connection - The connection that was created.
+   */
+  async onConnect(_connection: Connection) {
     await this.update();
     this.updateUi();
   }
-  onClickTitle(event: MouseEvent) {
+
+  /**
+   * Invoked when the user clicks the title of the node.
+   * @param event - The mouse event that triggered the operation.
+   */
+  onClickTitle(event: MouseEvent): void {
     if (!event.ctrlKey) {
       return;
     }
@@ -190,13 +297,26 @@ export abstract class Node extends HTMLElement {
       this.deselect();
     }
   }
+  /**
+   * Invoked when the user clicks the edit button of the node.
+   * @param event - The mouse event that triggered the operation.
+   */
   async onClickEdit(event: MouseEvent) {
     await mustExist(this.workarea).editNodeBehavior(this, event);
   }
-  onClickDelete(event?: MouseEvent) {
+  /**
+   * Invoked when the user clicks the delete button of the node.
+   * @param _event - The mouse event that triggered the operation.
+   */
+  onClickDelete(_event?: MouseEvent) {
     mustExist(this.workarea).deleteNode(this);
   }
-  select(event?: MouseEvent) {
+
+  /**
+   * Select this node.
+   * @param event - The mouse event that triggered the operation.
+   */
+  select(event?: MouseEvent): void {
     if (this.#selected) {
       return;
     }
@@ -205,6 +325,10 @@ export abstract class Node extends HTMLElement {
     this.#selected = true;
     this.workarea?.onNodeSelect(this, event);
   }
+  /**
+   * De-select this node.
+   * @param event - The mouse event that triggered the operation.
+   */
   deselect(event?: MouseEvent) {
     if (!this.#selected) {
       return;
@@ -215,6 +339,9 @@ export abstract class Node extends HTMLElement {
     this.workarea?.onNodeDeselect(this, event);
   }
 
+  /**
+   * Update this node.
+   */
   async update() {
     console.debug(`Updating ${this.nodeId}...`);
 
@@ -252,6 +379,11 @@ export abstract class Node extends HTMLElement {
       }
     }
   }
+
+  /**
+   * Update the UI of the node.
+   * @param newPosition - The new position for the node.
+   */
   updateUi(newPosition?: Coordinates) {
     mustExist(this.titleElement).textContent = this.name;
     mustExist(this.titleElement).title = this.nodeId;
@@ -273,7 +405,12 @@ export abstract class Node extends HTMLElement {
       this.behaviorEditor.updateUi();
     }
   }
-  updateBehavior(behavior = this.behavior) {
+
+  /**
+   * Updates the behavior of the node.
+   * @param behavior - The new behavior.
+   */
+  updateBehavior(behavior = this.behavior): void {
     this.behavior = behavior;
     if (this.behavior === null) {
       this.behaviorCompiled = null;
@@ -282,6 +419,7 @@ export abstract class Node extends HTMLElement {
 
     const script = this.behavior.toExecutableBehavior();
     this.rebuildFromMetadata();
+    // eslint-disable-next-line @typescript-eslint/no-implied-eval
     this.behaviorCompiled = new Function(script) as CompiledBehavior;
   }
 
@@ -342,7 +480,9 @@ export abstract class Node extends HTMLElement {
       }
       this.commands[commandIndex].init(behavior.metadata.commands[commandIndex]);
     }
-    excessCommands.forEach(command => this.removeCommand(command));
+    excessCommands.forEach(command => {
+      this.removeCommand(command);
+    });
 
     const excessInputCount = this.inputs.length - behavior.metadata.inputs.length;
     const excessInputs = this.inputs.splice(behavior.metadata.inputs.length, excessInputCount);
@@ -352,7 +492,9 @@ export abstract class Node extends HTMLElement {
       }
       this.inputs[inputIndex].label = behavior.metadata.inputs[inputIndex].label;
     }
-    excessInputs.forEach(input => this.removeInput(input));
+    excessInputs.forEach(input => {
+      this.removeInput(input);
+    });
 
     const excessOutputCount = this.outputs.length - behavior.metadata.outputs.length;
     const excessOutputs = this.outputs.splice(behavior.metadata.inputs.length, excessOutputCount);
@@ -362,11 +504,17 @@ export abstract class Node extends HTMLElement {
       }
       this.outputs[outputIndex].label = behavior.metadata.outputs[outputIndex].label;
     }
-    excessOutputs.forEach(output => this.removeOutput(output));
+    excessOutputs.forEach(output => {
+      this.removeOutput(output);
+    });
 
     this.outputs.splice(behavior.metadata.outputs.length, excessOutputCount);
   }
 
+  /**
+   * Serialize the node.
+   * @returns The serialized node.
+   */
   serialize(): SerializedNode {
     const serialized: SerializedNode = {
       type: this.typeIdentifier,
@@ -397,6 +545,11 @@ export abstract class Node extends HTMLElement {
     return serialized;
   }
 
+  /**
+   * Generates a unique ID for a node.
+   * @param type - The type of the node to generate the ID for.
+   * @returns The generated ID.
+   */
   static makeId(type: string) {
     return `${type}-${nanoid(6)}`;
   }

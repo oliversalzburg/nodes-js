@@ -5,14 +5,20 @@
   "version": "1.0.0",
   "license": "MIT",
   "author": "Oliver Salzburg <oliver.salzburg@gmail.com>",
+  "type": "module",
   "main": "index.html",
   "scripts": {
-    "build": "snowpack build",
+    "build": "vite build",
+    "lint": "yarn run lint:all",
+    "lint:all": "yarn run lint:eslint && yarn run lint:prettier && yarn run lint:tsc",
     "lint:eslint": "eslint source",
     "lint:prettier": "prettier --check source",
-    "lint:tsc": "tsc --noEmit"
+    "lint:tsc": "tsc --noEmit",
+    "preview": "vite preview",
+    "serve": "vite"
   },
   "dependencies": {
+    "@oliversalzburg/js-utils": "0.0.46",
     "arbit": "0.1.1",
     "browser-fs-access": "0.35.0",
     "elapsed-time": "0.0.1",
@@ -21,26 +27,32 @@
     "plain-draggable": "2.5.14"
   },
   "devDependencies": {
+    "@eslint/js": "9.5.0",
+    "@oliversalzburg/eslint-config": "0.0.8",
     "@types/codemirror": "5.60.15",
     "@types/eslint": "8.56.10",
     "@types/lz-string": "1.5.0",
     "@types/nanoid": "3.0.0",
-    "@types/web": "0.0.149",
-    "@typescript-eslint/eslint-plugin": "7.13.0",
-    "@typescript-eslint/parser": "7.13.0",
+    "@types/web": "0.0.144",
     "anim-event": "1.0.17",
     "codemirror": "5.65.16",
     "cssprefix": "2.0.17",
-    "eslint": "8.57.0",
-    "lint-staged": "15.2.7",
+    "eslint": "9.5.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-jsdoc": "48.2.12",
+    "eslint-plugin-tsdoc": "0.3.0",
+    "globals": "15.5.0",
+    "lint-staged": "15.2.2",
     "m-class-list": "1.1.10",
     "nanoid": "5.0.7",
     "pointer-event": "1.3.1",
     "prettier": "3.3.2",
     "prettier-package-json": "2.8.0",
     "prettier-plugin-organize-imports": "3.2.4",
-    "snowpack": "3.8.8",
-    "typescript": "5.4.5"
+    "prettier-plugin-sh": "0.14.0",
+    "typescript": "5.4.5",
+    "typescript-eslint": "8.0.0-alpha.30",
+    "vite": "5.3.1"
   },
   "packageManager": "yarn@4.3.0"
 }

@@ -1,15 +1,21 @@
-import { isNil, mustExist } from "../Maybe";
-import { Locator } from "./Locator";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { Locator } from "./Locator.js";
 import styles from "./MiniMap.module.css";
-import { Scrollable } from "./Scrollable";
-import { Workarea } from "./Workarea";
+import { Scrollable } from "./Scrollable.js";
+import { Workarea } from "./Workarea.js";
 
+/**
+ * A map that provides an overview of a work area.
+ */
 export class MiniMap extends HTMLElement {
   #scrollableContainer: Scrollable | null = null;
   #workarea: Workarea | null = null;
   #canvas: HTMLCanvasElement | null = null;
   #intervalHandle: number | null = null;
 
+  /**
+   * Invoked when the DOM element is connected.
+   */
   connectedCallback() {
     this.classList.add(styles.minimap);
 
@@ -26,11 +32,18 @@ export class MiniMap extends HTMLElement {
     this.#canvas.height = this.clientHeight * devicePixelRatio;
     this.appendChild(this.#canvas);
 
-    this.addEventListener("click", (event: MouseEvent) => this.onClick(event));
+    this.addEventListener("click", (event: MouseEvent) => {
+      this.onClick(event);
+    });
 
-    this.#intervalHandle = setInterval(() => this.update(), 1000);
+    this.#intervalHandle = window.setInterval(() => {
+      this.update();
+    }, 1000);
   }
 
+  /**
+   * Invoked when the DOM element is disconnected.
+   */
   disconnectedCallback() {
     if (this.#intervalHandle !== null) {
       clearInterval(this.#intervalHandle);
@@ -38,7 +51,10 @@ export class MiniMap extends HTMLElement {
     }
   }
 
-  update() {
+  /**
+   * Updates the minimap.
+   */
+  update(): void {
     if (isNil(this.#canvas) || isNil(this.#scrollableContainer) || isNil(this.#workarea)) {
       return;
     }
@@ -76,7 +92,11 @@ export class MiniMap extends HTMLElement {
     context.closePath();
   }
 
-  onClick(event: MouseEvent) {
+  /**
+   * Invoked when the user clicks on the map.
+   * @param event - The mouse event that triggered the operation.
+   */
+  onClick(event: MouseEvent): void {
     if (isNil(this.#canvas) || isNil(this.#scrollableContainer) || isNil(this.#workarea)) {
       return;
     }

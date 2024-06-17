@@ -1,13 +1,22 @@
+import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import { mustExist } from "@oliversalzburg/js-utils/nil.js";
 import arbit, { ArbitGenerator } from "arbit";
-import { mustExist } from "../Maybe";
-import { ConstructorOf } from "../Mixins";
-import { Behavior } from "../behavior/Behavior";
-import { Node } from "./Node";
-import { SerializedNode } from "./Workarea";
+import { Behavior } from "../behavior/Behavior.js";
+import { Node } from "./Node.js";
+import { SerializedNode } from "./Workarea.js";
 
+/**
+ * A node that provides a random number generator.
+ */
 export class NodeSeed extends Node {
+  /**
+   * The instance of the random number generator.
+   */
   random: ArbitGenerator;
 
+  /**
+   * Constructs a new seed node.
+   */
   constructor() {
     super("seed", "Seed");
 
@@ -15,10 +24,18 @@ export class NodeSeed extends Node {
     this.random = arbit(this.nodeId);
   }
 
+  /**
+   * Retrieves the constructor for this Node.
+   * @returns The constructor for this Node.
+   */
   getFactory(): ConstructorOf<Node> {
     return NodeSeed;
   }
 
+  /**
+   * Initializes a new instance of the Node.
+   * @param initParameters - The parameters for the Node.
+   */
   async init(initParameters?: SerializedNode) {
     await super.init(initParameters);
 

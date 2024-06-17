@@ -1,13 +1,23 @@
-export type Choice = "cancel" | "no" | "yes";
 import styles from "./Confirm.module.css";
 
-export class Confirm {
-  static readonly CANCEL = "cancel";
-  static readonly NO = "no";
-  static readonly YES = "yes";
+/**
+ * The choices you can make in a confirmation.
+ */
+export type Choice = "cancel" | "no" | "yes";
 
+/**
+ * A confirmation dialog.
+ */
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+export class Confirm {
+  /**
+   * Show a yes/no confirmation dialog.
+   * @param question - The question to ask.
+   * @param parent - The element that should host the dialog.
+   * @returns The user's choice.
+   */
   static yesNo(question: string, parent: HTMLElement = document.body): Promise<Choice> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const dialog = document.createElement("dialog");
       dialog.classList.add(styles.dialog);
 
@@ -28,8 +38,14 @@ export class Confirm {
     });
   }
 
+  /**
+   * Show a yes/no/cancel confirmation dialog.
+   * @param question - The question to ask.
+   * @param parent - The element that should host the dialog.
+   * @returns The user's choice.
+   */
   static yesNoCancel(question: string, parent: HTMLElement = document.body): Promise<Choice> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const dialog = document.createElement("dialog");
       dialog.classList.add(styles.dialog);
 
@@ -62,7 +78,7 @@ export class Confirm {
     button.addEventListener("click", () => {
       dialog.close();
       parent.removeChild(dialog);
-      resolve(Confirm.CANCEL);
+      resolve("cancel");
     });
     section.appendChild(button);
   }
@@ -78,7 +94,7 @@ export class Confirm {
     button.addEventListener("click", () => {
       dialog.close();
       parent.removeChild(dialog);
-      resolve(Confirm.NO);
+      resolve("no");
     });
     section.appendChild(button);
   }
@@ -94,7 +110,7 @@ export class Confirm {
     button.addEventListener("click", () => {
       dialog.close();
       parent.removeChild(dialog);
-      resolve(Confirm.YES);
+      resolve("yes");
     });
     section.appendChild(button);
   }

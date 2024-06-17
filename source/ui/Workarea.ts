@@ -1,77 +1,158 @@
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
 import "leader-line";
 import LZString from "lz-string";
 import PlainDraggable, { NewPosition } from "plain-draggable";
-import { isNil, mustExist } from "../Maybe";
-import { Behavior } from "../behavior/Behavior";
-import { InputMetadata, OutputMetadata } from "../behavior/BehaviorMetadata";
-import { Execution } from "../execution/Execution";
-import { Command } from "./Command";
-import { Connection } from "./Connection";
-import { Decoy } from "./Decoy";
-import { Input } from "./Input";
-import { Coordinates, Locator } from "./Locator";
-import { Node } from "./Node";
+import { Behavior } from "../behavior/Behavior.js";
+import { CommandMetadata, InputMetadata, OutputMetadata } from "../behavior/BehaviorMetadata.js";
+import { Execution } from "../execution/Execution.js";
+import { Connection } from "./Connection.js";
+import { Decoy } from "./Decoy.js";
+import { Input } from "./Input.js";
+import { Coordinates, Locator } from "./Locator.js";
+import { Node } from "./Node.js";
 import stylesNode from "./Node.module.css";
-import { NodeEditor } from "./NodeEditor";
-import { NodeFile } from "./NodeFile";
-import { NodeNoop } from "./NodeNoop";
-import { NodeRow } from "./NodeRow";
-import { NodeScript } from "./NodeScript";
-import { NodeSeed } from "./NodeSeed";
-import { Output } from "./Output";
-import { Scrollable } from "./Scrollable";
+import { NodeEditor } from "./NodeEditor.js";
+import { NodeFile } from "./NodeFile.js";
+import { NodeNoop } from "./NodeNoop.js";
+import { NodeRow } from "./NodeRow.js";
+import { NodeScript } from "./NodeScript.js";
+import { NodeSeed } from "./NodeSeed.js";
+import { Output } from "./Output.js";
+import { Scrollable } from "./Scrollable.js";
 import styles from "./Workarea.module.css";
-import { snapshot } from "./snapshot";
+import { snapshot } from "./snapshot.js";
 
+/**
+ * The diufferent node types we support
+ */
 export type NodeTypes = "_editor" | "file" | "noop" | "row" | "script" | "seed";
 
-export type SerializedConnection = {
+/**
+ * Describes a `Command`.
+ */
+export type CommandDescription = CommandMetadata & {
+  /**
+   * The ID of the command.
+   */
   id: string;
-  connections: Array<{ source: string; target: string }>;
 };
 
-export type CommandDescription = {
-  id: string;
-  label: string;
-  entrypoint: (command: Command) => Promise<unknown>;
-};
-
+/**
+ * An input for a `Node`.
+ */
 export type SerializedInput = {
+  /**
+   * The ID of the input.
+   */
   id: string;
-  output: string | null;
 };
 
+/**
+ * An output of a `Node`.
+ */
 export type SerializedOutput = {
+  /**
+   * The ID of the output.
+   */
   id: string;
+
+  /**
+   * The IDs of inputs that are connected to this output.
+   */
   inputs: Array<string>;
 };
 
+/**
+ * Describes the behavior of a `Node`.
+ */
 export type SerializedBehavior = {
+  /**
+   * The IO metadata of the behavior.
+   */
   metadata: {
     inputs: Array<InputMetadata>;
     outputs: Array<OutputMetadata>;
   };
+
+  /**
+   * The behavior script itself.
+   */
   script: string;
 };
 
+/**
+ * Describes a `Node`.
+ */
 export type SerializedNode = {
+  /**
+   * The type of the node.
+   */
   type: NodeTypes;
+
+  /**
+   * The ID of the node.
+   */
   id: string;
+
+  /**
+   * The name of the node.
+   */
   name: string;
+
+  /**
+   * The X-coordinate of the node.
+   */
   x: number;
+
+  /**
+   * The Y-coordinate of the node.
+   */
   y: number;
+
+  /**
+   * The inputs of this node.
+   */
   inputs: Array<SerializedInput>;
+
+  /**
+   * The outputs of this node.
+   */
   outputs: Array<SerializedOutput>;
+
+  /**
+   * The behavior of the node.
+   */
   behavior?: SerializedBehavior;
 };
 
+/**
+ * Describes a work area.
+ */
 export type SerializedWorkarea = {
+  /**
+   * The current center of the viewport.
+   */
   stage?: { x: number; y: number };
+
+  /**
+   * The Nodes on the workarea.
+   */
   nodes: Array<SerializedNode>;
 };
 
+/**
+ * The work area, where we place Nodes.
+ */
 export class Workarea extends HTMLElement {
+  /**
+   * The nodes on the work area.
+   */
   nodes = new Array<Node>();
+
+  /**
+   * The connections between Nodes.
+   */
   connections = new Set<Connection>();
 
   #currentConnectionSource: Output | null = null;
@@ -84,6 +165,9 @@ export class Workarea extends HTMLElement {
 
   #scrollableContainer: Scrollable | null = null;
 
+  /**
+   * Constructs a new work area.
+   */
   constructor() {
     super();
     console.debug("Workarea constructed.");
@@ -92,28 +176,48 @@ export class Workarea extends HTMLElement {
   get #selectedEditors(): Iterable<NodeEditor> {
     return [...this.#openEditors].filter(node => node.selected);
   }
+  /**
+   * Retrieves the nodes that are currently selected.
+   * @returns The nodes that are currently selected.
+   */
   get selectedNodes(): Iterable<Node> {
     return this.nodes.filter(node => node.selected);
   }
 
+  /**
+   * Invoked when the DOM element is connected.
+   */
   connectedCallback() {
     this.classList.add(styles.workarea);
 
-    this.addEventListener("click", event => this.onClick(event));
-    this.addEventListener("mousedown", event => this.onMouseDown(event));
-    this.addEventListener("mousemove", event => this.onMouseMove(event));
-    this.addEventListener("mouseup", event => this.onMouseUp(event));
+    this.addEventListener("click", event => {
+      this.onClick(event);
+    });
+    this.addEventListener("mousedown", event => {
+      this.onMouseDown(event);
+    });
+    this.addEventListener("mousemove", event => {
+      this.onMouseMove(event);
+    });
+    this.addEventListener("mouseup", event => {
+      this.onMouseUp(event);
+    });
 
     document.addEventListener("keydown", event => {
-      this.onKeyDown(event).catch(console.error);
+      this.onKeyDown(event).catch(redirectErrorsToConsole(console));
     });
     document.addEventListener("keyup", event => {
-      this.onKeyUp(event).catch(console.error);
+      this.onKeyUp(event).catch(redirectErrorsToConsole(console));
     });
 
     console.debug("Workarea connected.");
   }
 
+  /**
+   * Creates a new in-progress connection operation.
+   * @param columnSource - The source column.
+   * @param event - The mouse event that triggered the connection.
+   */
   initConnectionFrom(columnSource: Output, event: MouseEvent) {
     this.#currentConnectionSource = columnSource;
 
@@ -130,6 +234,11 @@ export class Workarea extends HTMLElement {
 
     this.#updateDecoy(event);
   }
+  /**
+   * Finalizes a connection between two columns.
+   * @param columnTarget - The target column.
+   * @returns A promise that is resolved once the connection was finalized.
+   */
   async finalizeConnection(columnTarget: Input) {
     if (!this.#currentConnectionSource) {
       return;
@@ -138,6 +247,9 @@ export class Workarea extends HTMLElement {
     await this.connect(this.#currentConnectionSource, columnTarget);
   }
 
+  /**
+   * Update the connection lines for all connections.
+   */
   updateConnections() {
     for (const connection of this.connections) {
       connection.line.position();
@@ -149,6 +261,11 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  /**
+   * Connect an output with an input.
+   * @param columnSource - The source column.
+   * @param columnTarget - The target column.
+   */
   async connect(columnSource: Output, columnTarget: Input) {
     const connection = new Connection(columnSource, columnTarget);
     await columnSource.connect(connection);
@@ -156,11 +273,22 @@ export class Workarea extends HTMLElement {
     this.connections.add(connection);
     this.storeSnapshot();
   }
+
+  /**
+   * Disconnects the given connection.
+   * @param connection - The connection to disconnect.
+   */
   disconnect(connection: Connection) {
     this.connections.delete(connection);
     connection.disconnect();
     connection.target.parent?.updateUi();
   }
+
+  /**
+   * Disconnects a node entirely.
+   * @param node - The node to disconnect.
+   * @param updateSnapshot - Should the current snapshot be updated by this?
+   */
   disconnectNode(node: Node, updateSnapshot = true) {
     for (const input of node.inputs) {
       if (input.output) {
@@ -186,6 +314,12 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  /**
+   * Opens the behavior editor for the given Node.
+   * @param node - The Node of which to edit the behavior.
+   * @param event - The mouse event that triggered the operation.
+   * @returns A promise that resolves once the editor has been opened.
+   */
   async editNodeBehavior(node: Node, event?: MouseEvent) {
     if (node.behaviorEditor) {
       await node.behaviorEditor.onClickDelete(event);
@@ -222,7 +356,7 @@ export class Workarea extends HTMLElement {
         );
         this.#endDragOperation();
       },
-      onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
+      onDragStart: (_event: MouseEvent | (TouchEvent & Touch)) => {
         this.#beginSynchronizedDragOperation(editor);
       },
       onMove: newPosition => {
@@ -241,7 +375,13 @@ export class Workarea extends HTMLElement {
       size: 2,
     });
   }
-  cancelBehaviorEditor(node: Node, event?: MouseEvent) {
+
+  /**
+   * Closes the behavior editor for a Node without saving changes.
+   * @param node - The node for which to cancel the editor.
+   * @param _event - The mouse event that triggered this operation.
+   */
+  cancelBehaviorEditor(node: Node, _event?: MouseEvent): void {
     if (!node.behaviorEditor) {
       return;
     }
@@ -255,7 +395,13 @@ export class Workarea extends HTMLElement {
     node.behaviorEditor = null;
     node.updateUi();
   }
-  async closeBehaviorEditor(node: Node, event?: MouseEvent) {
+
+  /**
+   * Closes the behavior editor for a node and saves any changes.
+   * @param node - The node for which to close the behavior editor.
+   * @param event - The mouse event that triggered this operation.
+   */
+  async closeBehaviorEditor(node: Node, event?: MouseEvent): Promise<void> {
     if (!node.behaviorEditor) {
       return;
     }
@@ -292,7 +438,11 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  onClick(event: MouseEvent) {
+  /**
+   * Triggered when the component is clicked.
+   * @param event - The mouse event that triggered this operation.
+   */
+  onClick(event: MouseEvent): void {
     if (event.target !== this) {
       return;
     }
@@ -302,7 +452,11 @@ export class Workarea extends HTMLElement {
   #panInitMouse: [number, number] = [0, 0];
   #panInitWorkarea: [number, number] = [0, 0];
 
-  onMouseDown(event: MouseEvent) {
+  /**
+   * Triggered when the user presses down on a mouse button.
+   * @param event - The mouse event that triggered this operation.
+   */
+  onMouseDown(event: MouseEvent): void {
     if (event.target !== this) {
       return;
     }
@@ -317,6 +471,11 @@ export class Workarea extends HTMLElement {
       ];
     }
   }
+
+  /**
+   * Triggered when the user moves the mouse.
+   * @param event - The mouse event that triggered this operation.
+   */
   onMouseMove(event: MouseEvent) {
     if (this.#currentDecoy) {
       this.#updateDecoy(event);
@@ -329,6 +488,11 @@ export class Workarea extends HTMLElement {
         this.#panInitWorkarea[1] + this.#panInitMouse[1] - event.y;
     }
   }
+
+  /**
+   * Triggered when the user releases a mouse button.
+   * @param event - The mouse event that triggered this operation.
+   */
   onMouseUp(event: MouseEvent) {
     // End connection operation.
     this.#currentConnectionSource = null;
@@ -391,9 +555,18 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  async onKeyDown(event: KeyboardEvent) {
+  /**
+   * Triggered when the user presses down on a keyboard key.
+   * @param _event - The keyboard event that triggered this operation.
+   */
+  async onKeyDown(_event: KeyboardEvent) {
     // intentionally left blank
   }
+
+  /**
+   * Triggered when the user releases a keyboard key.
+   * @param event - The keyboard event that triggered this operation.
+   */
   async onKeyUp(event: KeyboardEvent) {
     if (event.target !== document.body) {
       return;
@@ -444,22 +617,49 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  onNodeSelect(node: Node, event?: MouseEvent) {
+  /**
+   * Triggered when a user selects a node.
+   * @param _node - The node that was selected.
+   * @param _event - The mouse event that triggered the operation.
+   */
+  onNodeSelect(_node: Node, _event?: MouseEvent) {
     // intentionally left blank
   }
-  onNodeDeselect(node: Node, event?: MouseEvent) {
+
+  /**
+   * Triggered when a user de-selects a node.
+   * @param _node - The node that was de-selected.
+   * @param _event - The mouse event that triggered the operation.
+   */
+  onNodeDeselect(_node: Node, _event?: MouseEvent) {
     // intentionally left blank
   }
+
+  /**
+   * Triggered when a user resizes a node.
+   * @param node - The node that was resized.
+   */
   onNodeResize(node: Node) {
     if (node instanceof NodeEditor) {
       node.line?.position();
     }
   }
 
+  /**
+   * Registers a child container as it becomes available.
+   * @param scrollable - The scrollable container.
+   */
   registerScrollableContainer(scrollable: Scrollable) {
     this.#scrollableContainer = scrollable;
   }
 
+  /**
+   * Constructs a new node on the work area.
+   * @param type - The type of node to create.
+   * @param shouldUpdateSnapshot - Should we update the snapshot after creating the node?
+   * @param initParameters - The parameters for the node.
+   * @returns The constructed node.
+   */
   async createNode(type: NodeTypes, shouldUpdateSnapshot = true, initParameters?: SerializedNode) {
     let node: Node | null = null;
     switch (type) {
@@ -548,7 +748,7 @@ export class Workarea extends HTMLElement {
         );
         this.storeSnapshot();
       },
-      onDragStart: (event: MouseEvent | (TouchEvent & Touch)) => {
+      onDragStart: (_event: MouseEvent | (TouchEvent & Touch)) => {
         this.#beginSynchronizedDragOperation(node);
       },
       onMove: newPosition => {
@@ -572,7 +772,12 @@ export class Workarea extends HTMLElement {
     }
   }
 
-  deleteNode(node: Node, updateSnapshot = true) {
+  /**
+   * Removes a node from the work area.
+   * @param node - The node to remove.
+   * @param updateSnapshot - Should the snapshot be updated after this operation?
+   */
+  deleteNode(node: Node, updateSnapshot = true): void {
     if (node instanceof NodeEditor) {
       this.cancelBehaviorEditor(mustExist(node.target));
       return;
@@ -591,6 +796,9 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  /**
+   * Deletes all selected nodes.
+   */
   deleteSelectedNodes() {
     for (const node of [...this.selectedNodes]) {
       this.deleteNode(node);
@@ -598,6 +806,9 @@ export class Workarea extends HTMLElement {
     console.info("Selected nodes deleted.");
   }
 
+  /**
+   * Removes all nodes from the work area.
+   */
   clear() {
     for (const node of [...this.nodes]) {
       this.deleteNode(node, false);
@@ -605,12 +816,19 @@ export class Workarea extends HTMLElement {
     console.info("All nodes deleted.");
   }
 
+  /**
+   * Executes the current workflow.
+   * @returns A promise that is resolved after the execution.
+   */
   async execute() {
     const execution = Execution.fromNodes(this.nodes);
     execution.plan();
     return execution.execute();
   }
 
+  /**
+   * Serialize the current work area and print it to the console.
+   */
   export() {
     const serialized = this.serialize();
     const pretty = JSON.stringify(serialized, undefined, 2);
@@ -623,20 +841,30 @@ export class Workarea extends HTMLElement {
     url.hash = compressed;
     console.info(url.toString());
   }
+
+  /**
+   * Restores the state of the workarea from a snapshot.
+   * @param compressedSnapshot - The lz-string compressed snapshot.
+   */
   async import(compressedSnapshot: string) {
     const short = LZString.decompressFromBase64(compressedSnapshot);
-    if (short === null) {
-      throw new Error("Unable to decompress snapshot!");
-    }
     const parsed = JSON.parse(short) as SerializedWorkarea;
     await this.deserialize(parsed);
   }
 
+  /**
+   * Store the current workarea in a snapshot in local storage.
+   */
   storeSnapshot() {
     const snapshot = this.serialize();
     localStorage.setItem("snapshot", JSON.stringify(snapshot));
     console.debug("Snapshot updated.");
   }
+
+  /**
+   * Restores the state of the work area from a snapshot in local storage.
+   * @returns A promise that is resolved once the snapshot was restored.
+   */
   async restoreSnapshot() {
     const snapshotItem = localStorage.getItem("snapshot");
     if (snapshotItem === null) {
@@ -645,10 +873,18 @@ export class Workarea extends HTMLElement {
     const snapshot = JSON.parse(snapshotItem) as SerializedWorkarea;
     await this.deserialize(snapshot);
   }
+
+  /**
+   * Restores the demo snapshot in the work area.
+   */
   async restoreSnapshotDemo() {
     await this.deserialize(snapshot as SerializedWorkarea);
   }
 
+  /**
+   * Deserialize the state of the given work area into itself.
+   * @param workarea - The state of the work area.
+   */
   async deserialize(workarea: SerializedWorkarea) {
     this.clear();
 
@@ -691,6 +927,10 @@ export class Workarea extends HTMLElement {
     }
   }
 
+  /**
+   * Serializes the work area.
+   * @returns The serialized work area.
+   */
   serialize(): SerializedWorkarea {
     return {
       stage: this.#scrollableContainer
