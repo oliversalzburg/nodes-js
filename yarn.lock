@@ -365,9 +365,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oliversalzburg/eslint-config@npm:0.0.8":
-  version: 0.0.8
-  resolution: "@oliversalzburg/eslint-config@npm:0.0.8"
+"@oliversalzburg/eslint-config@npm:0.0.10":
+  version: 0.0.10
+  resolution: "@oliversalzburg/eslint-config@npm:0.0.10"
   peerDependencies:
     "@eslint/js": 9.5.0
     eslint-config-prettier: 9.1.0
@@ -375,7 +375,7 @@ __metadata:
     eslint-plugin-tsdoc: 0.3.0
     globals: 15.5.0
     typescript-eslint: 8.0.0-alpha.30
-  checksum: 10c0/15197818083f26fd862e442a1099d5376a68c5c76b823f907e3ca071c27cf089af45f26ad34a95061effe3c10f8e65628a9124f8ca6a3a7b6cb3b7a1eee0ae2c
+  checksum: 10c0/b84f2e675a078355eee52abf8a8aebe6c11ec9e2b6149ca7b2ff4b96178b9a88b8264c9dd05a34f31251a067310993db6836d85fda27a338ec5307ef321073ed
   languageName: node
   linkType: hard
 
@@ -900,16 +900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"braces@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "braces@npm:3.0.2"
-  dependencies:
-    fill-range: "npm:^7.0.1"
-  checksum: 10c0/321b4d675791479293264019156ca322163f02dc06e3c4cab33bb15cd43d80b51efef69b0930cfde3acd63d126ebca24cd0544fa6f261e093a0fb41ab9dda381
-  languageName: node
-  linkType: hard
-
-"braces@npm:^3.0.3":
+"braces@npm:^3.0.2, braces@npm:^3.0.3":
   version: 3.0.3
   resolution: "braces@npm:3.0.3"
   dependencies:
@@ -1566,15 +1557,6 @@ __metadata:
   dependencies:
     flat-cache: "npm:^4.0.0"
   checksum: 10c0/9e2b5938b1cd9b6d7e3612bdc533afd4ac17b2fc646569e9a8abbf2eb48e5eb8e316bc38815a3ef6a1b456f4107f0d0f055a614ca613e75db6bf9ff4d72c1638
-  languageName: node
-  linkType: hard
-
-"fill-range@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "fill-range@npm:7.0.1"
-  dependencies:
-    to-regex-range: "npm:^5.0.1"
-  checksum: 10c0/7cdad7d426ffbaadf45aeb5d15ec675bbd77f7597ad5399e3d2766987ed20bda24d5fac64b3ee79d93276f5865608bb22344a26b9b1ae6c4d00bd94bf611623f
   languageName: node
   linkType: hard
 
@@ -2486,7 +2468,7 @@ __metadata:
   resolution: "nodes-js@workspace:."
   dependencies:
     "@eslint/js": "npm:9.5.0"
-    "@oliversalzburg/eslint-config": "npm:0.0.8"
+    "@oliversalzburg/eslint-config": "npm:0.0.10"
     "@oliversalzburg/js-utils": "npm:0.0.46"
     "@types/codemirror": "npm:5.60.15"
     "@types/eslint": "npm:8.56.10"
