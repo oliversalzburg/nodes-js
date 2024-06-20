@@ -2,6 +2,6 @@
 !.yarn/releases
 !.yarn/plugins
 
-build
-node_modules
-output
+_site/
+node_modules/
+output/

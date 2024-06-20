@@ -3,6 +3,6 @@
  */
 export default {
   build: {
-    outDir: "output",
+    outDir: "_site",
   },
 };

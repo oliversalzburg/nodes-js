@@ -1,0 +1,38 @@
+name: Pre-Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      wants-github-release:
+        default: false
+        description: Create a GitHub release?
+        required: false
+        type: boolean
+
+concurrency: pre-release
+
+env:
+  DEV_BUILD: true
+
+jobs:
+  qa:
+    name: 🔹 QA
+    uses: oliversalzburg/workflows/.github/workflows/qa-browser-app.yml@main
+
+  pre-release:
+    if: github.ref_name == github.event.repository.default_branch
+    name: 🔹 Publish
+    needs: qa
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
+      pages: write
+      pull-requests: read
+    uses: oliversalzburg/workflows/.github/workflows/publish-browser-app.yml@main
+    with:
+      is-canary: true
+      wants-github-release: ${{ inputs.wants-github-release || false }}

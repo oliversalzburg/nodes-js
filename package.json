@@ -14,8 +14,12 @@
     "lint:eslint": "eslint source",
     "lint:prettier": "prettier --check source",
     "lint:tsc": "tsc --noEmit",
+    "nextversion": "./.scripts/release-version.cjs",
     "preview": "vite preview",
-    "serve": "vite"
+    "serve": "vite",
+    "test": "echo This project has no tests.",
+    "preversion": "yarn run lint && yarn run build && yarn run test",
+    "postversion": "git push"
   },
   "dependencies": {
     "@oliversalzburg/js-utils": "0.0.46",

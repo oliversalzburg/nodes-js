@@ -1,0 +1,13 @@
+name: QA
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "**"
+      - "!main"
+
+jobs:
+  qa:
+    name: 🔹 QA
+    uses: oliversalzburg/workflows/.github/workflows/qa-browser-app.yml@main
