@@ -1,5 +1,4 @@
 import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
-import ElapsedTime from "elapsed-time";
 import { Node } from "../ui/Node.js";
 
 /**
@@ -33,8 +32,6 @@ export class Execution {
    * Plans the execution.
    */
   plan(): void {
-    const entry = ElapsedTime.new().start();
-
     const roots = new Set<Node>();
     for (const node of this.nodes) {
       if (node.inputs.length === 0) {
@@ -55,8 +52,6 @@ export class Execution {
         this.stages.push(stage);
       }
     }
-
-    console.log(`Execution planned in ${entry.getValue()}.`);
   }
 
   /**
@@ -64,8 +59,6 @@ export class Execution {
    * @param withUpdateUi - Should we update the UI during the execution?
    */
   async execute(withUpdateUi = true): Promise<void> {
-    const entry = ElapsedTime.new().start();
-
     if (isNil(this.stages)) {
       return;
     }
@@ -84,8 +77,6 @@ export class Execution {
         }
       }
     }
-
-    console.log(`Executed in ${entry.getValue()}.`);
   }
 
   #consumersToStage(roots: Iterable<Node>) {
