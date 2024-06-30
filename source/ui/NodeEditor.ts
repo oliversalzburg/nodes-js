@@ -1,13 +1,7 @@
+import { javascript } from "@codemirror/lang-javascript";
 import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
 import { mustExist } from "@oliversalzburg/js-utils/nil.js";
-import "codemirror";
-import CodeMirror from "codemirror";
-import "codemirror/addon/hint/javascript-hint";
-import "codemirror/addon/hint/show-hint";
-import "codemirror/addon/hint/show-hint.css";
-import "codemirror/lib/codemirror.css";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/theme/mdn-like.css";
+import { EditorView, basicSetup } from "codemirror";
 import { Confirm } from "./Confirm.js";
 import { Coordinates } from "./Locator.js";
 import { Node } from "./Node.js";
@@ -17,9 +11,8 @@ import { SerializedNode } from "./Workarea.js";
  * A node that serves as a behavior editor for other nodes.
  */
 export class NodeEditor extends Node {
-  #textarea: HTMLTextAreaElement | null = null;
   #resizeObserver: ResizeObserver | null = null;
-  #codeMirror: CodeMirror.EditorFromTextArea | null = null;
+  #codeMirror: EditorView | null = null;
 
   /**
    * The target node.
@@ -44,7 +37,7 @@ export class NodeEditor extends Node {
    * @returns The source code of the behavior.
    */
   get behaviorSource(): string {
-    return this.#codeMirror?.getValue() ?? "";
+    return this.#codeMirror?.state.doc.toString() ?? "";
   }
 
   /**
@@ -54,17 +47,6 @@ export class NodeEditor extends Node {
     super("_editor", "Behavior Editor");
 
     this.hasIo = false;
-  }
-
-  /**
-   * Invoked when the DOM element is connected.
-   */
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.#textarea = document.createElement("textarea");
-    this.#textarea.setAttribute("spellcheck", "false");
-    this.appendChild(this.#textarea);
   }
 
   /**
@@ -85,19 +67,17 @@ export class NodeEditor extends Node {
 
     this.name = `Behavior Editor for ${this.target.nodeId}`;
 
-    mustExist(this.#textarea).value = node.behavior?.toEditableScript() ?? "";
-    this.#codeMirror = CodeMirror.fromTextArea(mustExist(this.#textarea), {
-      extraKeys: { "Ctrl-Space": "autocomplete" },
-      lineNumbers: true,
-      mode: { name: "javascript" },
-      theme: "mdn-like",
+    this.#codeMirror = new EditorView({
+      extensions: [basicSetup, javascript()],
+      parent: this,
+      doc: node.behavior?.toEditableScript() ?? "",
     });
 
     this.#resizeObserver?.disconnect();
     this.#resizeObserver = new ResizeObserver(() => {
       this.workarea?.onNodeResize(this);
     });
-    this.#resizeObserver.observe(this.#codeMirror.getWrapperElement());
+    this.#resizeObserver.observe(this.#codeMirror.dom);
   }
 
   /**
