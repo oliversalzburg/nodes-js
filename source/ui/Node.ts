@@ -1,6 +1,6 @@
 import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
-import { mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import { nanoid } from "nanoid";
 import { Behavior } from "../behavior/Behavior.js";
 import { Command } from "./Command.js";

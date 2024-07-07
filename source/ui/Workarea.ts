@@ -1,5 +1,5 @@
-import { redirectErrorsToConsole } from "@oliversalzburg/js-utils";
-import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import "leader-line";
 import LZString from "lz-string";
 import PlainDraggable, { NewPosition } from "plain-draggable";

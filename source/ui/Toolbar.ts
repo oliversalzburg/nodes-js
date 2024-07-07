@@ -1,6 +1,6 @@
-import { prepareAsyncContext } from "@oliversalzburg/js-utils";
-import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
-import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { prepareAsyncContext } from "@oliversalzburg/js-utils/async/async.js";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import { Confirm } from "./Confirm.js";
 import styles from "./Toolbar.module.css";
 import { Workarea } from "./Workarea.js";

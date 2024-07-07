@@ -1,5 +1,5 @@
-import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
-import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import { Column } from "./Column.js";
 import styles from "./Input.module.css";
 import { Node } from "./Node.js";
