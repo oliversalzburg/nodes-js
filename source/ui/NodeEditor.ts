@@ -1,6 +1,6 @@
 import { javascript } from "@codemirror/lang-javascript";
 import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { EditorView, basicSetup } from "codemirror";
 import { Confirm } from "./Confirm.js";
 import { Coordinates } from "./Locator.js";

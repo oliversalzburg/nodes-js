@@ -1,5 +1,5 @@
 import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import arbit, { ArbitGenerator } from "arbit";
 import { Behavior } from "../behavior/Behavior.js";
 import { Node } from "./Node.js";

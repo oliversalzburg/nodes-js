@@ -17,7 +17,7 @@ export * from "./ui/Output.js";
 export * from "./ui/Scrollable.js";
 export * from "./ui/Toolbar.js";
 export * from "./ui/Workarea.js";
-import { redirectErrorsToConsole } from "@oliversalzburg/js-utils";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import { Workarea } from "./ui/Workarea.js";
 
 window.addEventListener("load", () => {

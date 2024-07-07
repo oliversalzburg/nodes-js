@@ -1,4 +1,4 @@
-import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { Node } from "../ui/Node.js";
 
 /**

@@ -1,5 +1,5 @@
-import { prepareAsyncContext } from "@oliversalzburg/js-utils";
-import { isNil } from "@oliversalzburg/js-utils/nil.js";
+import { prepareAsyncContext } from "@oliversalzburg/js-utils/async/async.js";
+import { isNil } from "@oliversalzburg/js-utils/data/nil.js";
 import { Column } from "./Column.js";
 import { Connection } from "./Connection.js";
 import styles from "./Input.module.css";

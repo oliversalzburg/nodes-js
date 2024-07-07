@@ -1,4 +1,4 @@
-import { isNil, mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { Locator } from "./Locator.js";
 import styles from "./MiniMap.module.css";
 import { Scrollable } from "./Scrollable.js";

@@ -1,4 +1,4 @@
-import { mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import styles from "./Column.module.css";
 import { Connection } from "./Connection.js";
 import { Node } from "./Node.js";

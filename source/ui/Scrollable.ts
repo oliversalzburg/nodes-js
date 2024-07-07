@@ -1,5 +1,5 @@
-import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/error/console.js";
-import { mustExist } from "@oliversalzburg/js-utils/nil.js";
+import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
+import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import styles from "./Scrollable.module.css";
 import { Workarea } from "./Workarea.js";
 
