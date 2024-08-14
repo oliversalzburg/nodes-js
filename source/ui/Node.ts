@@ -198,7 +198,7 @@ export abstract class Node extends HTMLElement {
     this.deleteElement.classList.add(styles.delete);
     this.deleteElement.textContent = "✖";
     this.deleteElement.addEventListener("click", (event: MouseEvent) => {
-      this.onClickDelete(event);
+      void this.onClickDelete(event);
     });
     this.appendChild(this.deleteElement);
 
@@ -307,9 +307,11 @@ export abstract class Node extends HTMLElement {
   /**
    * Invoked when the user clicks the delete button of the node.
    * @param _event - The mouse event that triggered the operation.
+   * @returns Nothing
    */
-  onClickDelete(_event?: MouseEvent) {
+  onClickDelete(_event?: MouseEvent): Promise<void> {
     mustExist(this.workarea).deleteNode(this);
+    return Promise.resolve();
   }
 
   /**

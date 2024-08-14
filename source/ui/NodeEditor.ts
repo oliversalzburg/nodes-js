@@ -98,7 +98,7 @@ export class NodeEditor extends Node {
       }
     }
 
-    super.onClickDelete(event);
+    await super.onClickDelete(event);
   }
 
   /**
