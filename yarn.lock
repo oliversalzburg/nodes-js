@@ -496,9 +496,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oliversalzburg/eslint-config@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@oliversalzburg/eslint-config@npm:1.0.1"
+"@oliversalzburg/eslint-config@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@oliversalzburg/eslint-config@npm:1.0.2"
   peerDependencies:
     "@eslint/js": ^9.5.0
     eslint-config-prettier: ^9.1.0
@@ -506,7 +506,7 @@ __metadata:
     eslint-plugin-tsdoc: ^0.3.0
     globals: ^15.6.0
     typescript-eslint: ^8.0.1
-  checksum: 10c0/3a894b562e5dc72e3af2d584a65a2c1a8622edd56181fd9931c6f28f2127f950a2b44de5983c1ea0f0d7132a3e5c4f73ff67381f384cdb77dbd4bc46a601b311
+  checksum: 10c0/d794bfd0fe34278cf1cfb8902be03a84a84f26f1db391e534f20b639c6cbafffa4c8e5f435ba32dc1544a9495b3749a6f324f1bafed92e8ecddb964d4a922df3
   languageName: node
   linkType: hard
 
@@ -2618,7 +2618,7 @@ __metadata:
   dependencies:
     "@codemirror/lang-javascript": "npm:6.2.2"
     "@eslint/js": "npm:9.9.0"
-    "@oliversalzburg/eslint-config": "npm:1.0.1"
+    "@oliversalzburg/eslint-config": "npm:1.0.2"
     "@oliversalzburg/js-utils": "npm:0.0.59"
     "@types/codemirror": "npm:5.60.15"
     "@types/eslint": "npm:9.6.0"
