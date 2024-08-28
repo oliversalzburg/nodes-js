@@ -572,48 +572,41 @@ export class Workarea extends HTMLElement {
       return;
     }
 
-    switch (event.keyCode) {
-      case 49: {
-        // 1
+    switch (event.key) {
+      case "1": {
         await this.createNode("seed");
         break;
       }
 
-      case 50: {
-        // 2
+      case "2": {
         await this.createNode("noop");
         break;
       }
 
-      case 51: {
-        // 3
+      case "3": {
         await this.createNode("script");
         break;
       }
 
-      case 52: {
-        // 4
+      case "4": {
         await this.createNode("row");
         break;
       }
 
-      case 67:
-        // x
+      case "x":
         this.clear();
         break;
 
-      case 82:
-        // r
+      case "r":
         await this.restoreSnapshot();
         break;
 
-      case 88:
-        // e
+      case "e":
         this.export();
         break;
 
       default:
-        console.debug(event.keyCode);
+        console.debug(event.key);
     }
   }
 
