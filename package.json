@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.10.0",
-    "@oliversalzburg/eslint-config": "1.0.3",
+    "@oliversalzburg/eslint-config": "1.1.0",
     "@types/codemirror": "5.60.15",
     "@types/eslint": "9.6.1",
     "@types/lz-string": "1.5.0",
