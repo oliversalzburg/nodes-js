@@ -44,7 +44,7 @@
     "cssprefix": "2.0.17",
     "eslint": "9.11.1",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-jsdoc": "50.2.5",
+    "eslint-plugin-jsdoc": "50.3.0",
     "eslint-plugin-tsdoc": "0.3.0",
     "globals": "15.9.0",
     "lint-staged": "15.2.10",
