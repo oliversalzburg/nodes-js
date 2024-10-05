@@ -2638,7 +2638,7 @@ __metadata:
     lz-string: "npm:1.5.0"
     m-class-list: "npm:1.1.10"
     nanoid: "npm:5.0.7"
-    plain-draggable: "npm:2.5.14"
+    plain-draggable: "npm:2.5.15"
     pointer-event: "npm:1.3.1"
     prettier: "npm:3.3.3"
     prettier-package-json: "npm:2.8.0"
@@ -2860,10 +2860,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"plain-draggable@npm:2.5.14":
-  version: 2.5.14
-  resolution: "plain-draggable@npm:2.5.14"
-  checksum: 10c0/293ab3460903958b48f2e095eed9ddf863fc3792da7d66002ec736548a53d2b9547fd7eff80625aaac305f22224152118def5f14bd25e88d1dc14484a73edf61
+"plain-draggable@npm:2.5.15":
+  version: 2.5.15
+  resolution: "plain-draggable@npm:2.5.15"
+  checksum: 10c0/cd10b2e7efa95cf6b63cab5db4ed598c8c731ab0fc62a29a62ca565ea6644b3b15948eeea82c10eaad9fe645fcd361be2b5ee09b3abba42565ee5aac16bede45
   languageName: node
   linkType: hard
 
