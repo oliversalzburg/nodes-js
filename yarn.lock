@@ -760,10 +760,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web@npm:0.0.176":
-  version: 0.0.176
-  resolution: "@types/web@npm:0.0.176"
-  checksum: 10c0/7c1502e1371182d2d955b4a553cd4ca328e0173b2bf7718a01f7128b93e917f60ba92b1aaddc1699ec28d1147b9153919e760458400d8b84e3c315a685744838
+"@types/web@npm:0.0.177":
+  version: 0.0.177
+  resolution: "@types/web@npm:0.0.177"
+  checksum: 10c0/25578ba0af5df4cbe5207306c22ee50c9ec41db923e808a8923e0dee14be0b2b9b68662741dfedd67311fa833b99ef2967e45350aca52f88c03a65d59ee12e48
   languageName: node
   linkType: hard
 
@@ -2581,7 +2581,7 @@ __metadata:
     "@types/eslint": "npm:9.6.1"
     "@types/lz-string": "npm:1.5.0"
     "@types/nanoid": "npm:3.0.0"
-    "@types/web": "npm:0.0.176"
+    "@types/web": "npm:0.0.177"
     anim-event: "npm:1.0.17"
     arbit: "npm:0.1.1"
     browser-fs-access: "npm:0.35.0"
