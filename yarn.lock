@@ -546,10 +546,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oliversalzburg/js-utils@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@oliversalzburg/js-utils@npm:0.2.0"
-  checksum: 10c0/26f46d0a7a6a230d4e7e1a1965ffe5ab9b228502ae2fd37497085c5141ece47d142f329c7a6819b2a3afa70586cc87d869d5db44a1c16ba20e037a51e446569d
+"@oliversalzburg/js-utils@npm:0.2.2":
+  version: 0.2.2
+  resolution: "@oliversalzburg/js-utils@npm:0.2.2"
+  checksum: 10c0/25770d0bd1486dca28bd34bb92956bc01046b5f3242d011ce29875fc563ebb81d9d2678c7c726e4e449dd0a281b8b69fb15612de7ae89dd0e68ebef67c7dd926
   languageName: node
   linkType: hard
 
@@ -2590,7 +2590,7 @@ __metadata:
     "@codemirror/lang-javascript": "npm:6.2.2"
     "@eslint/js": "npm:9.16.0"
     "@oliversalzburg/eslint-config": "npm:1.2.0"
-    "@oliversalzburg/js-utils": "npm:0.2.0"
+    "@oliversalzburg/js-utils": "npm:0.2.2"
     "@types/codemirror": "npm:5.60.15"
     "@types/eslint": "npm:9.6.1"
     "@types/lz-string": "npm:1.5.0"
