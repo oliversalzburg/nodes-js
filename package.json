@@ -38,7 +38,7 @@
     "@types/eslint": "9.6.1",
     "@types/lz-string": "1.5.0",
     "@types/nanoid": "3.0.0",
-    "@types/web": "0.0.195",
+    "@types/web": "0.0.196",
     "anim-event": "1.0.17",
     "codemirror": "6.0.1",
     "cssprefix": "2.0.17",
