@@ -47,9 +47,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/lang-javascript@npm:6.2.2":
-  version: 6.2.2
-  resolution: "@codemirror/lang-javascript@npm:6.2.2"
+"@codemirror/lang-javascript@npm:6.2.3":
+  version: 6.2.3
+  resolution: "@codemirror/lang-javascript@npm:6.2.3"
   dependencies:
     "@codemirror/autocomplete": "npm:^6.0.0"
     "@codemirror/language": "npm:^6.6.0"
@@ -58,7 +58,7 @@ __metadata:
     "@codemirror/view": "npm:^6.17.0"
     "@lezer/common": "npm:^1.0.0"
     "@lezer/javascript": "npm:^1.0.0"
-  checksum: 10c0/348969167fa5f18e8ec7e3614d408a95a54514f5625afcc680377d58a53d0f4ea412dcaeee65f0965e7d96f358d513b5c2744641b21ee5d0d976905b33715e48
+  checksum: 10c0/6f7c2563325a4b9ea13aadf92e8d4fa0b4da6b6ea6f623e8a593732b7965b863bf66ca2273202954c70d4f9a2bdc74dcb03bb8100300f4c08d5834afe8f2aede
   languageName: node
   linkType: hard
 
@@ -2570,7 +2570,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nodes-js@workspace:."
   dependencies:
-    "@codemirror/lang-javascript": "npm:6.2.2"
+    "@codemirror/lang-javascript": "npm:6.2.3"
     "@eslint/js": "npm:9.20.0"
     "@oliversalzburg/eslint-config": "npm:1.3.0"
     "@oliversalzburg/js-utils": "npm:0.2.2"
