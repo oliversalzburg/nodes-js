@@ -788,10 +788,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web@npm:0.0.204":
-  version: 0.0.204
-  resolution: "@types/web@npm:0.0.204"
-  checksum: 10c0/96a96adfd3f3de0b36e5ef78da105b3e8b56c00871571bcfd4ac87e02e001d7011dcc1f5741435fbd04eefb798f7fb8f63feabce1630696e8cd0dc35893bb1d7
+"@types/web@npm:0.0.205":
+  version: 0.0.205
+  resolution: "@types/web@npm:0.0.205"
+  checksum: 10c0/94e332898e746ca5800b90ae256b31b347be8b606792fa18c1372b538dc0c6b0bb597179b328d65c97e204c627a82712aac1e0d7689ef90100a88554e7729acf
   languageName: node
   linkType: hard
 
@@ -2558,7 +2558,7 @@ __metadata:
     "@oliversalzburg/js-utils": "npm:0.2.3"
     "@types/codemirror": "npm:5.60.15"
     "@types/eslint": "npm:9.6.1"
-    "@types/web": "npm:0.0.204"
+    "@types/web": "npm:0.0.205"
     anim-event: "npm:1.0.17"
     arbit: "npm:0.1.1"
     browser-fs-access: "npm:0.35.0"
