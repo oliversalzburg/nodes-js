@@ -1,5 +1,4 @@
 {
-  "biome.lspBin": "node_modules/@biomejs/biome/bin/biome",
   "search.exclude": {
     "**/.yarn": true
   },
