@@ -8,7 +8,8 @@ export type Choice = "cancel" | "no" | "yes";
 /**
  * A confirmation dialog.
  */
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class Confirm {
   /**
    * Show a yes/no confirmation dialog.

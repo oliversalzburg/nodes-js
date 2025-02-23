@@ -128,7 +128,7 @@ ${executable}
    * @param nodeConstructor - The constructor of the expected container Node.
    * @returns New behavior metadata for the given script.
    */
-  static async parse<TNode extends Node>(script: string, nodeConstructor: ConstructorOf<TNode>) {
+  static parse<TNode extends Node>(script: string, nodeConstructor: ConstructorOf<TNode>) {
     return BehaviorMetadata.#executeScriptMeta(
       BehaviorMetadata.wrapExecutable(script),
       nodeConstructor,
@@ -160,7 +160,6 @@ ${executable}
       _title: (title: string) => (meta.title = title),
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
     const executable = new Function(script).bind(executionSink) as () => Promise<unknown>;
     try {
       await executable();

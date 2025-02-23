@@ -421,7 +421,6 @@ export abstract class Node extends HTMLElement {
 
     const script = this.behavior.toExecutableBehavior();
     this.rebuildFromMetadata();
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
     this.behaviorCompiled = new Function(script) as CompiledBehavior;
   }
 

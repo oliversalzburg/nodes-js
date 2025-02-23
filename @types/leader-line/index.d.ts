@@ -4,24 +4,24 @@ declare class LeaderLine implements LeaderLine.Options {
   constructor(
     options: LeaderLine.StartEndOptions &
       Partial<LeaderLine.Options> &
-      Partial<LeaderLine.ConstructorOnlyOptions>
+      Partial<LeaderLine.ConstructorOnlyOptions>,
   );
   constructor(
     start: Element | LeaderLine.Attachment,
     end: Element | LeaderLine.Attachment,
-    options?: Partial<LeaderLine.Options> & Partial<LeaderLine.ConstructorOnlyOptions>
+    options?: Partial<LeaderLine.Options> & Partial<LeaderLine.ConstructorOnlyOptions>,
   );
 
   hide(
     showEffectName?: LeaderLine.ShowHideEffect,
-    animOptions?: Partial<LeaderLine.AnimationOptions>
+    animOptions?: Partial<LeaderLine.AnimationOptions>,
   ): void;
   position(): void;
   remove(): void;
   setOptions(options: LeaderLine.Options): void;
   show(
     showEffectName?: LeaderLine.ShowHideEffect,
-    animOptions?: Partial<LeaderLine.AnimationOptions>
+    animOptions?: Partial<LeaderLine.AnimationOptions>,
   ): void;
 
   end: Element | LeaderLine.Attachment;
@@ -57,6 +57,7 @@ declare class LeaderLine implements LeaderLine.Options {
   startSocketGravity: number | Array<number> | "auto";
 }
 
+// biome-ignore lint/style/noNamespace: <explanation>
 declare namespace LeaderLine {
   type Plug = "disc" | "square" | "arrow1" | "arrow2" | "arrow3" | "hand" | "crosshair" | "behind";
   type Easing = "ease" | "linear" | "ease-in" | "ease-out" | "ease-in-out";
@@ -141,12 +142,12 @@ declare namespace LeaderLine {
   function areaAnchor(options: AreaAnchorOptions): Attachment;
   function areaAnchor(
     element: Element,
-    options: Partial<Omit<AreaAnchorOptions, "element">>
+    options: Partial<Omit<AreaAnchorOptions, "element">>,
   ): Attachment;
   function areaAnchor(
     element: Element,
     shape: string,
-    options: Omit<AreaAnchorOptions, "element" | "shape">
+    options: Omit<AreaAnchorOptions, "element" | "shape">,
   ): Attachment;
 
   type MouseHoverAnchorOptions = {
@@ -161,12 +162,12 @@ declare namespace LeaderLine {
   function mouseHoverAnchor(options: Partial<MouseHoverAnchorOptions>): Attachment;
   function mouseHoverAnchor(
     element: Element,
-    options: Partial<Omit<MouseHoverAnchorOptions, "element">>
+    options: Partial<Omit<MouseHoverAnchorOptions, "element">>,
   ): Attachment;
   function mouseHoverAnchor(
     element: Element,
     showEffectName: ShowHideEffect,
-    options: Partial<Omit<MouseHoverAnchorOptions, "element" | "showEffectName">>
+    options: Partial<Omit<MouseHoverAnchorOptions, "element" | "showEffectName">>,
   ): Attachment;
 
   type LabelOptions = {
@@ -194,7 +195,7 @@ declare namespace LeaderLine {
   function captionLabel(options: Partial<CaptionLabelOptions>): Attachment;
   function captionLabel(
     text: string,
-    options: Partial<Omit<CaptionLabelOptions, "text">>
+    options: Partial<Omit<CaptionLabelOptions, "text">>,
   ): Attachment;
 
   type PathLabelOptions = {

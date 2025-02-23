@@ -43,7 +43,7 @@ export class Input extends Column {
    * @param connection - The connection to create.
    * @returns A promise that is resolved once the connection is finalized.
    */
-  async connect(connection: Connection) {
+  connect(connection: Connection) {
     if (this.output) {
       this.output.disconnect();
     }

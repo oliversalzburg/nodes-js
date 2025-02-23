@@ -8,9 +8,9 @@ declare module "plain-draggable" {
     autoScroll: boolean;
     handle: HTMLElement;
     left: number;
-    onDrag: (event: NewPosition) => boolean | void;
+    onDrag: (event: NewPosition) => boolean | undefined;
     onDragEnd: (event: NewPosition) => void;
-    onDragStart: (event: PointerEvent) => boolean | void;
+    onDragStart: (event: PointerEvent) => boolean | undefined;
     onMove: (event: NewPosition) => void;
     top: number;
   };

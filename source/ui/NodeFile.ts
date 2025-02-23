@@ -1,5 +1,5 @@
 import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { fileOpen, FileWithHandle } from "browser-fs-access";
+import { FileWithHandle, fileOpen } from "browser-fs-access";
 import { Behavior } from "../behavior/Behavior.js";
 import { Node } from "./Node.js";
 import { SerializedNode } from "./Workarea.js";

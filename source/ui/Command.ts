@@ -12,7 +12,6 @@ export class Command extends Column {
   /**
    * The function of this command.
    */
-  // eslint-disable-next-line no-use-before-define
   entrypoint: ((command: Command) => Promise<unknown>) | null = null;
 
   /**

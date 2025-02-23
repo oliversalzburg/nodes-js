@@ -356,7 +356,7 @@ export class Workarea extends HTMLElement {
         );
         this.#endDragOperation();
       },
-      onDragStart: (_event: MouseEvent | (TouchEvent & Touch)) => {
+      onDragStart: (_event: MouseEvent | (TouchEvent & Touch)): undefined => {
         this.#beginSynchronizedDragOperation(editor);
       },
       onMove: newPosition => {
@@ -741,7 +741,7 @@ export class Workarea extends HTMLElement {
         );
         this.storeSnapshot();
       },
-      onDragStart: (_event: MouseEvent | (TouchEvent & Touch)) => {
+      onDragStart: (_event: MouseEvent | (TouchEvent & Touch)): undefined => {
         this.#beginSynchronizedDragOperation(node);
       },
       onMove: newPosition => {
@@ -813,7 +813,7 @@ export class Workarea extends HTMLElement {
    * Executes the current workflow.
    * @returns A promise that is resolved after the execution.
    */
-  async execute() {
+  execute() {
     const execution = Execution.fromNodes(this.nodes);
     execution.plan();
     return execution.execute();
