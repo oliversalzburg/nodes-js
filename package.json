@@ -8,16 +8,8 @@
   "type": "module",
   "main": "index.html",
   "scripts": {
-    "build": "vite build",
-    "lint": "yarn run lint:all",
-    "lint:all": "yarn run lint:biome && yarn run lint:tsc",
-    "lint:biome": "biome check .",
-    "lint:tsc": "tsc --noEmit",
-    "nextversion": "./.scripts/release-version.cjs",
-    "preview": "vite preview",
-    "serve": "vite",
-    "test": "echo This project has no tests.",
-    "preversion": "yarn run lint && yarn run build && yarn run test",
+    "preversion": "make lint test",
+    "prepack": "make",
     "postversion": "git push"
   },
   "dependencies": {

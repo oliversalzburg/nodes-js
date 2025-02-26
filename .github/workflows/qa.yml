@@ -11,17 +11,3 @@ jobs:
   qa:
     name: 🔹 QA
     uses: oliversalzburg/workflows/.github/workflows/qa-browser-app.yml@main
-
-  qa-passed:
-    needs:
-      - qa
-    name: QA Passed
-    if: always()
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Failure
-        if: ${{ contains(needs.*.result, 'failure') }}
-        run: exit 1
-      - name: Success
-        if: ${{ success() && !(contains(needs.*.result, 'failure')) }}
-        run: exit 0
