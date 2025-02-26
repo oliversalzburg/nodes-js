@@ -24,7 +24,10 @@ run: clean
 	yarn vite serve
 
 
-output:
+node_modules:
+	yarn install
+
+output: node_modules
 	yarn vite build
 
 preview: clean
