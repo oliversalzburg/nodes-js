@@ -1285,12 +1285,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:5.1.3":
-  version: 5.1.3
-  resolution: "nanoid@npm:5.1.3"
+"nanoid@npm:5.1.4":
+  version: 5.1.4
+  resolution: "nanoid@npm:5.1.4"
   bin:
     nanoid: bin/nanoid.js
-  checksum: 10c0/632ab0e758f8cdd3d14835b2c094e7320cdb92c2404e4bc6cd864765d8fab76647e73ee664a7d11b1a5b5c7e04b8c030d6719d2b61f8b1295a5fb64a9d779a8b
+  checksum: 10c0/a911892e2d51a84850a0c333a6c2603617ad2e383f1b35343f8017346e2b46a171902617ae60636bfbb7d8479e1659b6143f9f1b21c83988d2ed93a22cfb4271
   languageName: node
   linkType: hard
 
@@ -1348,7 +1348,7 @@ __metadata:
     leader-line: "npm:1.0.7"
     lz-string: "npm:1.5.0"
     m-class-list: "npm:1.1.10"
-    nanoid: "npm:5.1.3"
+    nanoid: "npm:5.1.4"
     plain-draggable: "npm:2.5.15"
     pointer-event: "npm:1.3.1"
     typescript: "npm:5.8.2"
