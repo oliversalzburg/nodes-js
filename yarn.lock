@@ -1153,10 +1153,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"leader-line@npm:1.0.7":
-  version: 1.0.7
-  resolution: "leader-line@npm:1.0.7"
-  checksum: 10c0/0ac8fcfa2a067aca39d0273819f4daea4d40cc4f026d6709c27580a338d4d165e6ae9f376756df83e3aa551eb9387041545b8175a26fab94e8bd7ad6612595fd
+"leader-line@npm:1.0.8":
+  version: 1.0.8
+  resolution: "leader-line@npm:1.0.8"
+  checksum: 10c0/da6a36ca9997a6dd05993f030021b62fbdf19213bfbf633e4120e80fb20e74343bb717ad4a88fcc5d42634e4203ed9f510ab55ab8df462b24cb9149e61611519
   languageName: node
   linkType: hard
 
@@ -1363,7 +1363,7 @@ __metadata:
     codemirror: "npm:6.0.1"
     cssprefix: "npm:2.0.17"
     elapsed-time: "npm:0.0.1"
-    leader-line: "npm:1.0.7"
+    leader-line: "npm:1.0.8"
     lz-string: "npm:1.5.0"
     m-class-list: "npm:1.1.10"
     nanoid: "npm:5.1.5"
