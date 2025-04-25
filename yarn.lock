@@ -723,10 +723,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browser-fs-access@npm:0.35.0":
-  version: 0.35.0
-  resolution: "browser-fs-access@npm:0.35.0"
-  checksum: 10c0/9d309e27809e9cc419be4ed71d4cecdad7bf0915cb6e87c706031f51fb1b9d5e35ef7092b4e044adc3b68319baa31ae7ed0d2b8ffeac6e0430abdadbd22dfa36
+"browser-fs-access@npm:0.37.0":
+  version: 0.37.0
+  resolution: "browser-fs-access@npm:0.37.0"
+  checksum: 10c0/50c4710edc1916fe1b42e9db49d127a35fb2dc69c23dd28ffc00b1e9f34d153cac16c5fbd9d55c629c2583018f82de85f491c22e8808a5aeec71afba69088a7a
   languageName: node
   linkType: hard
 
@@ -1359,7 +1359,7 @@ __metadata:
     "@types/web": "npm:0.0.226"
     anim-event: "npm:1.0.17"
     arbit: "npm:0.1.1"
-    browser-fs-access: "npm:0.35.0"
+    browser-fs-access: "npm:0.37.0"
     codemirror: "npm:6.0.1"
     cssprefix: "npm:2.0.17"
     elapsed-time: "npm:0.0.1"
