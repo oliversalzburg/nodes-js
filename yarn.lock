@@ -120,9 +120,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/lang-javascript@npm:6.2.3":
-  version: 6.2.3
-  resolution: "@codemirror/lang-javascript@npm:6.2.3"
+"@codemirror/lang-javascript@npm:6.2.4":
+  version: 6.2.4
+  resolution: "@codemirror/lang-javascript@npm:6.2.4"
   dependencies:
     "@codemirror/autocomplete": "npm:^6.0.0"
     "@codemirror/language": "npm:^6.6.0"
@@ -131,7 +131,7 @@ __metadata:
     "@codemirror/view": "npm:^6.17.0"
     "@lezer/common": "npm:^1.0.0"
     "@lezer/javascript": "npm:^1.0.0"
-  checksum: 10c0/6f7c2563325a4b9ea13aadf92e8d4fa0b4da6b6ea6f623e8a593732b7965b863bf66ca2273202954c70d4f9a2bdc74dcb03bb8100300f4c08d5834afe8f2aede
+  checksum: 10c0/af6faaa9566c57e233459d48e8afbdbf99b6d666695fa49b2d352cda15b6022edbe319e1b296f76526f48c313627bbcd2a340872e6627a17358edabc08e8e129
   languageName: node
   linkType: hard
 
@@ -1353,7 +1353,7 @@ __metadata:
   resolution: "nodes-js@workspace:."
   dependencies:
     "@biomejs/biome": "npm:1.9.4"
-    "@codemirror/lang-javascript": "npm:6.2.3"
+    "@codemirror/lang-javascript": "npm:6.2.4"
     "@oliversalzburg/js-utils": "npm:0.3.0"
     "@types/codemirror": "npm:5.60.15"
     "@types/web": "npm:0.0.233"

@@ -13,7 +13,7 @@
     "postversion": "git push"
   },
   "dependencies": {
-    "@codemirror/lang-javascript": "6.2.3",
+    "@codemirror/lang-javascript": "6.2.4",
     "@oliversalzburg/js-utils": "0.3.0",
     "arbit": "0.1.1",
     "browser-fs-access": "0.37.0",
