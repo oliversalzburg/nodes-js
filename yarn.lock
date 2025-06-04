@@ -634,10 +634,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web@npm:0.0.237":
-  version: 0.0.237
-  resolution: "@types/web@npm:0.0.237"
-  checksum: 10c0/d23a6b87bcc93acfb91afecdc0da6b9568372530fe0b0c594d5034a690bce1550e22f4935fc783a66588507c550b9d5d7425bb42905bd4ce215d16fcdf672058
+"@types/web@npm:0.0.238":
+  version: 0.0.238
+  resolution: "@types/web@npm:0.0.238"
+  checksum: 10c0/c35960c5b785542af2d85181018d0728c8b911ce1307a591e82c60069a44055892c56d9853204770db22197fa4cec3c4ffa854353272a40078bcb4e635255acd
   languageName: node
   linkType: hard
 
@@ -1357,7 +1357,7 @@ __metadata:
     "@codemirror/lang-javascript": "npm:6.2.4"
     "@oliversalzburg/js-utils": "npm:0.3.0"
     "@types/codemirror": "npm:5.60.16"
-    "@types/web": "npm:0.0.237"
+    "@types/web": "npm:0.0.238"
     anim-event: "npm:1.0.17"
     arbit: "npm:0.1.1"
     browser-fs-access: "npm:0.37.0"
