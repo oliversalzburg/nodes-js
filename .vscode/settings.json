@@ -1,6 +1,3 @@
 {
-  "search.exclude": {
-    "**/.yarn": true
-  },
   "typescript.preferences.importModuleSpecifier": "relative"
 }

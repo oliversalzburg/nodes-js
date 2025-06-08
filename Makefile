@@ -14,25 +14,25 @@ git-hook:
 	echo "make pretty" > .git/hooks/pre-commit
 
 pretty: node_modules
-	yarn biome check --write --no-errors-on-unmatched
+	npm exec -- biome check --write --no-errors-on-unmatched
 	npm pkg fix
 
 lint: node_modules
-	yarn biome check .
-	yarn tsc --noEmit
+	npm exec -- biome check .
+	npm exec -- tsc --noEmit
 
 test:
 	@echo "This project has no tests."
 
 run: clean
-	yarn vite serve
+	npm exec -- vite serve
 
 
 node_modules:
-	yarn install
+	npm install
 
 output: node_modules
-	yarn vite build
+	npm exec -- vite build
 
 preview: node_modules
-	yarn vite preview
+	npm exec -- vite preview
