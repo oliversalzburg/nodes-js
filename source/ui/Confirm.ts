@@ -9,7 +9,7 @@ export type Choice = "cancel" | "no" | "yes";
  * A confirmation dialog.
  */
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
+// biome-ignore lint/complexity/noStaticOnlyClass: We just like it, okay?
 export class Confirm {
   /**
    * Show a yes/no confirmation dialog.

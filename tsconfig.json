@@ -7,17 +7,17 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
+    "incremental": true,
     "lib": ["ESNext"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "output",
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
-    "incremental": true,
-    "skipLibCheck": true,
     "types": ["@types/web"]
   },
-  "include": ["./@types", "./source"],
-  "exclude": ["./output"]
+  "exclude": ["./output"],
+  "include": ["./@types", "./source"]
 }

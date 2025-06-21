@@ -57,7 +57,7 @@ declare class LeaderLine implements LeaderLine.Options {
   startSocketGravity: number | Array<number> | "auto";
 }
 
-// biome-ignore lint/style/noNamespace: <explanation>
+// biome-ignore lint/style/noNamespace: It is what it is.
 declare namespace LeaderLine {
   type Plug = "disc" | "square" | "arrow1" | "arrow2" | "arrow3" | "hand" | "crosshair" | "behind";
   type Easing = "ease" | "linear" | "ease-in" | "ease-out" | "ease-in-out";

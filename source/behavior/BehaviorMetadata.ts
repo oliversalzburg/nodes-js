@@ -144,8 +144,8 @@ ${executable}
     const executionSink = Object.assign(new nodeConstructor(), {
       _command: (label: string, callback: (command: Command) => Promise<unknown>) => {
         meta.commands.push({
-          label,
           entrypoint: callback,
+          label,
         });
       },
       _input: (label: string) => {

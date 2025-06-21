@@ -1,16 +1,24 @@
 export const snapshot = {
-  stage: {
-    x: 3333,
-    y: 3333,
-  },
   nodes: [
     {
-      type: "seed",
+      behavior: {
+        metadata: {
+          inputs: [],
+          outputs: [
+            {
+              label: "Float",
+            },
+            {
+              label: "Int",
+            },
+          ],
+        },
+        script:
+          'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
+      },
       id: "seed-d6SwwX",
-      name: "Seed",
-      x: 3361.5,
-      y: 3364,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-vzybbq",
@@ -21,6 +29,11 @@ export const snapshot = {
           inputs: ["input-EyCfw4"],
         },
       ],
+      type: "seed",
+      x: 3361.5,
+      y: 3364,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -36,14 +49,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed-j8Wtfg",
-      name: "Seed",
-      x: 3361.5,
-      y: 3465,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-iPP4dw",
@@ -54,6 +62,11 @@ export const snapshot = {
           inputs: ["input-sc1I7q"],
         },
       ],
+      type: "seed",
+      x: 3361.5,
+      y: 3465,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -69,14 +82,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed-T4nuHW",
-      name: "Seed",
-      x: 3364.5,
-      y: 3563,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-p2y3RV",
@@ -87,6 +95,11 @@ export const snapshot = {
           inputs: ["input-x7vejv"],
         },
       ],
+      type: "seed",
+      x: 3364.5,
+      y: 3563,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -102,14 +115,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed-4uFhJD",
-      name: "Seed",
-      x: 3366.5,
-      y: 3675,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-s-ZEzr",
@@ -120,6 +128,11 @@ export const snapshot = {
           inputs: ["input-lOGaiV"],
         },
       ],
+      type: "seed",
+      x: 3366.5,
+      y: 3675,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -135,14 +148,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed--RQ1VZ",
-      name: "Seed",
-      x: 3368.5,
-      y: 3775,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-gj_WzO",
@@ -153,6 +161,11 @@ export const snapshot = {
           inputs: ["input--78vEE"],
         },
       ],
+      type: "seed",
+      x: 3368.5,
+      y: 3775,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -168,14 +181,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed-a9H3Lv",
-      name: "Seed",
-      x: 3370.5,
-      y: 3884,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output--FLmuC",
@@ -186,6 +194,11 @@ export const snapshot = {
           inputs: ["input-VGMfXC"],
         },
       ],
+      type: "seed",
+      x: 3370.5,
+      y: 3884,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -201,14 +214,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed-H-pUou",
-      name: "Seed",
-      x: 3373.5,
-      y: 3991,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-qd68PQ",
@@ -219,6 +227,11 @@ export const snapshot = {
           inputs: ["input-21t92b"],
         },
       ],
+      type: "seed",
+      x: 3373.5,
+      y: 3991,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [],
@@ -234,14 +247,9 @@ export const snapshot = {
         script:
           'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
       },
-    },
-    {
-      type: "seed",
       id: "seed-izjLz7",
-      name: "Seed",
-      x: 3374.5,
-      y: 4097,
       inputs: [],
+      name: "Seed",
       outputs: [
         {
           id: "output-_ksJhI",
@@ -252,28 +260,31 @@ export const snapshot = {
           inputs: ["input-5xJ_t7"],
         },
       ],
+      type: "seed",
+      x: 3374.5,
+      y: 4097,
+    },
+    {
       behavior: {
         metadata: {
-          inputs: [],
-          outputs: [
+          inputs: [
             {
-              label: "Float",
+              label: "A",
             },
             {
-              label: "Int",
+              label: "B",
+            },
+          ],
+          outputs: [
+            {
+              label: "Sum",
             },
           ],
         },
         script:
-          'this._title("Seed");\n\nlet float = this._output("Float");\nlet int = this._output("Int");\n\nfloat.update(this.random());\nint.update(this.random.nextInt(256));',
+          'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-mgJuNV",
-      name: "Sum",
-      x: 3683.5,
-      y: 3398,
       inputs: [
         {
           id: "input-EyCfw4",
@@ -284,12 +295,18 @@ export const snapshot = {
           output: "output-qc3Znc",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-GQw_qu",
           inputs: ["input-Z5ojeX"],
         },
       ],
+      type: "script",
+      x: 3683.5,
+      y: 3398,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [
@@ -309,13 +326,7 @@ export const snapshot = {
         script:
           'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-OFW2mi",
-      name: "Sum",
-      x: 3682.5,
-      y: 3606,
       inputs: [
         {
           id: "input-x7vejv",
@@ -326,12 +337,18 @@ export const snapshot = {
           output: "output-pH5Dmu",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-7rzrTq",
           inputs: ["input-AWkOiP"],
         },
       ],
+      type: "script",
+      x: 3682.5,
+      y: 3606,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [
@@ -351,13 +368,7 @@ export const snapshot = {
         script:
           'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-Ht7X24",
-      name: "Sum",
-      x: 3672.5,
-      y: 3827,
       inputs: [
         {
           id: "input--78vEE",
@@ -368,12 +379,18 @@ export const snapshot = {
           output: "output-1wmcbY",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-Q6zSrz",
           inputs: ["input-uypnPc"],
         },
       ],
+      type: "script",
+      x: 3672.5,
+      y: 3827,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [
@@ -393,13 +410,7 @@ export const snapshot = {
         script:
           'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-k4zhqg",
-      name: "Sum",
-      x: 3680.5,
-      y: 4043,
       inputs: [
         {
           id: "input-21t92b",
@@ -410,12 +421,18 @@ export const snapshot = {
           output: "output-gsMtt1",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-gLQZDe",
           inputs: ["input-5UuI-A"],
         },
       ],
+      type: "script",
+      x: 3680.5,
+      y: 4043,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [
@@ -435,13 +452,7 @@ export const snapshot = {
         script:
           'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-dokaug",
-      name: "Sum",
-      x: 3974.5,
-      y: 3494,
       inputs: [
         {
           id: "input-Z5ojeX",
@@ -452,12 +463,18 @@ export const snapshot = {
           output: "output-7rzrTq",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-VUl2z8",
           inputs: ["input-vQSoZh"],
         },
       ],
+      type: "script",
+      x: 3974.5,
+      y: 3494,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [
@@ -477,13 +494,7 @@ export const snapshot = {
         script:
           'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-wQ_IZt",
-      name: "Sum",
-      x: 3984.5,
-      y: 3937,
       inputs: [
         {
           id: "input-uypnPc",
@@ -494,12 +505,18 @@ export const snapshot = {
           output: "output-gLQZDe",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-enZrAj",
           inputs: ["input-wk_ARj"],
         },
       ],
+      type: "script",
+      x: 3984.5,
+      y: 3937,
+    },
+    {
       behavior: {
         metadata: {
           inputs: [
@@ -519,13 +536,7 @@ export const snapshot = {
         script:
           'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
       },
-    },
-    {
-      type: "script",
       id: "script-rtDgNv",
-      name: "Sum",
-      x: 4226.5,
-      y: 3721,
       inputs: [
         {
           id: "input-vQSoZh",
@@ -536,31 +547,20 @@ export const snapshot = {
           output: "output-enZrAj",
         },
       ],
+      name: "Sum",
       outputs: [
         {
           id: "output-3StlE2",
           inputs: [],
         },
       ],
-      behavior: {
-        metadata: {
-          inputs: [
-            {
-              label: "A",
-            },
-            {
-              label: "B",
-            },
-          ],
-          outputs: [
-            {
-              label: "Sum",
-            },
-          ],
-        },
-        script:
-          'this._title("Sum");\nconst a = this._input("A");\nconst b = this._input("B");\nlet sum = this._output("Sum");\nsum.update( Number(a) + Number(b));',
-      },
+      type: "script",
+      x: 4226.5,
+      y: 3721,
     },
   ],
+  stage: {
+    x: 3333,
+    y: 3333,
+  },
 };
