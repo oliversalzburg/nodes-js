@@ -20,8 +20,8 @@ import { NodeScript } from "./NodeScript.js";
 import { NodeSeed } from "./NodeSeed.js";
 import { Output } from "./Output.js";
 import { Scrollable } from "./Scrollable.js";
-import styles from "./Workarea.module.css";
 import { snapshot } from "./snapshot.js";
+import styles from "./Workarea.module.css";
 
 /**
  * The diufferent node types we support
@@ -369,7 +369,7 @@ export class Workarea extends HTMLElement {
 
     editor.line = new LeaderLine(editor, mustExist(node.editElement), {
       color: "#888",
-      dash: { len: 2, gap: 4 },
+      dash: { gap: 4, len: 2 },
       endSocket: "top",
       path: "grid",
       size: 2,
@@ -700,12 +700,12 @@ export class Workarea extends HTMLElement {
     // Place new nodes at the center of the stage.
     const containerBounds = this.#scrollableContainer
       ? {
-          width: this.#scrollableContainer.clientWidth,
           height: this.#scrollableContainer.clientHeight,
+          width: this.#scrollableContainer.clientWidth,
         }
       : {
-          width: this.clientWidth,
           height: this.clientHeight,
+          width: this.clientWidth,
         };
 
     let position;
@@ -926,10 +926,10 @@ export class Workarea extends HTMLElement {
    */
   serialize(): SerializedWorkarea {
     return {
+      nodes: this.nodes.map(node => node.serialize()),
       stage: this.#scrollableContainer
         ? { x: this.#scrollableContainer.scrollLeft, y: this.#scrollableContainer.scrollTop }
         : undefined,
-      nodes: this.nodes.map(node => node.serialize()),
     };
   }
 }

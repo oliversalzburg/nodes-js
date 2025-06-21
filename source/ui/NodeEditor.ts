@@ -1,7 +1,7 @@
 import { javascript } from "@codemirror/lang-javascript";
 import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
 import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
-import { EditorView, basicSetup } from "codemirror";
+import { basicSetup, EditorView } from "codemirror";
 import { Confirm } from "./Confirm.js";
 import { Coordinates } from "./Locator.js";
 import { Node } from "./Node.js";
@@ -68,9 +68,9 @@ export class NodeEditor extends Node {
     this.name = `Behavior Editor for ${this.target.nodeId}`;
 
     this.#codeMirror = new EditorView({
+      doc: node.behavior?.toEditableScript() ?? "",
       extensions: [basicSetup, javascript()],
       parent: this,
-      doc: node.behavior?.toEditableScript() ?? "",
     });
 
     this.#resizeObserver?.disconnect();

@@ -518,19 +518,19 @@ export abstract class Node extends HTMLElement {
    */
   serialize(): SerializedNode {
     const serialized: SerializedNode = {
-      type: this.typeIdentifier,
       id: mustExist(this.nodeId),
-      name: this.name,
-      x: this.x,
-      y: this.y,
       inputs: this.inputs.map(input => ({
         id: mustExist(input.columnId),
         output: input.output ? mustExist(input.output.source.columnId) : null,
       })),
+      name: this.name,
       outputs: this.outputs.map(output => ({
         id: mustExist(output.columnId),
         inputs: output.inputs.map(connection => mustExist(connection.target.columnId)),
       })),
+      type: this.typeIdentifier,
+      x: this.x,
+      y: this.y,
     };
 
     if (this.behavior) {
