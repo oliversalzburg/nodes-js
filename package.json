@@ -16,7 +16,7 @@
     "@codemirror/lang-javascript": "6.2.4",
     "@oliversalzburg/js-utils": "0.3.0",
     "arbit": "0.1.1",
-    "browser-fs-access": "0.37.0",
+    "browser-fs-access": "0.38.0",
     "elapsed-time": "0.0.1",
     "leader-line": "1.0.8",
     "lz-string": "1.5.0",
