@@ -418,9 +418,10 @@ export class Workarea extends HTMLElement {
     if (!isNil(this.#currentDecoy)) {
       const bounds = this.getBoundingClientRect();
 
-      this.#currentDecoy.style.transform = `translate(${event.pageX - bounds.left}px, ${
-        event.pageY - bounds.top
-      }px)`;
+      this.#currentDecoy.style.setProperty(
+        "transform",
+        `translate(${event.pageX - bounds.left}px, ${event.pageY - bounds.top}px)`,
+      );
     }
     if (!isNil(this.#currentDecoyLine)) {
       this.#currentDecoyLine.position();
@@ -928,7 +929,10 @@ export class Workarea extends HTMLElement {
     return {
       nodes: this.nodes.map(node => node.serialize()),
       stage: this.#scrollableContainer
-        ? { x: this.#scrollableContainer.scrollLeft, y: this.#scrollableContainer.scrollTop }
+        ? {
+            x: this.#scrollableContainer.scrollLeft,
+            y: this.#scrollableContainer.scrollTop,
+          }
         : undefined,
     };
   }
