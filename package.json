@@ -25,7 +25,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.3.3",
     "@types/codemirror": "5.60.17",
-    "@types/web": "0.0.289",
+    "@types/web": "0.0.290",
     "anim-event": "1.0.17",
     "codemirror": "6.0.2",
     "cssprefix": "2.0.17",
