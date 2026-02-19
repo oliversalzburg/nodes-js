@@ -23,7 +23,7 @@
     "plain-draggable": "2.5.15"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.0",
+    "@biomejs/biome": "2.4.1",
     "@types/codemirror": "5.60.17",
     "@types/web": "0.0.336",
     "anim-event": "1.0.17",
