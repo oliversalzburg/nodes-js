@@ -1,6 +1,6 @@
 import "leader-line";
-import { Input } from "./Input.js";
-import { Output } from "./Output.js";
+import type { Input } from "./Input.js";
+import type { Output } from "./Output.js";
 
 /**
  * A connection between an output and an input.

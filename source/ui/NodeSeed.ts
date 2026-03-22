@@ -1,9 +1,9 @@
-import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import type { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
 import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
-import arbit, { ArbitGenerator } from "arbit";
+import arbit, { type ArbitGenerator } from "arbit";
 import { Behavior } from "../behavior/Behavior.js";
 import { Node } from "./Node.js";
-import { SerializedNode } from "./Workarea.js";
+import type { SerializedNode } from "./Workarea.js";
 
 /**
  * A node that provides a random number generator.

@@ -1,5 +1,5 @@
 import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
-import { Node } from "../ui/Node.js";
+import type { Node } from "../ui/Node.js";
 
 /**
  * A set of nodes to be executed at a given stage.
@@ -36,7 +36,6 @@ export class Execution {
     for (const node of this.nodes) {
       if (node.inputs.length === 0) {
         roots.add(node);
-        continue;
       }
     }
     if (roots.size === 0) {

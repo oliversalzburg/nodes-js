@@ -1,5 +1,5 @@
-import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { Node } from "../ui/Node.js";
+import type { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import type { Node } from "../ui/Node.js";
 import { BehaviorMetadata } from "./BehaviorMetadata.js";
 
 /**
@@ -41,7 +41,7 @@ export class Behavior {
    */
   toEditableScript() {
     const metadata = this.#metadata.serialize();
-    return (metadata !== "" ? metadata + "\n\n" : "") + this.#script;
+    return (metadata !== "" ? `${metadata}\n\n` : "") + this.#script;
   }
   /**
    * Returns the script of the behavior.

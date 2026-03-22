@@ -1,6 +1,6 @@
-import { MiniMap } from "./MiniMap.js";
-import { Scrollable } from "./Scrollable.js";
-import { Workarea } from "./Workarea.js";
+import type { MiniMap } from "./MiniMap.js";
+import type { Scrollable } from "./Scrollable.js";
+import type { Workarea } from "./Workarea.js";
 
 /**
  * X and Y coordinates.

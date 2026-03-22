@@ -1,11 +1,11 @@
 import { javascript } from "@codemirror/lang-javascript";
-import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import type { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
 import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { basicSetup, EditorView } from "codemirror";
 import { Confirm } from "./Confirm.js";
-import { Coordinates } from "./Locator.js";
+import type { Coordinates } from "./Locator.js";
 import { Node } from "./Node.js";
-import { SerializedNode } from "./Workarea.js";
+import type { SerializedNode } from "./Workarea.js";
 
 /**
  * A node that serves as a behavior editor for other nodes.

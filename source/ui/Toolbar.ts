@@ -3,7 +3,7 @@ import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import { Confirm } from "./Confirm.js";
 import styles from "./Toolbar.module.css";
-import { Workarea } from "./Workarea.js";
+import type { Workarea } from "./Workarea.js";
 
 /**
  * The toolbar of the application.

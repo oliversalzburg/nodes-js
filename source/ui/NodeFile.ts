@@ -1,8 +1,8 @@
-import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { FileWithHandle, fileOpen } from "browser-fs-access";
+import type { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import { type FileWithHandle, fileOpen } from "browser-fs-access";
 import { Behavior } from "../behavior/Behavior.js";
 import { Node } from "./Node.js";
-import { SerializedNode } from "./Workarea.js";
+import type { SerializedNode } from "./Workarea.js";
 
 /**
  * A Node to interact with local files.

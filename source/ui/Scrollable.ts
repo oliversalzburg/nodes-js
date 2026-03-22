@@ -1,7 +1,7 @@
 import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import styles from "./Scrollable.module.css";
-import { Workarea } from "./Workarea.js";
+import type { Workarea } from "./Workarea.js";
 
 /**
  * A component with scrollbar.

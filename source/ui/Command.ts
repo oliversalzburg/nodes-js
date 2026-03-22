@@ -3,7 +3,7 @@ import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console
 import { Column } from "./Column.js";
 import styles from "./Input.module.css";
 import { Node } from "./Node.js";
-import { CommandDescription } from "./Workarea.js";
+import type { CommandDescription } from "./Workarea.js";
 
 /**
  * A command is a column that hosts a function.

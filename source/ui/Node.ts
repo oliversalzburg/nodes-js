@@ -1,16 +1,16 @@
-import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import type { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
 import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import { nanoid } from "nanoid";
 import { Behavior } from "../behavior/Behavior.js";
-import { Command } from "./Command.js";
-import { Connection } from "./Connection.js";
-import { Input } from "./Input.js";
-import { Coordinates } from "./Locator.js";
+import type { Command } from "./Command.js";
+import type { Connection } from "./Connection.js";
+import type { Input } from "./Input.js";
+import type { Coordinates } from "./Locator.js";
 import styles from "./Node.module.css";
-import { NodeEditor } from "./NodeEditor.js";
-import { Output } from "./Output.js";
-import {
+import type { NodeEditor } from "./NodeEditor.js";
+import type { Output } from "./Output.js";
+import type {
   CommandDescription,
   NodeTypes,
   SerializedInput,

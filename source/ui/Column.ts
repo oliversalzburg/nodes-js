@@ -1,8 +1,8 @@
 import { mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import styles from "./Column.module.css";
-import { Connection } from "./Connection.js";
-import { Node } from "./Node.js";
-import { CommandDescription, SerializedInput, SerializedOutput } from "./Workarea.js";
+import type { Connection } from "./Connection.js";
+import type { Node } from "./Node.js";
+import type { CommandDescription, SerializedInput, SerializedOutput } from "./Workarea.js";
 
 /**
  * A column is an element that represents an input/output.

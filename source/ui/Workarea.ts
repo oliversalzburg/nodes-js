@@ -2,24 +2,28 @@ import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { redirectErrorsToConsole } from "@oliversalzburg/js-utils/errors/console.js";
 import "leader-line";
 import LZString from "lz-string";
-import PlainDraggable, { NewPosition } from "plain-draggable";
+import PlainDraggable, { type NewPosition } from "plain-draggable";
 import { Behavior } from "../behavior/Behavior.js";
-import { CommandMetadata, InputMetadata, OutputMetadata } from "../behavior/BehaviorMetadata.js";
+import type {
+  CommandMetadata,
+  InputMetadata,
+  OutputMetadata,
+} from "../behavior/BehaviorMetadata.js";
 import { Execution } from "../execution/Execution.js";
 import { Connection } from "./Connection.js";
-import { Decoy } from "./Decoy.js";
-import { Input } from "./Input.js";
-import { Coordinates, Locator } from "./Locator.js";
-import { Node } from "./Node.js";
+import type { Decoy } from "./Decoy.js";
+import type { Input } from "./Input.js";
+import { type Coordinates, Locator } from "./Locator.js";
+import type { Node } from "./Node.js";
 import stylesNode from "./Node.module.css";
 import { NodeEditor } from "./NodeEditor.js";
-import { NodeFile } from "./NodeFile.js";
-import { NodeNoop } from "./NodeNoop.js";
-import { NodeRow } from "./NodeRow.js";
-import { NodeScript } from "./NodeScript.js";
-import { NodeSeed } from "./NodeSeed.js";
-import { Output } from "./Output.js";
-import { Scrollable } from "./Scrollable.js";
+import type { NodeFile } from "./NodeFile.js";
+import type { NodeNoop } from "./NodeNoop.js";
+import type { NodeRow } from "./NodeRow.js";
+import type { NodeScript } from "./NodeScript.js";
+import type { NodeSeed } from "./NodeSeed.js";
+import type { Output } from "./Output.js";
+import type { Scrollable } from "./Scrollable.js";
 import { snapshot } from "./snapshot.js";
 import styles from "./Workarea.module.css";
 
@@ -709,7 +713,7 @@ export class Workarea extends HTMLElement {
           width: this.clientWidth,
         };
 
-    let position;
+    let position: { x: number; y: number } | undefined;
     if (!isNil(initParameters) && !isNil(initParameters.x) && !isNil(initParameters.y)) {
       position = Locator.forWorkarea(
         this,

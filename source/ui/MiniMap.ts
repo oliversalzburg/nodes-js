@@ -1,8 +1,8 @@
 import { isNil, mustExist } from "@oliversalzburg/js-utils/data/nil.js";
 import { Locator } from "./Locator.js";
 import styles from "./MiniMap.module.css";
-import { Scrollable } from "./Scrollable.js";
-import { Workarea } from "./Workarea.js";
+import type { Scrollable } from "./Scrollable.js";
+import type { Workarea } from "./Workarea.js";
 
 /**
  * A map that provides an overview of a work area.

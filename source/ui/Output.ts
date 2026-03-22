@@ -1,5 +1,5 @@
 import { Column } from "./Column.js";
-import { Connection } from "./Connection.js";
+import type { Connection } from "./Connection.js";
 import { Node } from "./Node.js";
 import styles from "./Output.module.css";
 

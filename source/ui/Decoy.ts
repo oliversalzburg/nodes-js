@@ -1,5 +1,5 @@
 import styles from "./Decoy.module.css";
-import { Workarea } from "./Workarea.js";
+import type { Workarea } from "./Workarea.js";
 
 /**
  * The decoy helps with temporary dragging operations.

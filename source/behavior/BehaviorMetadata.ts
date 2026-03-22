@@ -1,6 +1,6 @@
-import { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
-import { Command } from "../ui/Command.js";
-import { Node } from "../ui/Node.js";
+import type { ConstructorOf } from "@oliversalzburg/js-utils/core.js";
+import type { Command } from "../ui/Command.js";
+import type { Node } from "../ui/Node.js";
 
 /**
  * Describes the metadata of a `Command`.
